@@ -1,16 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="6aa2fe33-3d4a-4af4-a7c4-0c72832815ac" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/messages.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/css/starter-template.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/images/win.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/js/ajaxTime.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/js/modal.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/layout.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="6aa2fe33-3d4a-4af4-a7c4-0c72832815ac" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -84,7 +75,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1588512002210</updated>
-      <workItem from="1588512006680" duration="1050000" />
+      <workItem from="1588512006680" duration="1310000" />
     </task>
     <task id="LOCAL-00001" summary="first commit with the base">
       <created>1588512529154</created>
@@ -93,7 +84,28 @@
       <option name="project" value="LOCAL" />
       <updated>1588512529154</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="first commit with the base">
+      <created>1588513209726</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1588513209726</updated>
+    </task>
+    <task id="LOCAL-00003" summary="pom.xml change">
+      <created>1588513271722</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1588513271722</updated>
+    </task>
+    <task id="LOCAL-00004" summary="pom.xml change">
+      <created>1588513365438</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1588513365438</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -101,13 +113,14 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="first commit with the base" />
-    <option name="LAST_COMMIT_MESSAGE" value="first commit with the base" />
+    <MESSAGE value="pom.xml change" />
+    <option name="LAST_COMMIT_MESSAGE" value="pom.xml change" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="193" y="23" key="CommitChangelistDialog2" timestamp="1588513271610">
+    <state x="193" y="23" key="CommitChangelistDialog2" timestamp="1588513365246">
       <screen x="0" y="23" width="1440" height="825" />
     </state>
-    <state x="193" y="23" key="CommitChangelistDialog2/0.23.1440.825@0.23.1440.825" timestamp="1588513271610" />
+    <state x="193" y="23" key="CommitChangelistDialog2/0.23.1440.825@0.23.1440.825" timestamp="1588513365246" />
     <state x="320" y="170" key="Vcs.Push.Dialog.v2" timestamp="1588513274544">
       <screen x="0" y="23" width="1440" height="825" />
     </state>
