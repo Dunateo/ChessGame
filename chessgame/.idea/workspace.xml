@@ -1,14 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="6aa2fe33-3d4a-4af4-a7c4-0c72832815ac" name="Default Changelist" comment="" />
+    <list default="true" id="6aa2fe33-3d4a-4af4-a7c4-0c72832815ac" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/messages.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/css/starter-template.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/images/win.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/js/ajaxTime.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/js/modal.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/layout.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="FxmlFile" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="importAutomatically" value="true" />
+      </MavenImportingSettings>
+    </option>
   </component>
   <component name="ProjectId" id="1bOnRq4CGAJEFFgp2hGEm0qpGyq" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -21,6 +44,14 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/resources/templates" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources/templates" />
+      <recent name="$PROJECT_DIR$/src/main/resources/static" />
+      <recent name="$PROJECT_DIR$/src/main/resources" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration name="ChessgameApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
@@ -53,18 +84,30 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1588512002210</updated>
-      <workItem from="1588512006680" duration="237000" />
+      <workItem from="1588512006680" duration="1050000" />
     </task>
+    <task id="LOCAL-00001" summary="first commit with the base">
+      <created>1588512529154</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1588512529154</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="first commit with the base" />
+    <option name="LAST_COMMIT_MESSAGE" value="first commit with the base" />
+  </component>
   <component name="WindowStateProjectService">
-    <state x="193" y="23" key="CommitChangelistDialog2" timestamp="1588512467381">
+    <state x="193" y="23" key="CommitChangelistDialog2" timestamp="1588513163742">
       <screen x="0" y="23" width="1440" height="825" />
     </state>
-    <state x="193" y="23" key="CommitChangelistDialog2/0.23.1440.825@0.23.1440.825" timestamp="1588512467381" />
+    <state x="193" y="23" key="CommitChangelistDialog2/0.23.1440.825@0.23.1440.825" timestamp="1588513163742" />
     <state x="380" y="268" key="com.intellij.ide.util.TipDialog" timestamp="1588512006943">
       <screen x="0" y="23" width="1440" height="828" />
     </state>

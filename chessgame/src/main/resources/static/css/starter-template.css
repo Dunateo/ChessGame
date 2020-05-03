@@ -1,0 +1,56 @@
+body {
+    padding-top: 5rem;
+    font-family: 'Permanent Marker', cursive;
+}
+.starter-template {
+    padding: 3rem 1.5rem;
+    text-align: center;
+}
+*, ::after, ::before {
+    box-sizing: border-box;
+}
+p {
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+.lead {
+    font-size: 1.25rem;
+    font-weight: 300;
+}
+
+.minesweeper{
+
+    border: none;
+
+}
+
+.customTable{
+    border-spacing: 0;
+    border-collapse : collapse;
+    margin-left:auto;
+    margin-right:auto;
+}
+* {
+    border-radius: 0 !important;
+}
+.logo{
+    width: 200px;
+    height: 60px;
+}
+.profil{
+    width: 250px;
+    height: 250px;
+}
+.modal.custom .modal-dialog {
+    width:20%;
+    position:fixed;
+    bottom:0;
+    right:0;
+    margin:0;
+}
+.Barprog{
+    width: 30%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5px;
+}
