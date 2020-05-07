@@ -1,16 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="6aa2fe33-3d4a-4af4-a7c4-0c72832815ac" name="Default Changelist" comment="" />
+    <list default="true" id="6aa2fe33-3d4a-4af4-a7c4-0c72832815ac" name="Default Changelist" comment="unversionned files now versionned">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/cir3/chessgame/domain/Joueur.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/cir3/chessgame/domain/Partie.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand />
+    <select />
+  </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="FxmlFile" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -32,6 +52,10 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="RequestMappingsPanelOrder0" value="0" />
+    <property name="RequestMappingsPanelOrder1" value="1" />
+    <property name="RequestMappingsPanelWidth0" value="75" />
+    <property name="RequestMappingsPanelWidth1" value="75" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
@@ -75,7 +99,9 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1588512002210</updated>
-      <workItem from="1588512006680" duration="1310000" />
+      <workItem from="1588512006680" duration="4557000" />
+      <workItem from="1588597922107" duration="2067000" />
+      <workItem from="1588857240263" duration="556000" />
     </task>
     <task id="LOCAL-00001" summary="first commit with the base">
       <created>1588512529154</created>
@@ -105,7 +131,14 @@
       <option name="project" value="LOCAL" />
       <updated>1588513365438</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="unversionned files now versionned">
+      <created>1588513399240</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1588513399240</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -114,20 +147,68 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="first commit with the base" />
     <MESSAGE value="pom.xml change" />
-    <option name="LAST_COMMIT_MESSAGE" value="pom.xml change" />
+    <MESSAGE value="unversionned files now versionned" />
+    <option name="LAST_COMMIT_MESSAGE" value="unversionned files now versionned" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="193" y="23" key="CommitChangelistDialog2" timestamp="1588513365246">
+    <state x="533" y="117" key="#com.intellij.ide.util.MemberChooser" timestamp="1588515262704">
       <screen x="0" y="23" width="1440" height="825" />
     </state>
-    <state x="193" y="23" key="CommitChangelistDialog2/0.23.1440.825@0.23.1440.825" timestamp="1588513365246" />
-    <state x="320" y="170" key="Vcs.Push.Dialog.v2" timestamp="1588513274544">
+    <state x="533" y="117" key="#com.intellij.ide.util.MemberChooser/0.23.1440.825@0.23.1440.825" timestamp="1588515262704" />
+    <state x="193" y="23" key="CommitChangelistDialog2" timestamp="1588857771926">
       <screen x="0" y="23" width="1440" height="825" />
     </state>
-    <state x="320" y="170" key="Vcs.Push.Dialog.v2/0.23.1440.825@0.23.1440.825" timestamp="1588513274544" />
-    <state x="380" y="268" key="com.intellij.ide.util.TipDialog" timestamp="1588512006943">
-      <screen x="0" y="23" width="1440" height="828" />
+    <state x="193" y="23" key="CommitChangelistDialog2/0.23.1440.825/-1227.-1777.3200.1777@0.23.1440.825" timestamp="1588857771926" />
+    <state x="193" y="23" key="CommitChangelistDialog2/0.23.1440.825@0.23.1440.825" timestamp="1588513399135" />
+    <state width="1398" height="194" key="GridCell.Tab.0.bottom" timestamp="1588516940244">
+      <screen x="0" y="23" width="1440" height="825" />
     </state>
+    <state width="1398" height="194" key="GridCell.Tab.0.bottom/0.23.1440.825@0.23.1440.825" timestamp="1588516940244" />
+    <state width="1398" height="194" key="GridCell.Tab.0.center" timestamp="1588516940243">
+      <screen x="0" y="23" width="1440" height="825" />
+    </state>
+    <state width="1398" height="194" key="GridCell.Tab.0.center/0.23.1440.825@0.23.1440.825" timestamp="1588516940243" />
+    <state width="1398" height="194" key="GridCell.Tab.0.left" timestamp="1588516940243">
+      <screen x="0" y="23" width="1440" height="825" />
+    </state>
+    <state width="1398" height="194" key="GridCell.Tab.0.left/0.23.1440.825@0.23.1440.825" timestamp="1588516940243" />
+    <state width="1398" height="194" key="GridCell.Tab.0.right" timestamp="1588516940244">
+      <screen x="0" y="23" width="1440" height="825" />
+    </state>
+    <state width="1398" height="194" key="GridCell.Tab.0.right/0.23.1440.825@0.23.1440.825" timestamp="1588516940244" />
+    <state width="1398" height="194" key="GridCell.Tab.1.bottom" timestamp="1588516940245">
+      <screen x="0" y="23" width="1440" height="825" />
+    </state>
+    <state width="1398" height="194" key="GridCell.Tab.1.bottom/0.23.1440.825@0.23.1440.825" timestamp="1588516940245" />
+    <state width="1398" height="194" key="GridCell.Tab.1.center" timestamp="1588516940244">
+      <screen x="0" y="23" width="1440" height="825" />
+    </state>
+    <state width="1398" height="194" key="GridCell.Tab.1.center/0.23.1440.825@0.23.1440.825" timestamp="1588516940244" />
+    <state width="1398" height="194" key="GridCell.Tab.1.left" timestamp="1588516940244">
+      <screen x="0" y="23" width="1440" height="825" />
+    </state>
+    <state width="1398" height="194" key="GridCell.Tab.1.left/0.23.1440.825@0.23.1440.825" timestamp="1588516940244" />
+    <state width="1398" height="194" key="GridCell.Tab.1.right" timestamp="1588516940244">
+      <screen x="0" y="23" width="1440" height="825" />
+    </state>
+    <state width="1398" height="194" key="GridCell.Tab.1.right/0.23.1440.825@0.23.1440.825" timestamp="1588516940244" />
+    <state x="320" y="170" key="Vcs.Push.Dialog.v2" timestamp="1588513408635">
+      <screen x="0" y="23" width="1440" height="825" />
+    </state>
+    <state x="320" y="170" key="Vcs.Push.Dialog.v2/0.23.1440.825@0.23.1440.825" timestamp="1588513408635" />
+    <state x="380" y="267" key="com.intellij.ide.util.TipDialog" timestamp="1588857241730">
+      <screen x="0" y="23" width="1440" height="825" />
+    </state>
+    <state x="380" y="267" key="com.intellij.ide.util.TipDialog/0.23.1440.825/-1227.-1777.3200.1777@0.23.1440.825" timestamp="1588857241730" />
+    <state x="380" y="268" key="com.intellij.ide.util.TipDialog/0.23.1440.827/-1227.-1777.3200.1777@0.23.1440.827" timestamp="1588597922592" />
     <state x="380" y="268" key="com.intellij.ide.util.TipDialog/0.23.1440.828@0.23.1440.828" timestamp="1588512006943" />
+    <state x="502" y="353" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1588513621058">
+      <screen x="0" y="23" width="1440" height="825" />
+    </state>
+    <state x="502" y="353" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.23.1440.825@0.23.1440.825" timestamp="1588513621058" />
+    <state x="385" y="172" width="670" height="676" key="search.everywhere.popup" timestamp="1588515428338">
+      <screen x="0" y="23" width="1440" height="825" />
+    </state>
+    <state x="385" y="172" width="670" height="676" key="search.everywhere.popup/0.23.1440.825@0.23.1440.825" timestamp="1588515428338" />
   </component>
 </project>
