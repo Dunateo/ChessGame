@@ -18,10 +18,11 @@ public class Joueur {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = true)
-    private String picture;
+    @Lob
+    @Column
+    private byte[] image;
 
-    @OneToMany(fetch = FetchType.LAZY,
+    @ManyToMany(fetch = FetchType.LAZY,
             cascade = {
                     CascadeType.PERSIST,
                     CascadeType.MERGE,
@@ -57,11 +58,20 @@ public class Joueur {
         this.password = password;
     }
 
-    public String getPicture() {
-        return picture;
+
+    public Set<Partie> getPartie() {
+        return partie;
     }
 
-    public void setPicture(String picture) {
-        this.picture = picture;
+    public void setPartie(Set<Partie> partie) {
+        this.partie = partie;
+    }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
     }
 }

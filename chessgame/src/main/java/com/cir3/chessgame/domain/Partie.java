@@ -1,5 +1,7 @@
 package com.cir3.chessgame.domain;
 
+import org.springframework.boot.autoconfigure.batch.JobExecutionEvent;
+
 import javax.persistence.*;
 import java.util.*;
 
@@ -23,9 +25,12 @@ public class Partie {
     @Column
     private int duree;
 
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private Joueur joueurNoir;
+
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(  updatable = false)
-    private List<Joueur> joueur;
+    private Set<Joueur> joueur;
 
 
     @OneToMany(fetch = FetchType.LAZY,
