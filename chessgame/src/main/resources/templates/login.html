@@ -1,0 +1,30 @@
+<html lang="fr" th:replace="~{layout :: layout(~{::title}, ~{::content})}" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta http-equiv="Content-Security-Policy">
+
+        <title th:fragment="title">Authentification</title>
+    </head>
+    <body>
+        <div th:fragment="content">
+            <form name="f" th:action="@{/login}" method="post">
+                <fieldset>
+                    <legend>Authentification</legend>
+                    <div th:if="${param.error}" class="alert alert-error">
+                        L'identifiant et le mot de passe sont invalides
+                    </div>
+                    <div th:if="${param.logout}" class="alert alert-success">
+                        Vous avez été déconnecté
+                    </div>
+                    
+                    <label for="username">Identifiant</label>
+                    <input type="text" id="username" name="username" autocomplete="off"/>
+                    <label for="password">Mot de passe</label>
+                    <input type="password" id="password" name="password" autocomplete="off"/>
+                    <div class="form-actions">
+                        <button type="submit" class="btn">Connexion</button>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </body>
+</html>

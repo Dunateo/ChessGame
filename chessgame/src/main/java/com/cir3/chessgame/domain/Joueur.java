@@ -1,21 +1,29 @@
 package com.cir3.chessgame.domain;
 
+import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity(name = "joueur")
-public class Joueur {
+public class Joueur implements UserDetails {
+    private static final long serialVersionUID = -2963008589618789228L;
+
     @Id
     @Column
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(generator = "seqUser")
+    @SequenceGenerator(name = "seqUser", sequenceName = "seq_user")
     private Long id;
 
     @Column(nullable = false,
-            unique = true)
-    private String pseudo;
+            unique = true,
+            length = 100)
+    private String username;
 
-    @Column(nullable = false)
+    @Column(nullable = false,
+            length = 100)
     private String password;
 
     @Lob
@@ -31,8 +39,28 @@ public class Joueur {
             mappedBy = "joueur")
     private Set<Partie> partie = new HashSet<>();
 
+    @ManyToMany(fetch=FetchType.EAGER)
+    private Collection<Authority> authorities;
 
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
 
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 
     public Long getId() {
         return id;
@@ -42,12 +70,13 @@ public class Joueur {
         this.id = id;
     }
 
-    public String getPseudo() {
-        return pseudo;
+    @Override
+    public String getUsername() {
+        return username;
     }
 
-    public void setPseudo(String pseudo) {
-        this.pseudo = pseudo;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -73,5 +102,12 @@ public class Joueur {
 
     public void setImage(byte[] image) {
         this.image = image;
+    }
+    public Collection<Authority> getAuthorities() {
+        return authorities;
+    }
+
+    public void setAuthorities(Collection<Authority> authorities) {
+        this.authorities = authorities;
     }
 }

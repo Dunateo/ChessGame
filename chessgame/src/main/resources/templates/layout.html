@@ -5,18 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
+    <meta http-equiv="Content-Security-Policy">
 
     <title th:replace="${title}">Starter Template for Bootstrap</title>
 
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <script src="https://kit.fontawesome.com/f0abbf7ca4.js" crossorigin="anonymous"></script>
+    <script type="application/javascript"  src="https://kit.fontawesome.com/f0abbf7ca4.js" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link th:href="@{/css/starter-template.css}" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script type="application/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 </head>
 
 <body>
@@ -30,7 +31,7 @@
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" th:href="@{/}">Maison <span class="sr-only">(current)</span></a>
+                <a class="nav-link" th:href="@{/}">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" th:href="@{/play}">Jouer</a>

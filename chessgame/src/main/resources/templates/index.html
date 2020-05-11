@@ -1,0 +1,17 @@
+<html lang="fr" th:replace="~{layout :: layout(~{::title}, ~{::content})}" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:fragment="title">Homepage</title>
+</head>
+<body>
+<div th:fragment="content">
+    <h1>Page d'accueil</h1>
+
+    <p>Voici quelques liens pour accéder rapidement aux fonctionnalités</p>
+    <ul>
+        <li><a th:href="@{/contact}" href="#">Gestion des personnes</a></li>
+        <li><a th:href="@{/country}" href="#">Gestion des pays</a></li>
+        <li><a th:href="@{/company}" href="#">Gestion des entreprises</a></li>
+    </ul>
+</div>
+</body>
+</html>
