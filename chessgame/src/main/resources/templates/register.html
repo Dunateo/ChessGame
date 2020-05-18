@@ -1,10 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
+<html lang="fr" th:replace="~{layout :: layout(~{::title}, ~{::content})}" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta http-equiv="Content-Security-Policy">
+
+    <title th:fragment="title">Authentification</title>
 </head>
 <body>
+<div th:fragment="content">
+    <form name="form-register" th:action="@{/user/register}" th:object="${register}" method="post">
+        <fieldset>
+            <legend>Création de Compte</legend>
 
+            <input type="hidden" th:field="*{id}" />
+
+            <label for="username">Identifiant</label>
+            <input type="text" id="username" name="username" autocomplete="off" th:field="*{username}"/>
+
+            <label for="password">Mot de passe</label>
+            <input type="password" id="password" name="password" autocomplete="off" th:field="*{password}"/>
+
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Register</button>
+            </div>
+        </fieldset>
+    </form>
+</div>
 </body>
 </html>

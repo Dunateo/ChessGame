@@ -34,7 +34,7 @@ public class IndexController {
     public String login(Authentication authentication) {
 
         //if authentified we send him on his user page
-        if (authentication.isAuthenticated()) {
+        if (authentication!= null && authentication.isAuthenticated()) {
             return "redirect:/user/profil";
         }
 
