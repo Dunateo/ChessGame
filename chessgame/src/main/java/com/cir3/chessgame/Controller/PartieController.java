@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/partie")
 public class PartieController {
-	@GetMapping("=id")
+	@GetMapping("")
 	public String partie() {
 		return "partie";
 	}
