@@ -1,8 +1,10 @@
 package com.cir3.chessgame.domain;
 
+import com.cir3.chessgame.component.BCryptManagerUtil;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -26,9 +28,9 @@ public class Joueur implements UserDetails {
             length = 100)
     private String password;
 
-    @Lob
+
     @Column
-    private byte[] image;
+    private String image;
 
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {
@@ -40,7 +42,7 @@ public class Joueur implements UserDetails {
     private Set<Partie> partie = new HashSet<>();
 
     @ManyToMany(fetch=FetchType.EAGER)
-    private Collection<Authority> authorities;
+    private Collection<Authority> authorities = new ArrayList<>();
 
     @Override
     public boolean isAccountNonExpired() {
@@ -84,7 +86,9 @@ public class Joueur implements UserDetails {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        if (!password.isEmpty()) {
+            this.password = BCryptManagerUtil.passwordencoder().encode(password);
+        }
     }
 
 
@@ -96,18 +100,23 @@ public class Joueur implements UserDetails {
         this.partie = partie;
     }
 
-    public byte[] getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(byte[] image) {
+    public void setImage(String image) {
         this.image = image;
     }
+
     public Collection<Authority> getAuthorities() {
         return authorities;
     }
 
     public void setAuthorities(Collection<Authority> authorities) {
         this.authorities = authorities;
+    }
+
+    public void setOneAuthorities(Authority auth){
+        this.authorities.add(auth);
     }
 }
