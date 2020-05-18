@@ -1,13 +1,40 @@
 <html th:replace="~{layout :: layout(~{::title}, ~{::content})}" xmlns:th="http://www.thymeleaf.org">
 	<head>
+	
 		<title th:fragment="title">ChessGammeVS</title>
+		
 	</head>
 	<body>
 		<div th:fragment="content">
-			<h1>Cest partie</h1>
+			<h1>C'est partie</h1>
+			<img
+			th:src="@{'images/plateau712x712.jpg'}" style = "position: fixed;z-index: -1;" />
 			
-
-			
+				<img th:each="i : ${#numbers.sequence( 0, 7)}" th:class="piece" th:id="'0 : '+${i}"
+				th:src="@{'images/PionNoir.png'}" />
+			<div></div>
+			<img th:each="i : ${#numbers.sequence( 0, 7)}" th:class="piece" th:id="'1 : '+${i}"
+			th:src="@{'images/PionNoir.png'}" />
+			<div></div>
+			<img th:each="i : ${#numbers.sequence( 0, 7)}" th:class="piece" th:id="'2 : '+${i}"
+			th:src="@{'images/PionNoir.png'}" />
+			<div></div>
+			<img th:each="i : ${#numbers.sequence( 0, 7)}" th:class="piece" th:id="'3 : '+${i}"
+			th:src="@{'images/PionNoir.png'}" />
+			<div></div>
+			<img th:each="i : ${#numbers.sequence( 0, 7)}" th:class="piece" th:id="'4 : '+${i}"
+			th:src="@{'images/PionNoir.png'}" />
+			<div></div>
+			<img th:each="i : ${#numbers.sequence( 0, 7)}" th:class="piece" th:id="'5 : '+${i}"
+			th:src="@{'images/PionNoir.png'}" />
+			<div></div>
+			<img th:each="i : ${#numbers.sequence( 0, 7)}" th:class="piece" th:id="'6 : '+${i}"
+			th:src="@{'images/PionNoir.png'}" />
+			<div></div>
+			<img th:each="i : ${#numbers.sequence( 0, 7)}" th:class="piece" th:id="'7 : '+${i}"
+			th:src="@{'images/RoiBlanc.png'}" /><div></div>
+			<script th:src="@{js/partie.js}"></script>
 		</div>
+		
 	</body>
 </html>
