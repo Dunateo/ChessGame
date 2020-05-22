@@ -9,6 +9,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Secured("ROLE_ADMIN")
@@ -30,6 +31,14 @@ public class AdminController {
         model.addAttribute("joueurs", joueur.findAll(pageable));
 
         return "admin-list";
+    }
+
+    //supprime un utilisateur
+    @GetMapping("/delete/{id}")
+    public String remove(@PathVariable Long id){
+        joueur.deleteById(id);
+
+        return "redirect:/admin/list";
     }
 
 

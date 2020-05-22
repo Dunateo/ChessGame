@@ -15,6 +15,7 @@
             <th>#</th>
             <th>Username</th>
             <th>image</th>
+            <th>Authorisations</th>
             <th></th>
             <th></th>
         </tr>
@@ -24,6 +25,12 @@
             <td th:text="*{id}">1</td>
             <td th:text="*{username}">France</td>
             <td th:text="*{image}">1</td>
+
+            <td>
+                <th:block th:each="autho : ${joueur.getAuthorities()}" th:object="${autho}">
+                    <li th:href="autho.authority"></li>
+                </th:block>
+            </td>
 
             <td>
                 <a th:href="@{|/admin/edit/*{id}|}" class="btn btn-primary" role="button">
