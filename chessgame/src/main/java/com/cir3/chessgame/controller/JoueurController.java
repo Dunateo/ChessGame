@@ -21,6 +21,7 @@ import javax.validation.Valid;
 @Controller
 @RequestMapping("/user")
 public class JoueurController {
+
     @Autowired
     private JoueurRepository joueur;
 

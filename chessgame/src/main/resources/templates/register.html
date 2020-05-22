@@ -12,11 +12,21 @@
 
             <input type="hidden" th:field="*{id}" />
 
+            <div class="form-group">
             <label for="username">Identifiant</label>
-            <input type="text" id="username" name="username" autocomplete="off" th:field="*{username}"/>
+                    <input type="text" id="username" name="username" autocomplete="off" th:field="*{username}"/>
+            </div>
 
+            <div class="form-group ">
             <label for="password">Mot de passe</label>
-            <input type="password" id="password" name="password" autocomplete="off" th:field="*{password}"/>
+                <input type="password" id="password" name="password" autocomplete="off" th:field="*{password}"/>
+
+            </div>
+
+            <div class="form-group ">
+                <label for="image">Image de profil</label>
+                <input type="file" id="image" name="image" autocomplete="off" th:field="*{image}"/>
+            </div>
 
 
             <div class="form-actions">

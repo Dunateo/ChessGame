@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::title}, ~{::content})}">
+
+<head>
+    <meta charset="UTF-8">
+    <title th:fragment="title">Liste des joueurs</title>
+</head>
+<body>
+<div th:fragment="content">
+    <h1>Liste des joueurs </h1>
+
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th>#</th>
+            <th>Username</th>
+            <th>image</th>
+            <th></th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="joueur : ${joueurs}" th:object="${joueur}">
+            <td th:text="*{id}">1</td>
+            <td th:text="*{username}">France</td>
+            <td th:text="*{image}">1</td>
+
+            <td>
+                <a th:href="@{|/admin/edit/*{id}|}" class="btn btn-primary" role="button">
+                    <i class="far fa-edit"></i>
+                </a>
+            </td>
+            <td>
+                <a th:href="@{|/admin/delete/*{id}|}" class="btn btn-danger" role="button">
+                    <i class="fas fa-trash-alt"></i>
+                </a>
+            </td>
+        </tr>
+        </tbody>
+
+    </table>
+
+    <nav aria-label="Page de navigation exemple">
+        <ul class="pagination">
+            <li class="page-item" th:classappend="*{joueurs.getNumber() == 0 } ? disabled">
+                <a class="page-link" href="#" th:href="@{/admin/list(page=${joueurs.getNumber()-1})}">Précédent</a>
+            </li>
+            <li class="page-item"
+                th:classappend="${joueurs.getNumber()-1} ? active"
+                th:each="page: ${#numbers.sequence(1,joueurs.totalPages)}">
+                <a th:text="${page}" class="page-link" href="#" th:href="@{/admin/list(page=${page -1})}"></a>
+            </li>
+            <li class="page-item"
+                th:classappend="${joueurs.getNumber() ==  joueurs.totalPages -1} ? disabled">
+                <a class="page-link" href="#" th:href="@{/admin/list(page=${joueurs.getNumber() + 1})}">Suivant</a>
+            </li>
+        </ul>
+
+    </nav>
+
+</div>
+</body>
+<div th:insert="~{footer :: copy}"></div>
+</html>
