@@ -1,6 +1,8 @@
 package com.cir3.chessgame.form;
 
 
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
@@ -17,7 +19,7 @@ public class JoueurForm {
     @Size(min=6, max = 60)
     private String password;
 
-    private String image;
+    private MultipartFile image;
 
     private Set<Long> partie = new HashSet<>();
 
@@ -45,11 +47,11 @@ public class JoueurForm {
         this.password = password;
     }
 
-    public String getImage() {
+    public MultipartFile getImage() {
         return image;
     }
 
-    public void setImage(String image) {
+    public void setImage(MultipartFile image) {
         this.image = image;
     }
 
