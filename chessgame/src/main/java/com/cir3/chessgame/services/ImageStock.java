@@ -7,13 +7,15 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.List;
 
 @Service
 public class ImageStock {
 
-    public ImageStock(){
+    private static final List<String> contentTypes = Arrays.asList("image/png", "image/jpeg", "image/gif", "image/bmp", "image/gif");
 
-    }
+    public ImageStock(){ }
 
     /**
      * Store an picture for a form with his bytes array
@@ -23,6 +25,11 @@ public class ImageStock {
      * @return
      */
     public Boolean upload(MultipartFile image, String name , String storagePath ){
+
+        //check if it's an image
+        if (!contentTypes.contains(image.getContentType())){
+            return Boolean.FALSE;
+        }
 
         //try and catch pour l'upload de l'image
         try {
@@ -35,8 +42,8 @@ public class ImageStock {
             Path path = Paths.get(storagePath+ name);
 
             System.out.println(image.getContentType());
-            System.out.println(path.toAbsolutePath());
-            System.out.println(path.getParent());
+            //System.out.println(path.toAbsolutePath());
+            //System.out.println(path.getParent());
 
             Files.write(path, bytes);
 

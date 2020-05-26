@@ -41,8 +41,5 @@ public class IndexController {
         return "login";
     }
 
-    @GetMapping("/error")
-    public String error(){
-        return "error";
-    }
+
 }

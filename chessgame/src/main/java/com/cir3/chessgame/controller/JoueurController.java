@@ -48,15 +48,14 @@ public class JoueurController {
     @PostMapping("/register")
     public String registerForm(@Valid @ModelAttribute("register") JoueurForm form,@RequestParam("image") MultipartFile image ,BindingResult result, Model model){
 
-        System.out.println("9a passe" + image.getName());
 
         //On regarde si il ya des erreurs dans le formulaire
         if (result.hasErrors()){
-            System.out.println("9a passe2 " + image.getOriginalFilename());
+            //System.out.println("9a passe2 " + image.getOriginalFilename());
             model.addAttribute("register", form);
             return "register";
         }else if (image.isEmpty()){
-            System.out.println("9a passe3" + image.getName());
+            //System.out.println("9a passe3" + image.getName());
             model.addAttribute("register", form);
             model.addAttribute("file_status", "Votre image est vide !");
             return "register";
@@ -75,7 +74,7 @@ public class JoueurController {
             joueur.save(joueurNew);
 
         }else {
-            System.out.println("9a passe5" + image.getName());
+
 
             model.addAttribute("register", form);
             model.addAttribute("file_status", "Problème lors de l'upload !");

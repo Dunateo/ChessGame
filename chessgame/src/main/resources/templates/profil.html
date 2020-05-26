@@ -11,7 +11,7 @@
     <div class="jumbotron">
         <div class="row">
             <div class="col-md-4 col-xs-12 col-sm-6 col-lg-4">
-                <img  alt="stack photo"  th:src="@{'~/'+${joueur.getImage()}}" class="profil img">
+                <img  alt="stack photo"  th:src="@{'/user/avatar?filename='+${joueur.getUsername()}}" class="profil img">
             </div>
             <div class="col-md-8 col-xs-12 col-sm-6 col-lg-8">
                 <div class="container" style="border-bottom:1px solid black">
