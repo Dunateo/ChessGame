@@ -1,5 +1,6 @@
 package com.cir3.chessgame.services;
 
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,6 +15,7 @@ import java.util.List;
 public class ImageStock {
 
     private static final List<String> contentTypes = Arrays.asList("image/png", "image/jpeg", "image/gif", "image/bmp", "image/gif");
+    private static Logger logger;
 
     public ImageStock(){ }
 
@@ -28,12 +30,13 @@ public class ImageStock {
 
         //check if it's an image
         if (!contentTypes.contains(image.getContentType())){
+            logger.error("Le content type ne correspond pas");
             return Boolean.FALSE;
         }
 
         //try and catch pour l'upload de l'image
         try {
-            System.out.println("9a passe4" + image.getName());
+            //System.out.println("9a passe4" + image.getName());
 
             //get the file
             byte[] bytes = image.getBytes();
@@ -47,11 +50,12 @@ public class ImageStock {
 
             Files.write(path, bytes);
 
-
+            logger.info("Nouvelle image vient d'être enregistrer"+path.toString());
 
         }catch (IOException e){
 
             e.printStackTrace();
+            logger.error("Une erreur est survenue lors de l'enregistrement");
             return Boolean.FALSE;
         }
 
