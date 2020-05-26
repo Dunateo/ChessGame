@@ -14,7 +14,6 @@ public class DbUserDetailsService implements UserDetailsService {
     @Autowired
     private JoueurRepository users;
 
-    private static Logger logger;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -23,7 +22,6 @@ public class DbUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException(username);
         }
 
-        logger.info("Load d'un utilisateur:"+username);
         return user;
     }
 }

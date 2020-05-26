@@ -2,6 +2,7 @@ package com.cir3.chessgame.controller;
 
 import com.cir3.chessgame.repository.AuthorityRepository;
 import com.cir3.chessgame.repository.JoueurRepository;
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -25,7 +26,7 @@ public class AdminController {
     @Autowired
     private AuthorityRepository autho;
 
-    private static Logger logger;
+    private static Logger logger = LogManager.getLogger(AdminController.class);
 
     //mapping pour affichage de la liste des gamemode
 

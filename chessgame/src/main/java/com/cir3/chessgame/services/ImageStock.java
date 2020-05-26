@@ -1,5 +1,8 @@
 package com.cir3.chessgame.services;
 
+import com.cir3.chessgame.controller.AdminController;
+import com.cir3.chessgame.controller.ImageController;
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,7 +18,7 @@ import java.util.List;
 public class ImageStock {
 
     private static final List<String> contentTypes = Arrays.asList("image/png", "image/jpeg", "image/gif", "image/bmp", "image/gif");
-    private static Logger logger;
+    private static Logger logger = LogManager.getLogger(ImageStock.class);
 
     public ImageStock(){ }
 

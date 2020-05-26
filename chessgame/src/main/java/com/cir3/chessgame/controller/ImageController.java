@@ -1,5 +1,6 @@
 package com.cir3.chessgame.controller;
 
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ public class ImageController {
     @Value("${file.upload-dir:}")
     private String path ;
 
-    private static Logger logger;
+    private static Logger logger = LogManager.getLogger(ImageController.class);
 
 
     @GetMapping("/user/avatar")
@@ -30,7 +31,7 @@ public class ImageController {
             Files.copy(file.toPath(), outputStream);
         };
 
-        logger.info("Recuperation d'une image"+filename + "user:"+ authentication.getName());
+        logger.info("Recuperation d'une image "+filename );
 
         return ResponseEntity.ok().body(responseBody);
     }
