@@ -7,6 +7,7 @@ import com.cir3.chessgame.repository.AuthorityRepository;
 import com.cir3.chessgame.repository.JoueurRepository;
 import com.cir3.chessgame.services.ImageStock;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -16,10 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 @Controller
 @RequestMapping("/user")
@@ -31,7 +28,8 @@ public class JoueurController {
     @Autowired
     private AuthorityRepository autho;
 
-    private static String FOLDER_UPLOAD = "src/resources/static/upload/";
+    @Value("${file.upload-dir:}")
+    private String FOLDER_UPLOAD;
 
     //partie pour créer un utilisateur
     @GetMapping("/register")
