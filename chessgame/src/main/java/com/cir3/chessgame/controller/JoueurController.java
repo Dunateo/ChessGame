@@ -2,6 +2,7 @@ package com.cir3.chessgame.controller;
 
 import com.cir3.chessgame.domain.Authority;
 import com.cir3.chessgame.domain.Joueur;
+import com.cir3.chessgame.form.EditForm;
 import com.cir3.chessgame.form.JoueurForm;
 import com.cir3.chessgame.repository.AuthorityRepository;
 import com.cir3.chessgame.repository.JoueurRepository;
@@ -46,26 +47,11 @@ public class JoueurController {
         return "register";
     }
 
-    //controlleur pour modifier un utilisateur existant
-    @GetMapping("/edit")
-    public String edit(Authentication authentication, Model model){
-        if (authentication == null || !authentication.isAuthenticated()){
-            return "redirect:/user/register";
-        }
+    //Le post mapping de edit et register
+    @PostMapping("/register")
+    public String registerForm(@Valid @ModelAttribute("register") JoueurForm form,@RequestParam("image") MultipartFile image ,BindingResult result, Model model){
 
-        Joueur edit = joueur.findByUsername(authentication.getName());
-        JoueurForm form = new JoueurForm();
-        form.setId(edit.getId());
-        form.setUsername(edit.getUsername());
-        model.addAttribute("register", form);
-        return "register";
-    }
-
-    //Le pot mapping de edit et register
-    @PostMapping({"/register", "/edit"})
-    public String registerForm(@Valid @ModelAttribute("register") JoueurForm form,@RequestParam("image") MultipartFile image ,BindingResult result, Model model, Authentication authentication){
-
-        SaveJoueur save = new SaveJoueur();
+        SaveJoueur save = new SaveJoueur(joueur,autho);
 
         //On regarde si il ya des erreurs dans le formulaire
         if (result.hasErrors()){
@@ -75,7 +61,6 @@ public class JoueurController {
             model.addAttribute("register", form);
             model.addAttribute("file_status", "Votre image est vide !");
             return "register";
-        }else if (form.getId() != null && form.getId().equals(joueur.findByUsername(form.getUsername()).getId())){
 
         }
 
@@ -89,6 +74,46 @@ public class JoueurController {
 
         return "redirect:/login";
     }
+
+    //controlleur pour modifier un utilisateur existant
+    @GetMapping("/edit")
+    public String edit(Authentication authentication, Model model){
+        if (authentication == null || !authentication.isAuthenticated()){
+            return "redirect:/user/register";
+        }
+
+        Joueur edit = joueur.findByUsername(authentication.getName());
+        EditForm form = new EditForm();
+        form.setId(edit.getId());
+        form.setUsername(edit.getUsername());
+        model.addAttribute("register", form);
+        return "edit";
+    }
+
+    @PostMapping("/edit")
+    public String editPost(@Valid @ModelAttribute("register") EditForm form,@RequestParam("image") MultipartFile image ,BindingResult result, Model model, Authentication authentication){
+        SaveJoueur save = new SaveJoueur(joueur,autho);
+        Joueur j1 = joueur.findByUsername(authentication.getName());
+        form.setUsername(authentication.getName());
+
+        //On regarde si il ya des erreurs dans le formulaire
+        if (result.hasErrors()){
+            return "redirect:/user/edit";
+        }else if (form.getId() != null && form.getId().equals(j1.getId())){
+            if (!image.isEmpty() && save.editImageJoueur(image,form,FOLDER_UPLOAD)){
+                return "redirect:/user/profil";
+            }else if (form.getPassword() != null && save.editPasswordJoueur(form)){
+                return "redirect:/user/profil";
+            }else {
+                model.addAttribute("register", form);
+                model.addAttribute("file_status", "Problème lors de la modification du champ mot de passe ou Image!");
+                return "edit";
+            }
+        }
+
+        return "redirect:/user/profil";
+    }
+
 
 
     @GetMapping("/profil")

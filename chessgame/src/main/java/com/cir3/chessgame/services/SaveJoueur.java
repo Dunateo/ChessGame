@@ -1,6 +1,7 @@
 package com.cir3.chessgame.services;
 
 import com.cir3.chessgame.domain.Joueur;
+import com.cir3.chessgame.form.EditForm;
 import com.cir3.chessgame.form.JoueurForm;
 import com.cir3.chessgame.repository.AuthorityRepository;
 import com.cir3.chessgame.repository.JoueurRepository;
@@ -8,16 +9,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.PostConstruct;
 import java.util.Optional;
 
 @Service
 public class SaveJoueur {
 
-    @Autowired
-    private JoueurRepository joueur;
+
+    protected final JoueurRepository joueur;
+
+    protected final AuthorityRepository autho;
 
     @Autowired
-    private AuthorityRepository autho;
+    public SaveJoueur(JoueurRepository joueur, AuthorityRepository autho){
+        this.joueur = joueur;
+        this.autho = autho;
+    }
 
     /**
      * CREATE A PLAYER IN BDD
@@ -50,14 +57,13 @@ public class SaveJoueur {
      * @param form
      * @return
      */
-    public boolean editPasswordJoueur(JoueurForm form){
+    public boolean editPasswordJoueur(EditForm form){
 
-        Optional<Joueur> tab = joueur.findById(form.getId());
+        Joueur tab = joueur.findByUsername(form.getUsername());
 
-        if (tab.isPresent()){
-            Joueur j1 = tab.get();
-            j1.setPassword(form.getPassword());
-            joueur.save(j1);
+        if (tab != null){
+            tab.setPassword(form.getPassword());
+            joueur.save(tab);
             return Boolean.TRUE;
         }
 
@@ -71,17 +77,16 @@ public class SaveJoueur {
      * @param FOLDER_UPLOAD
      * @return
      */
-    public boolean editImageJoueur(MultipartFile image, JoueurForm form, String FOLDER_UPLOAD){
+    public boolean editImageJoueur(MultipartFile image, EditForm form, String FOLDER_UPLOAD){
 
         ImageStock storage = new ImageStock();
         //Si on arrive a enregistrer l'image alors on enregistre notre utilisateur
         if (storage.upload(image, form.getUsername(),FOLDER_UPLOAD)){
-            Optional<Joueur> tab = joueur.findById(form.getId());
+            Joueur tab = joueur.findByUsername(form.getUsername());
 
-            if (tab.isPresent()){
-                Joueur j1 = tab.get();
-                j1.setImage(FOLDER_UPLOAD + form.getUsername());
-                joueur.save(j1);
+            if (tab != null){
+                tab.setImage(FOLDER_UPLOAD + form.getUsername());
+                joueur.save(tab);
                 return Boolean.TRUE;
             }else {
                 return Boolean.FALSE;
