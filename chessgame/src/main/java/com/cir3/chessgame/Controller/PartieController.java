@@ -1,4 +1,4 @@
-package com.cir3.chessgame.Controller;
+package com.cir3.chessgame.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,4 +1,4 @@
-package com.cir3.chessgame.Controller.api;
+package com.cir3.chessgame.controller.api;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
