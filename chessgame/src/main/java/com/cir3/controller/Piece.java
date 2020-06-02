@@ -47,48 +47,4 @@ class Piece {
 		else
 			mPiece.setColor(true);
 	}
-	
-	// Verifier le deplacement du pion
-	public boolean checkPion(int nX, int nY) {
-		
-		boolean move = false;
-		
-		if() {
-			
-		}
-		
-		return move;
-	}
-	
-	// Verifier le deplacement de la piece
-	public boolean checkMove(int nX, int nY) {
-		
-		switch(name) {
-		
-		case Pion:
-			checkPion(nX,nY);
-			break;
-			
-		case Tour:
-			
-			break;
-			
-		case Cavalier:
-			
-			break;
-			
-		case Fou:
-			
-			break;
-			
-		case Roi:
-			
-			break;
-			
-		case Reine:
-			
-			break;
-		}
-		
-	}
 };
