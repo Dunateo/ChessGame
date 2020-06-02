@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::title}, ~{::content})}">
+
+<head>
+    <meta charset="UTF-8">
+    <title th:fragment="title">Profil</title>
+</head>
+<body>
+<div th:fragment="content" class="container">
+
+    <div class="jumbotron">
+        <div class="row">
+            <div class="col-md-4 col-xs-12 col-sm-6 col-lg-4">
+                <img  alt="stack photo"  th:src="@{'/user/avatar?filename='+${joueur.getUsername()}}" class="profil img">
+            </div>
+            <div class="col-md-8 col-xs-12 col-sm-6 col-lg-8">
+                <div class="container" style="border-bottom:1px solid black">
+                    <h2 th:text="${joueur.getUsername()}">John Doe</h2>
+                    <p><a th:href="@{/logout}"><i class="fas fa-sign-out-alt"></i></a>
+                    </p>
+                </div>
+                <hr>
+                <ul class="container details">
+                    <th:block th:each="partie : ${joueur.getPartie()}" th:object="${partie}">
+                        <li >
+
+                            <p>
+                                <span th:if="${partie.duree == 10000000}" th:text="${partie.joueurNoir + ': Perdu'}">
+                                </span>
+                                <span th:if="${partie.duree != 10000000}" th:text="${partie.joueurNoir }">
+                                </span>
+                            </p>
+                        </li>
+                    </th:block>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+<div th:insert="~{footer :: copy}"></div>
+</html>
