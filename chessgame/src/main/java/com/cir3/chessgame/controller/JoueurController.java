@@ -6,6 +6,7 @@ import com.cir3.chessgame.form.JoueurForm;
 import com.cir3.chessgame.repository.AuthorityRepository;
 import com.cir3.chessgame.repository.JoueurRepository;
 import com.cir3.chessgame.services.ImageStock;
+import com.cir3.chessgame.services.SaveJoueur;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -45,37 +46,41 @@ public class JoueurController {
         return "register";
     }
 
-    @PostMapping("/register")
-    public String registerForm(@Valid @ModelAttribute("register") JoueurForm form,@RequestParam("image") MultipartFile image ,BindingResult result, Model model){
+    //controlleur pour modifier un utilisateur existant
+    @GetMapping("/edit")
+    public String edit(Authentication authentication, Model model){
+        if (authentication == null || !authentication.isAuthenticated()){
+            return "redirect:/user/register";
+        }
 
+        Joueur edit = joueur.findByUsername(authentication.getName());
+        JoueurForm form = new JoueurForm();
+        form.setId(edit.getId());
+        form.setUsername(edit.getUsername());
+        model.addAttribute("register", form);
+        return "register";
+    }
+
+    //Le pot mapping de edit et register
+    @PostMapping({"/register", "/edit"})
+    public String registerForm(@Valid @ModelAttribute("register") JoueurForm form,@RequestParam("image") MultipartFile image ,BindingResult result, Model model, Authentication authentication){
+
+        SaveJoueur save = new SaveJoueur();
 
         //On regarde si il ya des erreurs dans le formulaire
         if (result.hasErrors()){
-            //System.out.println("9a passe2 " + image.getOriginalFilename());
             model.addAttribute("register", form);
             return "register";
-        }else if (image.isEmpty()){
-            //System.out.println("9a passe3" + image.getName());
+        }else if (image.isEmpty() && form.getId() == null){
             model.addAttribute("register", form);
             model.addAttribute("file_status", "Votre image est vide !");
             return "register";
+        }else if (form.getId() != null && form.getId().equals(joueur.findByUsername(form.getUsername()).getId())){
+
         }
 
-        ImageStock storage = new ImageStock();
-
         //traite les erreurs de l'enregistrement d'images
-        if (storage.upload(image, form.getUsername(),FOLDER_UPLOAD)){
-            //attribution du formulaire à une entities
-            Joueur joueurNew = new Joueur();
-            joueurNew.setUsername(form.getUsername());
-            joueurNew.setPassword(form.getPassword());
-            joueurNew.setImage(FOLDER_UPLOAD + form.getUsername());
-            joueurNew.setAuthorities(autho.findByAuthorityEquals("ROLE_USER"));
-            joueur.save(joueurNew);
-
-        }else {
-
-
+         if (!save.createJoueur(image,form,FOLDER_UPLOAD)){
             model.addAttribute("register", form);
             model.addAttribute("file_status", "Problème lors de l'upload !");
             return "register";
