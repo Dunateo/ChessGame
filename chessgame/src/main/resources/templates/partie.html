@@ -10,29 +10,35 @@
 			<img
 			th:src="@{'images/plateau712x712.jpg'}" style = "position: fixed;z-index: -1;" />
 			
-				<img th:each="i : ${#numbers.sequence( 0, 7)}" th:class="piece" th:id="'0 : '+${i}"
-				th:src="@{'images/PionNoir.png'}" />
+				<img th:each="i : ${#numbers.sequence( 0, 7)}" style = "" th:class="piece" th:id="${i}+'0'"
+				th:src="@{'images/vide.png'}" />
+				<div></div>
+				<img th:each="i : ${#numbers.sequence( 0, 7)}" style = "" th:class="piece" th:id="${i}+'1'"
+				th:src="@{'images/vide.png'}" />
 			<div></div>
-			<img th:each="i : ${#numbers.sequence( 0, 7)}" th:class="piece" th:id="'1 : '+${i}"
-			th:src="@{'images/PionNoir.png'}" />
+			<img th:each="i : ${#numbers.sequence( 0, 7)}" style = "" th:class="piece" th:id="${i}+'2'"
+				th:src="@{'images/vide.png'}" />
+				<div></div>
+				<img th:each="i : ${#numbers.sequence( 0, 7)}" style = "" th:class="piece" th:id="${i}+'3'"
+				th:src="@{'images/vide.png'}" />
 			<div></div>
-			<img th:each="i : ${#numbers.sequence( 0, 7)}" th:class="piece" th:id="'2 : '+${i}"
-			th:src="@{'images/PionNoir.png'}" />
+			<img th:each="i : ${#numbers.sequence( 0, 7)}" style = "" th:class="piece" th:id="${i}+'4'"
+				th:src="@{'images/vide.png'}" />
+				<div></div>
+				<img th:each="i : ${#numbers.sequence( 0, 7)}" style = "" th:class="piece" th:id="${i}+'5'"
+				th:src="@{'images/vide.png'}" />
 			<div></div>
-			<img th:each="i : ${#numbers.sequence( 0, 7)}" th:class="piece" th:id="'3 : '+${i}"
-			th:src="@{'images/PionNoir.png'}" />
+			<img th:each="i : ${#numbers.sequence( 0, 7)}" style = "" th:class="piece" th:id="${i}+'6'"
+				th:src="@{'images/vide.png'}" />
+				<div></div>
+				<img th:each="i : ${#numbers.sequence( 0, 7)}" style = "" th:class="piece" th:id="${i}+'7'"
+				th:src="@{'images/vide.png'}" />
 			<div></div>
-			<img th:each="i : ${#numbers.sequence( 0, 7)}" th:class="piece" th:id="'4 : '+${i}"
-			th:src="@{'images/PionNoir.png'}" />
-			<div></div>
-			<img th:each="i : ${#numbers.sequence( 0, 7)}" th:class="piece" th:id="'5 : '+${i}"
-			th:src="@{'images/PionNoir.png'}" />
-			<div></div>
-			<img th:each="i : ${#numbers.sequence( 0, 7)}" th:class="piece" th:id="'6 : '+${i}"
-			th:src="@{'images/PionNoir.png'}" />
-			<div></div>
-			<img th:each="i : ${#numbers.sequence( 0, 7)}" th:class="piece" th:id="'7 : '+${i}"
-			th:src="@{'images/RoiBlanc.png'}" /><div></div>
+			
+			
+			<button th:id="finDeTour" type="button" class="btn btn-outline-secondary">Fin de tour</button>
+			<button th:id="etat" type="button" class="btn btn-outline-secondary">etat</button>
+			<button th:id="undo" type="button" class="fas fa-undo btn btn-danger"></button>
 			<script th:src="@{js/partie.js}"></script>
 		</div>
 		

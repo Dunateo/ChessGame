@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class PartieController {
 	@GetMapping("")
 	public String partie() {
+		
 		return "partie";
 	}
 
