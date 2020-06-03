@@ -8,7 +8,8 @@ function Refresh(rep){
 	for(j=0;j<8;j++){
 		for(i=0; i<8;i++){
 			
-			$("#"+i+j).attr('src', rep.image[i+(j*8)]).fadeIn();
+			$("#"+i+j).attr('src', rep.image[i+(j*8)]).css('position','fixed').css('margin-top',89*j).css('margin-left',89*i);
+			
 		}
 	}
 	
@@ -31,6 +32,17 @@ if(Tour==="-1"){
 		console.log(reponse.tour);
 		Refresh(reponse);
 		Tour=reponse.tour;
+		if(Tour==="joueur"){
+			
+			$("#finDeTour").show();
+			$("#j1").css('background-color','#345e90');
+			$("#j2").css('background-color','transparent');
+		}
+		if(Tour==="adverse"){
+			$("#finDeTour").hide();
+			$("#j1").css('background-color','transparent');
+			$("#j2").css('background-color','#345e90');
+		}
 	});
 	
 }
@@ -42,7 +54,7 @@ if(Tour==="-1"){
 	
 	
 	
-		//Recupère les coordoné des 2 case à jouer   (piontchoisi)/(destination)   ex: 0:7/0:8
+		//Recupère les coordoné des 2 case à jouer   (piontchoisi)/(destination)   ex: 0/7/0/8
 	$("#undo").click(function(){
 		if(Tour==="joueur"){
 			undo();
@@ -53,7 +65,7 @@ if(Tour==="-1"){
 		$(".piece").click(function()
 		{
 		if(selectEtat==="0" && Tour==="joueur"){ 
-			if($(this).attr('src')!="images/Vide.png"){
+			if($(this).attr('src')!="/images/Vide.png"){
 				
 				c1=this.getAttribute('id');//Selectionne un piont
 				
@@ -80,6 +92,10 @@ if(Tour==="-1"){
 		});
 //Lance la commande ajax quand on appui sur fin de Tour 
 		$("#finDeTour").click(function(){
+			
+			
+			
+			
 			if(Tour==="joueur"){
 				c1=c1[0]+"/"+c1[1];		//Rajout du slash entre absicesses et ordonneé pour la requête ajax
 				c2=c2[0]+"/"+c2[1];
@@ -106,6 +122,10 @@ if(Tour==="-1"){
 setInterval(function(){ 
 	if(Tour=="adverse"){
 		
+		
+		$("#finDeTour").hide();
+		$("#j1").css('background-color','transparent');
+		$("#j2").css('background-color','#345e90');
 		var str = window.location.href;
 		var res = str.split("/");
 		console.log("/partie/"+res[4]+"/UPDATE");
@@ -116,11 +136,15 @@ setInterval(function(){
 			if(reponse.tour==="joueur"){
 				
 				Tour=reponse.tour;
+				$("#finDeTour").show();
+				$("#j1").css('background-color','#345e90');
+				$("#j2").css('background-color','transparent');
 			}
 			
 			
 		});
 	}
+	
 }, 2000);
 
 $("#etat").click(function(){

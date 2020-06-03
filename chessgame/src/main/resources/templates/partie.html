@@ -6,7 +6,7 @@
 	</head>
 	<body>
 		<div th:fragment="content">
-			<h1>C'est partie</h1>
+			
 			<img
 			th:src="@{'/images/plateau712x712.jpg'}" style = "position: fixed;z-index: -1;" />
 			
@@ -34,11 +34,26 @@
 				<img th:each="i : ${#numbers.sequence( 0, 7)}" style = "" th:class="piece" th:id="${i}+'7'"
 				th:src="@{'/images/vide.png'}" />
 			<div></div>
+			<div>
+				<div class="card" th:id="j1" style="width: 18rem;">
+  							<img class="card-img-top" src="..." alt="Card image cap">
+ 							 <div class="card-body">
+   						 <p class="card-text" th:text="${moi}">joueur moi</p>
+			  </div>
+			</div>
+			<div class="card" th:id="j2" style="width: 18rem;">
+  							<img class="card-img-top" src="..." alt="Card image cap">
+ 							 <div class="card-body">
+   						 <p class="card-text"  th:text="${adverse}">joueur adverse</p>
+			  </div>
+			</div>
+			</div>
+			<div class="buttonBar" style="margin-top: 30%;position: absolute;">
+				<button th:id="finDeTour" type="button" class="btn btn-outline-secondary">Fin de tour</button>
+				<button th:id="etat" type="button" class="btn btn-outline-secondary">etat</button>
+				<button th:id="undo" type="button" class="fas fa-undo btn btn-danger"></button>
+			</div>
 			
-			
-			<button th:id="finDeTour" type="button" class="btn btn-outline-secondary">Fin de tour</button>
-			<button th:id="etat" type="button" class="btn btn-outline-secondary">etat</button>
-			<button th:id="undo" type="button" class="fas fa-undo btn btn-danger"></button>
 			<script th:src="@{/js/partie.js}"></script>
 		</div>
 		
