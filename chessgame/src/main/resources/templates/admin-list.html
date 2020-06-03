@@ -27,7 +27,7 @@
 
             <td>
                 <th:block th:each="autho : ${joueur.getAuthorities()}" th:object="${autho}">
-                    <li th:href="autho.authority"></li>
+                    <li th:text="${autho.authority}"></li>
                 </th:block>
             </td>
 
