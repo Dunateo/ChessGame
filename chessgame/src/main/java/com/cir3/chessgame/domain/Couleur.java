@@ -47,4 +47,14 @@ public class Couleur {
     public void setPions(List<Pion> pions) {
         this.pions = pions;
     }
+    
+    public Couleur(String myName) {
+    	
+    	setNom(myName);
+    }
+    
+    public void createCouleur(Long myId, String myName) {
+    	
+    	setNom(myName);
+    }
 }

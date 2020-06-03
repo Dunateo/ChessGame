@@ -1,8 +1,7 @@
 package com.cir3.chessgame.domain;
 
-import org.springframework.boot.autoconfigure.batch.JobExecutionEvent;
-
 import javax.persistence.*;
+
 import java.util.*;
 
 @Entity(name = "partie")
@@ -42,4 +41,152 @@ public class Partie {
             mappedBy = "partie")
     private List<Cases> table = new ArrayList<>();
 
+    
+	public Long getId() {
+		return id;
+	}
+
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+
+	public boolean isEtat() {
+		return etat;
+	}
+
+
+	public void setEtat(boolean etat) {
+		this.etat = etat;
+	}
+
+
+	public int getTour() {
+		return Tour;
+	}
+
+
+	public void setTour(int tour) {
+		Tour = tour;
+	}
+
+
+	public Date getFixtemps() {
+		return fixtemps;
+	}
+
+
+	public void setFixtemps(Date fixtemps) {
+		this.fixtemps = fixtemps;
+	}
+
+
+	public int getDuree() {
+		return duree;
+	}
+
+
+	public void setDuree(int duree) {
+		this.duree = duree;
+	}
+
+
+	public Joueur getJoueurNoir() {
+		return joueurNoir;
+	}
+
+
+	public void setJoueurNoir(Joueur joueurNoir) {
+		this.joueurNoir = joueurNoir;
+	}
+
+
+	public Set<Joueur> getJoueur() {
+		return joueur;
+	}
+
+
+	public void setJoueur(Set<Joueur> joueur) {
+		this.joueur = joueur;
+	}
+
+
+	public List<Cases> getTable() {
+		return table;
+	}
+
+
+	public void setTable(List<Cases> table) {
+		this.table = table;
+	}
+	
+	
+public Partie() {
+    	
+    	Long cptCase = (long) 0;
+		
+    	Long cptPiece = (long) 0;
+		
+		Cases mPlateau[][] =  {
+				{null,null,null,null,null,null,null,null},
+				{null,null,null,null,null,null,null,null},
+				{null,null,null,null,null,null,null,null},
+				{null,null,null,null,null,null,null,null},
+				{null,null,null,null,null,null,null,null},
+				{null,null,null,null,null,null,null,null},
+				{null,null,null,null,null,null,null,null},
+				{null,null,null,null,null,null,null,null}
+				};
+		
+		String listePieces[] = {"Tour","Cavalier","Fou","Roi","Reine","Fou","Cavalier","Tour"};
+		
+		setEtat(false);
+		
+		setDuree(0);
+		
+		setTour(0);
+		
+		// On parcourt les cases du plateau
+		for(int i = 0; i < 8; i++) {
+			
+			for(int j = 0; j < 8; j++) {
+				
+				cptCase++;
+				
+				// Creation des pieces de la premiere et derniere ligne
+				if(i == 0 || i == 7) {
+					
+					cptPiece++;
+					mPlateau[i][j].createCases(i,j,cptCase,cptPiece,listePieces[j]);
+					
+				}
+				
+				// Creation des 2 lignes de pions
+				if(i == 1 || i == 6) {
+					
+					cptPiece++;
+					mPlateau[i][j].createCases(i,j,cptCase,cptPiece,"Pion");
+					
+				}
+				
+				// Creation des cases vides
+				mPlateau[i][j].createCases(i,j,cptCase,cptPiece,"");
+			}
+		}
+		
+		for(Cases n : table) {
+			
+			for(int i = 0; i < 8; i++) {
+				
+				for(int j = 0; j < 8; j++) {
+					
+					n = mPlateau[i][j];
+					
+				}
+			}
+		}
+		
+		setTable(table);
+    }
 }

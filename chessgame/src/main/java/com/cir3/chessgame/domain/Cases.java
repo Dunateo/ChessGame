@@ -1,5 +1,7 @@
 package com.cir3.chessgame.domain;
 
+import java.awt.Color;
+
 import javax.persistence.*;
 
 @Entity(name = "cases")
@@ -75,4 +77,93 @@ public class Cases {
     public void setPartie(Partie partie) {
         this.partie = partie;
     }
+    
+    // Creer une case avec une piece complexe
+ 	public Cases(int ligne, int colonne, Long mIdCase, Long mIdPiece, String mName) {
+ 		
+ 		Pion tPiece = null;
+ 		
+ 		Long black = (long) 0;
+		Long white = (long) 1;
+  		
+		Couleur mCoulBlack = null;
+  		Couleur mCoulWhite = null;
+  		
+  		
+  		mCoulBlack.createCouleur(black, "Noir");
+  		
+  		mCoulWhite.createCouleur(white,"Blanc");
+ 		
+ 		setId(mIdCase);
+ 		
+ 		setX(colonne);
+ 		
+ 		setY(ligne);
+ 		
+ 		if (ligne < 2) {
+ 			
+ 			tPiece.createPion(mIdPiece, mName, mCoulBlack);
+ 			
+ 			setEtat(false);
+ 		}
+ 		else if (ligne > 5){
+ 			
+ 			tPiece.createPion(mIdPiece, mName, mCoulWhite);
+ 			
+ 			setEtat(false);
+ 			
+ 		}
+ 		else {
+ 			
+ 			setPionCase(tPiece);
+ 			
+ 			setEtat(true);
+ 		}
+ 	}
+ 	
+ 	// Creer une case avec une piece complexe
+  	public void createCases(int ligne, int colonne, Long mIdCase, Long mIdPiece, String mName) {
+  		
+  		Pion tPiece = null;
+  		
+  		Long black = (long) 0;
+		Long white = (long) 1;
+  		
+		Couleur mCoulBlack = null;
+  		Couleur mCoulWhite = null;
+  		
+  		
+  		mCoulBlack.createCouleur(black, "Noir");
+  		
+  		mCoulWhite.createCouleur(white,"Blanc");
+  		
+  		setId(mIdCase);
+  		
+  		setX(colonne);
+  		
+  		setY(ligne);
+  		
+  		if (ligne < 2) {
+  			
+  			tPiece.createPion(mIdPiece, mName, mCoulBlack);
+  			
+  			setEtat(false);
+  		}
+  		else if (ligne > 5){
+  			
+  			tPiece.createPion(mIdPiece, mName, mCoulWhite);
+  			
+  			setEtat(false);
+  			
+  		}
+  		else {
+  			
+  			setPionCase(tPiece);
+  			
+  			setEtat(true);
+  		}
+  	}
+  	
+  	
+ 
 }

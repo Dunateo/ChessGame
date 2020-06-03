@@ -71,4 +71,24 @@ public class Pion {
     public void setCases(List<Cases> cases) {
         this.cases = cases;
     }
+    
+    // Creer un pion
+ 	public Pion(Long mIdPiece, String mName, Couleur mCoul) {
+ 		
+ 		setId(mIdPiece);
+ 		
+ 		setNom(mName);
+ 		
+ 		setCouleur(mCoul);
+ 	}
+ 	
+ 	// Creer un pion
+  	public void createPion(Long mIdPiece, String mName, Couleur mCoul) {
+  		
+  		setId(mIdPiece);
+  		
+  		setNom(mName);
+  		
+  		setCouleur(mCoul);
+  	}
 }
