@@ -1,27 +1,25 @@
-name: Feature Branch
-
-on:
-  push:
-    branches-ignore:
-      - 'master'
-      - 'release*'
+name: Master
+on: 
+  push
 
 jobs:
-
-  test:
-    name: Unit Test
-    runs-on: ubuntu-18.04
-
+  build:
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - name: Set up JDK 11
-        uses: actions/setup-java@v1
-        with:
-          java-version: 1.11
-      - name: Maven Package
-        run: mvn -B clean package -DskipTests
-      - name: Maven Verify
-        run: mvn -B clean verify
-      -name: maven-test
-        run: mvn --batch-mode test
-        path: target/surefire-reports/TEST-*.xml
+    - uses: actions/checkout@v2
+    - uses: actions/cache@v1
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        restore-keys: |
+           ${{ runner.os }}-maven-
+    - name: Set up JDK 11
+      uses: actions/setup-java@v1
+      with:
+        java-version: 11
+    - name: Build with Maven
+      run: mvn -B test --file pom.xml
+    - uses: Dunateo/ChessGame@master
+      with:
+        access-token: ${{ secrets.GITHUB_TOKEN }}
+      if: always()
