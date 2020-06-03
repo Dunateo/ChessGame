@@ -5,6 +5,8 @@ import com.cir3.chessgame.form.EditForm;
 import com.cir3.chessgame.form.JoueurForm;
 import com.cir3.chessgame.repository.AuthorityRepository;
 import com.cir3.chessgame.repository.JoueurRepository;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,10 +22,13 @@ public class SaveJoueur {
 
     protected final AuthorityRepository autho;
 
+    private static Logger logger = LogManager.getLogger(SaveJoueur.class);
+
     @Autowired
     public SaveJoueur(JoueurRepository joueur, AuthorityRepository autho){
         this.joueur = joueur;
         this.autho = autho;
+        logger.info("Creating new instance of Save Joueur service");
     }
 
     /**
@@ -46,9 +51,10 @@ public class SaveJoueur {
             joueurNew.setAuthorities(autho.findByAuthorityEquals("ROLE_USER"));
             joueur.save(joueurNew);
 
+            logger.info("New Joueur: "+ form.getUsername());
             return Boolean.TRUE;
         }
-
+        logger.error("Create Joueur problem check logs");
         return Boolean.FALSE;
     }
 
@@ -64,9 +70,11 @@ public class SaveJoueur {
         if (tab != null){
             tab.setPassword(form.getPassword());
             joueur.save(tab);
+            logger.info("Change password for : " + form.getUsername());
             return Boolean.TRUE;
         }
 
+        logger.error("Edit password error check logs");
         return Boolean.FALSE;
     }
 
@@ -87,12 +95,15 @@ public class SaveJoueur {
             if (tab != null){
                 tab.setImage(FOLDER_UPLOAD + form.getUsername());
                 joueur.save(tab);
+                logger.info("Change picture for : " + form.getUsername());
                 return Boolean.TRUE;
             }else {
+                logger.error("Edit picture problems joueur is null");
                 return Boolean.FALSE;
             }
 
         }
+        logger.error("Edit picture problems in saving");
         return Boolean.FALSE;
     }
 }
