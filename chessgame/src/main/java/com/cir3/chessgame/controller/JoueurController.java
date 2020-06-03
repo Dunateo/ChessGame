@@ -5,9 +5,11 @@ import com.cir3.chessgame.domain.Joueur;
 import com.cir3.chessgame.form.JoueurForm;
 import com.cir3.chessgame.repository.AuthorityRepository;
 import com.cir3.chessgame.repository.JoueurRepository;
+import com.cir3.chessgame.services.DbUserDetailsService;
 import com.cir3.chessgame.services.ImageStock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -15,8 +17,11 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.net.URI;
+import java.util.List;
 
 @Controller
 @RequestMapping("/user")
@@ -100,6 +105,10 @@ public class JoueurController {
 
         return "profil";
     }
+
+
+
+
 
 
 
