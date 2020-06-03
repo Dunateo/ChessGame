@@ -158,7 +158,7 @@ public class Partie {
 		
 		String listePieces[] = {"Tour","Cavalier","Fou","Roi","Reine","Fou","Cavalier","Tour"};
 		
-		setEtat(false);
+		setEtat(true);
 		
 		setId(myId);
 		
@@ -194,18 +194,18 @@ public class Partie {
 			}
 		}
 		
-		for(Cases n : table) {
+		
 			
 			for(int i = 0; i < 8; i++) {
 				
 				for(int j = 0; j < 8; j++) {
 					
-					n = mPlateau[i][j];
+					table.add(mPlateau[i][j]) ;
 					
 				}
 			}
-		}
 		
-		setTable(table);
+		
+		
     }
 }

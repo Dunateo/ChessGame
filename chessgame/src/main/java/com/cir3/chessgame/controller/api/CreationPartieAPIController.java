@@ -75,7 +75,7 @@ public class CreationPartieAPIController {
 			//START PARTIE
 			p.createPartie(id);
 			parties.save(p);
-			return "ok";
+			return p.getTable().toString();
 		}else {
 			return "Erreur: Partie deja en cours";
 		}

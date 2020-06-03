@@ -76,7 +76,12 @@ public class Cases {
         this.partie = partie;
     }
     
-    // Creer une case avec une piece complexe
+    
+    public Cases() {
+		
+	}
+
+	// Creer une case avec une piece complexe
  	public Cases(int ligne, int colonne, Long mIdCase, Long mIdPiece, String mName) {
  		
  		Pion tPiece = null;
