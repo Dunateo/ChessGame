@@ -24,7 +24,9 @@ function undo(){
 //On initialise la partie avec un nouveaux plateau
 if(Tour==="0"){
 	console.log("Initialisation");
-	var promise =$.ajax({ url:'/partie/Init' });
+	var str = "http://localhost:8080/partie/23";
+	  var res = str.split("/");
+	var promise =$.ajax({ url:'/partie/'+ res[4]+'/Init' });
 	promise.done(function (reponse){
 		console.log(reponse.msg);
 		if(reponse.msg==="ok"){
@@ -88,7 +90,7 @@ if(Tour==="0"){
 				c1=c1[0]+"/"+c1[1];		//Rajout du slash entre absicesses et ordonneé pour la requête ajax
 				c2=c2[0]+"/"+c2[1];
 				console.log("/partie/Tour/"+c1+"/"+c2);
-				var promise =$.ajax({ url:'/partie/Tour/'+c1+'/'+c2 });
+				var promise =$.ajax({ url:'/partie/23/Tour/'+c1+'/'+c2 });
 				undo();	//On remet tous à zero dans toute les cas
 				promise.done(function (reponse){
 				console.log(reponse.msg);
@@ -108,7 +110,7 @@ if(Tour==="0"){
 setInterval(function(){ 
 	if(Tour=="adverse"){
 		console.log("ask");
-		var promise =$.ajax({ url:'/partie/UPDATE' });
+		var promise =$.ajax({ url:'/partie/23/UPDATE' });
 		promise.done(function (reponse){
 			console.log(reponse.tour);
 			if(reponse.tour==="joueur"){
