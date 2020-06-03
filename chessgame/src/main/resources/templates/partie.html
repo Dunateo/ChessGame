@@ -8,38 +8,38 @@
 		<div th:fragment="content">
 			<h1>C'est partie</h1>
 			<img
-			th:src="@{'images/plateau712x712.jpg'}" style = "position: fixed;z-index: -1;" />
+			th:src="@{'/images/plateau712x712.jpg'}" style = "position: fixed;z-index: -1;" />
 			
 				<img th:each="i : ${#numbers.sequence( 0, 7)}" style = "" th:class="piece" th:id="${i}+'0'"
-				th:src="@{'images/vide.png'}" />
+				th:src="@{'/images/vide.png'}" />
 				<div></div>
 				<img th:each="i : ${#numbers.sequence( 0, 7)}" style = "" th:class="piece" th:id="${i}+'1'"
-				th:src="@{'images/vide.png'}" />
+				th:src="@{'/images/vide.png'}" />
 			<div></div>
 			<img th:each="i : ${#numbers.sequence( 0, 7)}" style = "" th:class="piece" th:id="${i}+'2'"
-				th:src="@{'images/vide.png'}" />
+				th:src="@{'/images/vide.png'}" />
 				<div></div>
 				<img th:each="i : ${#numbers.sequence( 0, 7)}" style = "" th:class="piece" th:id="${i}+'3'"
-				th:src="@{'images/vide.png'}" />
+				th:src="@{'/images/vide.png'}" />
 			<div></div>
 			<img th:each="i : ${#numbers.sequence( 0, 7)}" style = "" th:class="piece" th:id="${i}+'4'"
-				th:src="@{'images/vide.png'}" />
+				th:src="@{'/images/vide.png'}" />
 				<div></div>
 				<img th:each="i : ${#numbers.sequence( 0, 7)}" style = "" th:class="piece" th:id="${i}+'5'"
-				th:src="@{'images/vide.png'}" />
+				th:src="@{'/images/vide.png'}" />
 			<div></div>
 			<img th:each="i : ${#numbers.sequence( 0, 7)}" style = "" th:class="piece" th:id="${i}+'6'"
-				th:src="@{'images/vide.png'}" />
+				th:src="@{'/images/vide.png'}" />
 				<div></div>
 				<img th:each="i : ${#numbers.sequence( 0, 7)}" style = "" th:class="piece" th:id="${i}+'7'"
-				th:src="@{'images/vide.png'}" />
+				th:src="@{'/images/vide.png'}" />
 			<div></div>
 			
 			
 			<button th:id="finDeTour" type="button" class="btn btn-outline-secondary">Fin de tour</button>
 			<button th:id="etat" type="button" class="btn btn-outline-secondary">etat</button>
 			<button th:id="undo" type="button" class="fas fa-undo btn btn-danger"></button>
-			<script th:src="@{js/partie.js}"></script>
+			<script th:src="@{/js/partie.js}"></script>
 		</div>
 		
 	</body>

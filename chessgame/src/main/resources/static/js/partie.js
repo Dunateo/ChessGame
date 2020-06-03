@@ -2,7 +2,7 @@ var requette="";
 var c1="";
 var c2="";
 var selectEtat="0";
-var Tour="0";
+var Tour="-1";
 
 function Refresh(rep){
 	for(j=0;j<8;j++){
@@ -22,23 +22,17 @@ function undo(){
 }
 
 //On initialise la partie avec un nouveaux plateau
-if(Tour==="0"){
-	console.log("Initialisation");
-	var str = "http://localhost:8080/partie/23";
-	  var res = str.split("/");
-	var promise =$.ajax({ url:'/partie/'+ res[4]+'/Init' });
+if(Tour==="-1"){
+	var str = window.location.href;
+	var res = str.split("/");
+	console.log("/partie/"+res[4]+"/UPDATE");
+	var promise =$.ajax({ url:'/partie/'+res[4]+'/UPDATE' });
 	promise.done(function (reponse){
-		console.log(reponse.msg);
-		if(reponse.msg==="ok"){
-			Refresh(reponse);
-			Tour=reponse.tour;
-		}
-		if(reponse.msg.includes("Erreur")){
-			alert(reponse.msg);
-			
-		}
-		
+		console.log(reponse.tour);
+		Refresh(reponse);
+		Tour=reponse.tour;
 	});
+	
 }
 
 
@@ -89,8 +83,10 @@ if(Tour==="0"){
 			if(Tour==="joueur"){
 				c1=c1[0]+"/"+c1[1];		//Rajout du slash entre absicesses et ordonneé pour la requête ajax
 				c2=c2[0]+"/"+c2[1];
-				console.log("/partie/Tour/"+c1+"/"+c2);
-				var promise =$.ajax({ url:'/partie/23/Tour/'+c1+'/'+c2 });
+				var str = window.location.href;
+				var res = str.split("/");
+				console.log("/partie/"+res[4]+"Tour/"+c1+"/"+c2);
+				var promise =$.ajax({ url:'/partie/'+res[4]+'/Tour/'+c1+'/'+c2 });
 				undo();	//On remet tous à zero dans toute les cas
 				promise.done(function (reponse){
 				console.log(reponse.msg);
@@ -109,12 +105,16 @@ if(Tour==="0"){
 //Une commande ajax est envoyé toute les seconde pour savoir si le joueur adverse à joué si oui le joueur peut jouer à son tour sinon rien
 setInterval(function(){ 
 	if(Tour=="adverse"){
-		console.log("ask");
-		var promise =$.ajax({ url:'/partie/23/UPDATE' });
+		
+		var str = window.location.href;
+		var res = str.split("/");
+		console.log("/partie/"+res[4]+"/UPDATE");
+		var promise =$.ajax({ url:'/partie/'+res[4]+'/UPDATE' });
 		promise.done(function (reponse){
 			console.log(reponse.tour);
+			Refresh(reponse);
 			if(reponse.tour==="joueur"){
-				Refresh(reponse);
+				
 				Tour=reponse.tour;
 			}
 			
