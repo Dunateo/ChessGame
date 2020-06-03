@@ -23,6 +23,12 @@ public class ImageController {
     private static Logger logger = LogManager.getLogger(ImageController.class);
 
 
+    /**
+     * ?filename=nom du joueur
+     * @param filename
+     * @param authentication
+     * @return
+     */
     @GetMapping("/user/avatar")
     public ResponseEntity<StreamingResponseBody> getAvatar(@RequestParam String filename, Authentication authentication) {
 
