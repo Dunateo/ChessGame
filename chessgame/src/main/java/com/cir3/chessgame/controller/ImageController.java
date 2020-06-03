@@ -15,7 +15,7 @@ import java.io.File;
 import java.nio.file.Files;
 
 @Controller
-@Secured("ROLE_USER")
+@Secured({"ROLE_USER","ROLE_ADMIN"})
 public class ImageController {
     @Value("${file.upload-dir:}")
     private String path ;
