@@ -1,4 +1,4 @@
-package com.cir3.chessgame.Controller;
+package com.cir3.chessgame.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -6,8 +6,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.cir3.chessgame.domain.Cases;
 import com.cir3.chessgame.domain.Couleur;
+import com.cir3.chessgame.domain.Partie;
 import com.cir3.chessgame.domain.Pion;
 import com.cir3.chessgame.repository.CasesRepository;
+import com.cir3.chessgame.repository.CouleurRepository;
 import com.cir3.chessgame.repository.PartieRepository;
 import com.cir3.chessgame.repository.PionRepository;
 
@@ -21,6 +23,8 @@ public class PartieController {
 	
 	private PionRepository Pions;
 	
+	private CouleurRepository Couleurs;
+	
 	@GetMapping("")
 	public String partie() {
 		
@@ -33,20 +37,16 @@ public class PartieController {
   		
   		boolean move = false;
   		
-  		Couleur newCoulH = null;
   		Couleur newCoulHG = null;
   		Couleur newCoulHD = null;
   		Couleur myCoul = myCase.getPionCase().getCouleur();
   		
-  		int myX = Case.findById(myCase.getId()+8).get().getX();
-  		int myY = Case.findById(myCase.getId()+8).get().getY();
+  		int myX = Case.findById(myCase.getId()).get().getX();
+  		int myY = Case.findById(myCase.getId()).get().getY();
   		
   		boolean statusH = Case.findById(myCase.getId()+8).get().isEtat();
   		boolean statusHG = Case.findById(myCase.getId()+7).get().isEtat();
   		boolean statusHD = Case.findById(myCase.getId()+9).get().isEtat();
-  		
-  		if (statusH == true)
-  			newCoulH = Case.findById(myCase.getId()+8).get().getPionCase().getCouleur();
   		
   		if (statusHG == true)
   			newCoulHG = Case.findById(myCase.getId()+7).get().getPionCase().getCouleur();
@@ -75,8 +75,8 @@ public class PartieController {
  		Couleur newCoul = null;
   		Couleur myCoul = myCase.getPionCase().getCouleur();
  		
- 		int myX = Case.findById(myCase.getId()+8).get().getX();
-  		int myY = Case.findById(myCase.getId()+8).get().getY();
+ 		int myX = Case.findById(myCase.getId()).get().getX();
+  		int myY = Case.findById(myCase.getId()).get().getY();
   		
   		boolean status = false;
  		
@@ -221,8 +221,8 @@ public class PartieController {
  		Couleur newCoul = null;
   		Couleur myCoul = myCase.getPionCase().getCouleur();
  		
- 		int myX = Case.findById(myCase.getId()+8).get().getX();
-  		int myY = Case.findById(myCase.getId()+8).get().getY();
+ 		int myX = Case.findById(myCase.getId()).get().getX();
+  		int myY = Case.findById(myCase.getId()).get().getY();
   		
   		boolean status = false;
  		
@@ -366,8 +366,8 @@ public class PartieController {
   		Couleur newCoul = null;
    		Couleur myCoul = myCase.getPionCase().getCouleur();
   		
-  		int myX = Case.findById(myCase.getId()+8).get().getX();
-   		int myY = Case.findById(myCase.getId()+8).get().getY();
+  		int myX = Case.findById(myCase.getId()).get().getX();
+   		int myY = Case.findById(myCase.getId()).get().getY();
    		
    		boolean status = false;
   		
@@ -639,8 +639,8 @@ public class PartieController {
    		
    		Couleur myCoul = myCase.getPionCase().getCouleur();
    		
-   		int myX = Case.findById(myCase.getId()+8).get().getX();
-   		int myY = Case.findById(myCase.getId()+8).get().getY();
+   		int myX = Case.findById(myCase.getId()).get().getX();
+   		int myY = Case.findById(myCase.getId()).get().getY();
    		
    		boolean statusH = Case.findById(myCase.getId()+8).get().isEtat();
    		boolean statusHG = Case.findById(myCase.getId()+7).get().isEtat();
@@ -860,4 +860,167 @@ public class PartieController {
  	
   		return move;
   	}
+
+  	// Verifier le mouvement de chaque piece
+  	public boolean checkAllPiece(String name, Cases myCase, int nX, int nY) {
+  		
+  		boolean move = false;
+  		
+		switch(name) {
+		 		
+	 		case "Pion":
+	 			move = checkPion(myCase,nX,nY);
+	 			break;
+	 			
+	 		case "Tour":
+	 			move = checkTour(myCase,nX,nY);
+	 			break;
+	 			
+	 		case "Cavalier":
+	 			move = checkCavalier(myCase,nX,nY);
+	 			break;
+	 			
+	 		case "Fou":
+	 			move = checkFou(myCase,nX,nY);
+	 			break;
+	 			
+	 		case "Roi":
+	 			move = checkRoi(myCase,nX,nY);
+	 			break;
+	 			
+	 		case "Reine":
+	 			move = checkReine(myCase,nX,nY);
+	 			break;
+ 		}
+  		
+		return move;
+  	}
+  	
+  	// Retourner une case a partir d'un pion donne
+  	public Cases returnCasePion(Pion myP, Long myId) {
+  		
+  		for(Cases n : games.findById(myId).get().getTable()) {
+  			
+  			if (n.getPionCase().getId() == myP.getId())
+  				return n;
+  		}
+  		
+  		return null;
+  	}
+  	
+ // Retourner une case a partir d'un pion donne
+   	public Cases returnCaseCoords(int caseX, int caseY, Long myId) {
+   		
+   		for(Cases n : games.findById(myId).get().getTable()) {
+   			
+   			if (n.getX() == caseX && n.getY() == caseY)
+   				return n;
+   		}
+   		
+   		return null;
+   	}
+  	
+  	// Verifier le deplacement et la possible mise en echec du roi
+  	public boolean miseEchecRoi(Cases myCase, int nX, int nY, Long myId) {
+  		
+  		boolean move = false;
+  		
+  		int posXroi = Case.findById(myCase.getId()).get().getX();
+  		int posYroi = Case.findById(myCase.getId()).get().getY();
+  		
+  		Couleur myCoul = myCase.getPionCase().getCouleur();
+  		
+  		for(Pion n : Couleurs.findById(myCoul.returnOtherCoul(myCoul).getId()).get().getPions()) {
+  			
+  			Cases casePion = returnCasePion(n, myId);
+  			
+  			move = checkAllPiece(n.getNom(),casePion,posXroi,posYroi);
+  			
+  			if (move)
+  				break;
+  		}
+  		
+  		return move;
+  	}
+  	
+  	// Mise a jour du plateau suite au mouvement
+  	public void updatePlateau(Cases myCase, int nX, int nY, Long myId) {
+  		
+  		Cases newCase = returnCaseCoords(nX,nY,myId);
+  		
+  		for(Cases n : games.findById(myId).get().getTable()) {
+  			
+  			if (n.getId() == newCase.getId())
+  				n = newCase;
+  		}
+  		
+  		Partie temp = games.findById(myId).get();
+  		
+  		games.save(temp);
+  	}
+  	
+  	// Corriger le plateau si erreur
+  	public void correctionPlateau(Cases myCase, int nX, int nY, Pion temp, Long myId) {
+  		
+  		if (temp != null) {
+  			
+  			Cases newCase = returnCaseCoords(nX,nY,myId);
+  	  		
+  	  		for(Cases n : games.findById(myId).get().getTable()) {
+  	  			
+  	  			if (n.getId() == myCase.getId()) {
+	  				n.setPionCase(returnCaseCoords(nX,nY,myId).getPionCase());
+	  				break;
+	  			}
+  	  		}
+  	  		
+  	  		for(Cases n : games.findById(myId).get().getTable()) {
+	  	  		
+  	  			if (n.getId() == newCase.getId()) {
+					n.setPionCase(temp);
+					break;
+  	  			}
+  	  		}
+  		}
+  		else {
+  			
+  			for(Cases n : games.findById(myId).get().getTable()) {
+  	  			
+  	  			if (n.getId() == myCase.getId()) {
+	  				n.setPionCase(returnCaseCoords(nX,nY,myId).getPionCase());
+	  				break;
+  	  			}
+  	  		}
+  		}
+  		
+  		Partie tPart = games.findById(myId).get();
+  		
+  		games.save(tPart);
+  	}
+  	
+  	// Verifier le deplacement de la piece
+ 	public void checkMove(Cases myCase, int nX, int nY, Long myId) {
+ 		
+ 		boolean move = false;
+ 		
+ 		String name = myCase.getPionCase().getNom();
+ 		
+ 		Pion tPion = null;
+ 		
+ 		move = checkAllPiece(name,myCase,nX,nY);
+ 		
+ 		if (move) {
+ 			
+ 			if (returnCaseCoords(nX,nY,myId).isEtat() == true)
+ 				tPion = returnCaseCoords(nX,nY,myId).getPionCase();
+ 			
+ 			updatePlateau(myCase,nX,nY,myId);
+ 			
+ 			move = miseEchecRoi(myCase,nX,nY,myId);
+ 			
+ 		}
+ 		
+ 		if (!move)
+ 			correctionPlateau(myCase,nX,nY,tPion,myId);
+ 	}
 }

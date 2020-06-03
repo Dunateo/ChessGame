@@ -122,7 +122,7 @@ public class Partie {
 	}
 	
 	
-public Partie() {
+	public Partie(Long myId) {
     	
     	Long cptCase = (long) 0;
 		
@@ -143,6 +143,8 @@ public Partie() {
 		
 		setEtat(false);
 		
+		setId(myId);
+		
 		setDuree(0);
 		
 		setTour(0);
@@ -158,7 +160,7 @@ public Partie() {
 				if(i == 0 || i == 7) {
 					
 					cptPiece++;
-					mPlateau[i][j].createCases(i,j,cptCase,cptPiece,listePieces[j]);
+					mPlateau[i][j] = new Cases(i,j,cptCase,cptPiece,listePieces[j]);
 					
 				}
 				
@@ -166,12 +168,12 @@ public Partie() {
 				if(i == 1 || i == 6) {
 					
 					cptPiece++;
-					mPlateau[i][j].createCases(i,j,cptCase,cptPiece,"Pion");
+					mPlateau[i][j] = new Cases(i,j,cptCase,cptPiece,"Pion");
 					
 				}
 				
 				// Creation des cases vides
-				mPlateau[i][j].createCases(i,j,cptCase,cptPiece,"");
+				mPlateau[i][j] = new Cases(i,j,cptCase,cptPiece,"");
 			}
 		}
 		

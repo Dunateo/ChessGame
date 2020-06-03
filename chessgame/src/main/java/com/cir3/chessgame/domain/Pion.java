@@ -81,14 +81,4 @@ public class Pion {
  		
  		setCouleur(mCoul);
  	}
- 	
- 	// Creer un pion
-  	public void createPion(Long mIdPiece, String mName, Couleur mCoul) {
-  		
-  		setId(mIdPiece);
-  		
-  		setNom(mName);
-  		
-  		setCouleur(mCoul);
-  	}
 }
