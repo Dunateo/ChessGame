@@ -1,5 +1,7 @@
 package com.cir3.chessgame.controller.api;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,7 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cir3.chessgame.domain.Joueur;
 import com.cir3.chessgame.domain.Partie;
 import com.cir3.chessgame.domain.Reponse;
+import com.cir3.chessgame.repository.CasesRepository;
+import com.cir3.chessgame.repository.CouleurRepository;
 import com.cir3.chessgame.repository.PartieRepository;
+import com.cir3.chessgame.services.Rules;
 import com.cir3.chessgame.services.TourParTour;
 
 @RestController
@@ -20,41 +25,58 @@ public class PartieApiController {
 	@Autowired
 	private PartieRepository parties;
 	
+	private CasesRepository casesRepo;
+	
+	private CouleurRepository couleursRepo;
+	
 	int n=0;
 	
 	
 	@GetMapping("{id}/Tour/{xp}/{yp}/{xd}/{yd}")
-	public Reponse reponse(Authentication authentication,@PathVariable(required = true)Long xp,@PathVariable(required = true)Long yp,@PathVariable(required = true)Long xd,@PathVariable(required = true)Long yd,@PathVariable(required = true)Long id) {
+	public Reponse reponse(Authentication authentication,@PathVariable(required = true)int xp,@PathVariable(required = true)int yp,@PathVariable(required = true)int xd,@PathVariable(required = true)int yd,@PathVariable(required = true)Long id) {
 
 		Reponse r= new Reponse("0");
 		TourParTour t= new TourParTour();
-		//On test si le joueur est dans la partie est que la partie soit en cours
-		if(t.JouerDansPartie(parties, authentication, id)  ) {
-		//On test que ce soit bien le tour du joueur
-		if(t.JoueurTour(parties, authentication, id)) {
-		if(xp==0 && yp==1 && xd==0 && yd==3)  {
-			//Le coup est joué
-			System.out.println("Recu piece ["+xp+":"+yp+"] vers ["+xd+":"+yd+"]");
-			r.setMsg("ok");
-			r.setTour("adverse");
-			
-			//UPDATE DU TABLEAU DE JEU
-			
-			//On incremente le tour de 1
-			Partie p =  parties.findById(id).get();
-			p.setTour(p.getTour() +1);
-			parties.save(p);
-		}else {
-			r.setMsg("Erreur: coup Impossible");
-			r.setTour("joueur");
-			}	
-		}else {
-			r.setMsg("Erreur: Attendez votre tour pour jouer, non de dieu ! ");
-			r.setTour("joueur");
+		Rules rule = new Rules(parties,casesRepo,couleursRepo);
+		String result = "";
+		Optional<Partie> op= parties.findById(id);
+		if(op.isPresent()) {
+			Partie p=op.get();
+	
+			//On test si le joueur est dans la partie est que la partie soit en cours
+			if(t.JouerDansPartie(parties, authentication, id)  ) {
+			//On test que ce soit bien le tour du joueur
+			if(t.JoueurTour(parties, authentication, id)) {
+				result = rule.checkMove(xp, yp, xd, yd, id, authentication.getName());
+			if(result.equals("ok"))  {
+				//Le coup est joué
+				System.out.println("Recu piece ["+xp+":"+yp+"] vers ["+xd+":"+yd+"]");
+				r.setMsg("ok");
+				r.setTour("adverse");
+				
+				//UPDATE DU TABLEAU DE JEU
+				
+				
+				//On incremente le tour de 1
+				
+				p.setTour(p.getTour() +1);
+				parties.save(p);
+			}else {
+				r.setMsg(result);
+				r.setTour("joueur");
+				}	
+			}else {
+				r.setMsg("Erreur: Attendez votre tour pour jouer, non de dieu ! ");
+				r.setTour("joueur");
+			}
+			}else {
+				r.setMsg("Erreur: vous n'etes pas dans la partie");
+			}
 		}
-		}else {
-			r.setMsg("Erreur: vous n'etes pas dans la partie");
+		else {
+			r.setMsg("Erreur: Partie inexistante");
 		}
+		
 		
 		
 		return r;

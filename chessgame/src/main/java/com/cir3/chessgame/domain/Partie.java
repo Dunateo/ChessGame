@@ -25,12 +25,10 @@ public class Partie {
     private int duree;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Joueur joueurNoir;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(  updatable = false)
-    private Set<Joueur> joueur;
     private List<Joueur> joueur = new ArrayList<Joueur>();
 
 
@@ -43,10 +41,7 @@ public class Partie {
             mappedBy = "partie")
     private List<Cases> table = new ArrayList<>();
 
-<<<<<<< HEAD
-=======
-
-public Partie() {
+    public Partie() {
 		
 	}
     
@@ -59,12 +54,11 @@ public Partie() {
 		joueur.add(j2);
 		
 	}
->>>>>>> jejebranch
     
 	public Long getId() {
 		return id;
 	}
-
+	
 
 	public void setId(Long id) {
 		this.id = id;
@@ -121,29 +115,20 @@ public Partie() {
 	}
 
 
-<<<<<<< HEAD
-	public Set<Joueur> getJoueur() {
-=======
 	public List<Joueur> getJoueur() {
->>>>>>> jejebranch
 		return joueur;
 	}
 
-
-<<<<<<< HEAD
-	public void setJoueur(Set<Joueur> joueur) {
-		this.joueur = joueur;
-	}
-=======
+	
 	public void setJoueur(List<Joueur> joueur) {
 		this.joueur = joueur;
 	}
 	
+	
 	public void AddJoueur (Joueur j) {
 		this.joueur.add(j);
 	}
->>>>>>> jejebranch
-
+	
 
 	public List<Cases> getTable() {
 		return table;
@@ -153,9 +138,8 @@ public Partie() {
 	public void setTable(List<Cases> table) {
 		this.table = table;
 	}
-<<<<<<< HEAD
 	
-	public Partie(Long myId) {
+	public void createPartie(Long myId) {
     	
     	Long cptCase = (long) 0;
 		
@@ -224,7 +208,4 @@ public Partie() {
 		
 		setTable(table);
     }
-=======
-
->>>>>>> jejebranch
 }

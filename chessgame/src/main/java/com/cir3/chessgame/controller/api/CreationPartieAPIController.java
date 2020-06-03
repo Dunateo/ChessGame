@@ -73,6 +73,7 @@ public class CreationPartieAPIController {
 			p.setEtat(true);
 			p.setTour(0);
 			//START PARTIE
+			p.createPartie(id);
 			parties.save(p);
 			return "ok";
 		}else {

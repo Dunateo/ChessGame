@@ -101,7 +101,7 @@ if(Tour==="-1"){
 				c2=c2[0]+"/"+c2[1];
 				var str = window.location.href;
 				var res = str.split("/");
-				console.log("/partie/"+res[4]+"Tour/"+c1+"/"+c2);
+				console.log("/partie/"+res[4]+"/Tour/"+c1+"/"+c2);
 				var promise =$.ajax({ url:'/partie/'+res[4]+'/Tour/'+c1+'/'+c2 });
 				undo();	//On remet tous à zero dans toute les cas
 				promise.done(function (reponse){
