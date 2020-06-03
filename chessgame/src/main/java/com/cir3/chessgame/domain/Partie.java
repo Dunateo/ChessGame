@@ -121,7 +121,6 @@ public class Partie {
 		this.table = table;
 	}
 	
-	
 	public Partie(Long myId) {
     	
     	Long cptCase = (long) 0;
