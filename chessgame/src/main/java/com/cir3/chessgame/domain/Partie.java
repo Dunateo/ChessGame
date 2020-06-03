@@ -25,11 +25,6 @@ public class Partie {
     @Column
     private int duree;
 
-    public Partie() {
-		
-	}
-
-
 	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Joueur joueurNoir;
 
@@ -48,6 +43,20 @@ public class Partie {
     private List<Cases> table = new ArrayList<>();
 
 
+public Partie() {
+		
+	}
+    
+    public Partie(Joueur j1,Joueur j2) {
+		etat=false;
+		Tour=-1;
+		duree=0;
+		joueurNoir=j1;
+		joueur.add(j1);
+		joueur.add(j2);
+		
+	}
+    
 	public Long getId() {
 		return id;
 	}
@@ -129,14 +138,6 @@ public class Partie {
 
 	public void setTable(List<Cases> table) {
 		this.table = table;
-	}
-
-
-	public Partie(Long id, boolean etat, int tour) {
-		
-		this.id = id;
-		this.etat = etat;
-		Tour = tour;
 	}
 
 }

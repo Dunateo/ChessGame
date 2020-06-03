@@ -25,19 +25,12 @@ public class PartieApiController {
 	
 	@GetMapping("{id}/Tour/{xp}/{yp}/{xd}/{yd}")
 	public Reponse reponse(Authentication authentication,@PathVariable(required = true)Long xp,@PathVariable(required = true)Long yp,@PathVariable(required = true)Long xd,@PathVariable(required = true)Long yd,@PathVariable(required = true)Long id) {
-//		Reponse r= new Reponse("0");
-//		System.out.println("Recu piece ["+xp+":"+yp+"] vers ["+xd+":"+yd+"]");
-//		if(xp==0 && yp==1 && xd==0 && yd==3)  {
-//			r.setMsg("ok");
-//			r.setTour("adverse");
-//		}else {
-//			r.setMsg("Erreur: coup Impossible");
-//			r.setTour("joueur");
-//		}
+
 		Reponse r= new Reponse("0");
 		TourParTour t= new TourParTour();
-		//On test si le joueur est dans la partie
-		if(t.JouerDansPartie(parties, authentication, id)) {
+		//On test si le joueur est dans la partie est que la partie soit en cours
+		if(t.JouerDansPartie(parties, authentication, id)  ) {
+		//On test que ce soit bien le tour du joueur
 		if(t.JoueurTour(parties, authentication, id)) {
 		if(xp==0 && yp==1 && xd==0 && yd==3)  {
 			//Le coup est joué
@@ -99,17 +92,22 @@ public class PartieApiController {
 	}
 	
 	
-	@GetMapping("UPDATE")
-	public Reponse update() {
+	@GetMapping("{id}/UPDATE")
+	public Reponse update(Authentication authentication,@PathVariable(required = true)Long id) {
 		Reponse r= new Reponse("ok");
-		System.out.println("Demande "+n+"fois");
-		if(n==0) {
-			r.setTour("adverse");
-			n++;
-		}else if(n<=1) {
+		TourParTour t= new TourParTour();
+		//UPDATE DU PLATEAU DE JEU
+		
+		//On teste que le joueur est dans la partie
+		if(t.JouerDansPartie(parties, authentication, id)) {
+		//On teste si c'est son tour
+		if(t.JoueurTour(parties, authentication, id)) {
 			r.setTour("joueur");
-			r.setImage(0,"images/PionNoir.png");
-			n=0;
+		}else {
+			r.setTour("adverse");
+		}
+		}else {
+			r.setMsg("ModeSpectateur");
 		}
 		
 		return r;

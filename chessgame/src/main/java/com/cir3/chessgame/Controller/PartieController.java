@@ -21,8 +21,8 @@ public class PartieController {
 	
 	@Autowired
 	private JoueurRepository joueurs;
-	@GetMapping("/23")
-	public String partie() {
+	@GetMapping("/{id}")
+	public String partie(@PathVariable(required = true)Long id) {
 	
 		return "partie";
 	}
