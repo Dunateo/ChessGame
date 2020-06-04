@@ -38,7 +38,7 @@ public class FriendController {
         return "profil";
     }
 
-    @GetMapping("/affich")
+    @GetMapping("/affich/invit")
     public void affich(Authentication authentication){
         for (Joueur f: joueur.findByUsername(authentication.getName()).getFriends().getInviteList()){
             System.out.println("AFFICHAGE INVITE: "+f.getUsername());
@@ -46,12 +46,21 @@ public class FriendController {
 
     }
 
+    @GetMapping("/affich/amis")
+    public void affichAmis(Authentication authentication){
+
+        for (Joueur f: joueur.findByUsername(authentication.getName()).getFriends().getFriendsList()){
+            System.out.println("AFFICHAGE AMIS: "+f.getUsername());
+        }
+
+    }
+
     @GetMapping("/accepte/{invite}")
-    public String AccepteFriendToFriendList(Authentication authentification, @PathVariable(required = true)String invite ){
+    public Boolean AccepteFriendToFriendList(Authentication authentification, @PathVariable(required = true)String invite ){
 
         FriendService fl = new FriendService(joueur, friends);
-        fl.addToFriendList(authentification.getName(),invite);
-        return "profil";
+
+        return fl.addToFriendList(authentification.getName(),invite);
     }
     
 

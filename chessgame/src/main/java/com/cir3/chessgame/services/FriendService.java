@@ -115,6 +115,7 @@ public class FriendService {
                         joueur.save(player1);
 
                         player2.getFriends().addFriendsList(player1);
+                        player2.getFriends().deleteInviteList(player1);
                         joueur.save(player2);
 
                         return Boolean.TRUE;

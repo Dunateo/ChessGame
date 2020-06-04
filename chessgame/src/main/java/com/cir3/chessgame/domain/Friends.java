@@ -43,5 +43,5 @@ public class Friends {
 
     public void setPlayer(Joueur player) { this.player = player; }
 
-    public void deleteInviteList(Joueur player) { this.friendsList.remove(player); }
+    public void deleteInviteList(Joueur player) { this.inviteList.remove(player); }
 }
