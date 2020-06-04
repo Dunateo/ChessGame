@@ -21,41 +21,42 @@ import com.cir3.chessgame.services.Rules;
 @RestController
 @RequestMapping("/Invitation/")
 public class CreationPartieAPIController {
-	
+
 	@Autowired
 	private PartieRepository parties;
-	
+
 	@Autowired
     private JoueurRepository joueurs;
-	
+
 	@Autowired
 	private CasesRepository casesRepo;
 	@Autowired
 	private CouleurRepository couleursRepo;
 	@Autowired
 	private PionRepository pionsRepo;
-	
+
 	@GetMapping("{inviteName}")
-	public Reponse init(Authentication authentication,@PathVariable(required = true)String inviteName) {
-		
-		Reponse r= new Reponse("0");
+	public String init(Authentication authentication,@PathVariable(required = true)String inviteName) {
+
+
 		//TESTER SI LE JOUEUR EST DANS LA LISTE D'AMIS
 		//Creation d'une partie à tour=-1 et etat false avec les deux joueurs
 		Partie p = new Partie(joueurs.findByUsername(authentication.getName()),joueurs.findByUsername(inviteName));
-		
-		parties.save(p);
-		return r;
+
+		parties.saveAndFlush(p);
+
+		return p.getId().toString();
 	}
-	
+
 	@GetMapping("AnyInvit")
 	public String AnyInvit(Authentication authentication) {
-	
+
 		//Recherche dans sa liste d'amis si une partie est en mode invitation.
 		return joueurs.findByUsername(authentication.getName()).getInvitationList();
 	}
 	@GetMapping("{id}/AnyAccept")
 	public String AnyAccept(Authentication authentication,@PathVariable(required = true)Long id) {
-	
+
 		//Test sur une partie qui etait en mode invitation si elle à été accepter
 		Optional<Partie> op= parties.findById(id);
 		if(op.isPresent()) {
@@ -68,14 +69,14 @@ public class CreationPartieAPIController {
 			}else {
 				return "Erreur: Partie introuvable";
 			}
-		
-		
-	
+
+
+
 	}
-	
+
 	@GetMapping("{id}/Accept")
 	public String AcceptInvitation(Authentication authentication,@PathVariable(required = true)Long id) {
-		
+
 		Rules rule = new Rules(parties,casesRepo,couleursRepo,pionsRepo);
 		Optional<Partie> op= parties.findById(id);
 		if(op.isPresent()) {
@@ -97,6 +98,6 @@ public class CreationPartieAPIController {
 		}
 		return "ok";
 	}
-	
+
 
 }
