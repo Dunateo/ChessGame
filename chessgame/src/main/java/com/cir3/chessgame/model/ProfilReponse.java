@@ -3,6 +3,7 @@ package com.cir3.chessgame.model;
 import com.cir3.chessgame.domain.Joueur;
 import com.cir3.chessgame.domain.Partie;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProfilReponse {
@@ -11,7 +12,7 @@ public class ProfilReponse {
 
     private List<Joueur> inviteFriends;
 
-    private List<Partie> invitationPartie;
+    private List<PartieReponse> invitationPartie = new ArrayList<PartieReponse>();
 
     private Boolean invitationAccepted;
 
@@ -36,12 +37,17 @@ public class ProfilReponse {
         this.inviteFriends = inviteFriends;
     }
 
-    public List<Partie> getInvitationPartie() {
-        return invitationPartie;
-    }
+  
+    public List<PartieReponse> getInvitationPartie() {
+		return invitationPartie;
+	}
 
-    public void setInvitationPartie(List<Partie> invitationPartie) {
-        this.invitationPartie = invitationPartie;
+	public void setInvitationPartie(List<PartieReponse> invitationPartie) {
+		this.invitationPartie = invitationPartie;
+	}
+
+	public void addInvitationPartie(Long id,String versus) {
+    	this.invitationPartie.add(new PartieReponse(id,versus));
     }
 
     public Boolean getInvitationAccepted() {
