@@ -46,7 +46,7 @@
 					<ul class="list-group">
 					<th:block th:each="partie : ${joueur.getPartie()}"
 							th:object="${partie}">
-							<li class="list-group-item"th:text="${partie.getJoueur().get(0).getUsername()}"></li>
+							<li class="list-group-item"th:text="${partie.getJoueur().get(0).getUsername()} + ' contre ' + ${partie.getJoueur().get(1).getUsername()}"></li>
 						</th:block>
 
 
