@@ -19,7 +19,6 @@ public class Pion {
     @JoinColumn( updatable = false)
     private Couleur couleur;
 
-
     @Column(nullable = false)
     private String image;
 
@@ -52,6 +51,10 @@ public class Pion {
         return couleur;
     }
 
+    public void setCouleur(Couleur couleur) {
+        this.couleur = couleur;
+    }
+
     public String getImage() {
         return image;
     }
@@ -60,12 +63,6 @@ public class Pion {
         this.image = image;
     }
 
-    public void setCouleur(Couleur couleur) {
-        this.couleur = couleur;
-    }
-
-
-
     public List<Cases> getCases() {
         return cases;
     }
@@ -73,4 +70,18 @@ public class Pion {
     public void setCases(List<Cases> cases) {
         this.cases = cases;
     }
+    
+    public Pion() {
+    	
+    }
+    
+    // Creer un pion
+ 	public Pion(Long mIdPiece, String mName, Couleur mCoul) {
+ 		
+ 		setNom(mName);
+ 		
+ 		setCouleur(mCoul);
+ 		
+ 		setImage("ok");
+ 	}
 }
