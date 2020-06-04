@@ -41,6 +41,7 @@ public class Partie {
             mappedBy = "partie")
     private List<Cases> table = new ArrayList<>();
 
+  
     public Partie() {
 		
 	}
@@ -175,5 +176,6 @@ public class Partie {
 		}
 		
 		System.out.println(this.getTable().get(5).getX());
+
     }
 }
