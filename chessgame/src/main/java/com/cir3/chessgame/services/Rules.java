@@ -12,6 +12,7 @@ import com.cir3.chessgame.domain.Pion;
 import com.cir3.chessgame.repository.CasesRepository;
 import com.cir3.chessgame.repository.CouleurRepository;
 import com.cir3.chessgame.repository.PartieRepository;
+import com.cir3.chessgame.repository.PionRepository;
 
 @Service
 public class Rules {
@@ -22,11 +23,83 @@ public class Rules {
 	
 	protected final CouleurRepository Couleurs;
 	
+	protected final PionRepository Pions;
+	
 	@Autowired
-	public Rules(PartieRepository games, CasesRepository Case, CouleurRepository Couleurs) {
+	public Rules(PartieRepository games, CasesRepository Case, CouleurRepository Couleurs, PionRepository Pions) {
+		
 		this.games = games;
 		this.Case = Case;
 		this.Couleurs = Couleurs;
+		this.Pions = Pions;
+	}
+	
+	public Couleur otherCoul(Couleur myCoul) {
+	    
+    	if (myCoul.getNom().equals("Noir"))
+    		return Couleurs.findById((long) 1).get();
+    	else
+    		return Couleurs.findById((long) 2).get();
+    }
+	
+	// Donner a chaque case sa piece correspondante
+	public void givePiece(Long myId) {
+		
+		List<Cases> g = games.findById(myId).get().getTable();
+		
+		for(int i = 0; i < 64; i++) {
+			
+			// Pions Blancs
+			if (g.get(i).getY() == 1)
+				g.get(i).setPionCase(Pions.findById((long) 6).get());
+			// Pions Noirs
+			else if (g.get(i).getY() == 6)
+				g.get(i).setPionCase(Pions.findById((long) 12).get());
+			// Tours Blanches
+			else if (g.get(i).getY() == 0 && (g.get(i).getX() == 0 || g.get(i).getX() == 7))
+				g.get(i).setPionCase(Pions.findById((long) 1).get());
+			// Tours Noires
+			else if (g.get(i).getY() == 7 && (g.get(i).getX() == 0 || g.get(i).getX() == 7))
+				g.get(i).setPionCase(Pions.findById((long) 7).get());
+			// Cavalier Blancs
+			else if (g.get(i).getY() == 0 && (g.get(i).getX() == 1 || g.get(i).getX() == 6))
+				g.get(i).setPionCase(Pions.findById((long) 2).get());
+			// Cavaliers Noirs
+			else if (g.get(i).getY() == 7 && (g.get(i).getX() == 1 || g.get(i).getX() == 6))
+				g.get(i).setPionCase(Pions.findById((long) 8).get());
+			// Fous Blancs
+			else if (g.get(i).getY() == 0 && (g.get(i).getX() == 2 || g.get(i).getX() == 5))
+				g.get(i).setPionCase(Pions.findById((long) 3).get());
+			// Fous Noirs
+			else if (g.get(i).getY() == 7 && (g.get(i).getX() == 2 || g.get(i).getX() == 5))
+				g.get(i).setPionCase(Pions.findById((long) 9).get());
+			// Roi Blanc
+			else if (g.get(i).getY() == 0 && g.get(i).getX() == 3)
+				g.get(i).setPionCase(Pions.findById((long) 4).get());
+			// Roi Noir
+			else if (g.get(i).getY() == 7 && g.get(i).getX() == 3)
+				g.get(i).setPionCase(Pions.findById((long) 10).get());
+			// Reine Blanche
+			else if (g.get(i).getY() == 0 && g.get(i).getX() == 4)
+				g.get(i).setPionCase(Pions.findById((long) 5).get());
+			// Reine Noire
+			else if (g.get(i).getY() == 7 && g.get(i).getX() == 4)
+				g.get(i).setPionCase(Pions.findById((long) 5).get());
+		}
+	}
+	
+	// Donner a chaque piece sa couleur correspondante
+	public void giveCouleur(Long myId) {
+		
+		List<Cases> g = games.findById(myId).get().getTable();
+		
+		for(int i = 0; i < 64; i++) {
+			
+			if (g.get(i).getY() == 0 || g.get(i).getY() == 1)
+				g.get(i).getPionCase().setCouleur(Couleurs.findById((long) 1).get());
+			else if (g.get(i).getY() == 6 || g.get(i).getY() == 7)
+				g.get(i).getPionCase().setCouleur(Couleurs.findById((long) 2).get());
+		}
 	}
 	
 	// Verifier le deplacement du pion
@@ -43,24 +116,46 @@ public class Rules {
   		
   		List<Cases> g = games.findById(myId).get().getTable();
   		
-  		boolean statusH = g.get((int) (myCase.getId()+8)).isEtat();
-  		boolean statusHG = g.get((int) (myCase.getId()+7)).isEtat();
-  		boolean statusHD = g.get((int) (myCase.getId()+9)).isEtat();
+  		boolean statusH = false;
+  		boolean statusHH = false;
+  		boolean statusHG = false;
+  		boolean statusHD = false;
   		
+  		// Verification presence piece
+		for(int i = 0; i < 64; i++) {
+			
+			if (g.get(i).getX() == myCase.getX() && g.get(i).getY() == myCase.getY()+1)
+				statusH = g.get(i).isEtat();
+			
+			if (g.get(i).getX() == myCase.getX() && g.get(i).getY() == myCase.getY()+2)
+				statusHH = g.get(i).isEtat();
+			
+			if (g.get(i).getX() == myCase.getX()+1 && g.get(i).getY() == myCase.getY()+1)
+				statusHD = g.get(i).isEtat();
+			
+			if (g.get(i).getX() == myCase.getX()-1 && g.get(i).getY() == myCase.getY()+1)
+				statusHG = g.get(i).isEtat();
+		}
   		
-  		/*
-  		 * boolean statusH = Case.findById(myCase.getId()+8).get().isEtat();
-  		 * boolean statusHG = Case.findById(myCase.getId()+7).get().isEtat();
-  		 * boolean statusHD = Case.findById(myCase.getId()+9).get().isEtat();
-  		 */
+		// Verification couleur piece 1
+  		if (statusHG) {
+  			
+  			for(int i = 0; i < 64; i++) {
+  				
+  				if (g.get(i).getX() == myCase.getX()-1 && g.get(i).getY() == myCase.getY()+1)
+  					newCoulHG = g.get(i).getPionCase().getCouleur();
+  			}
+  		}
   		
-  		if (statusHG == true)
-  			newCoulHG = g.get((int) (myCase.getId()+7)).getPionCase().getCouleur();
-  			//newCoulHG = Case.findById(myCase.getId()+7).get().getPionCase().getCouleur();
-  		
-  		if (statusHD == true)
-  			newCoulHD = g.get((int) (myCase.getId()+9)).getPionCase().getCouleur();
-  			//newCoulHD = Case.findById(myCase.getId()+9).get().getPionCase().getCouleur();
+  		// Verification couleur piece 2
+  		if (statusHD) {
+  			
+  			for(int i = 0; i < 64; i++) {
+  				
+  				if (g.get(i).getX() == myCase.getX()+1 && g.get(i).getY() == myCase.getY()+1)
+  					newCoulHD = g.get(i).getPionCase().getCouleur();
+  			}
+  		}
   		
   		if(nX == myX && nY == myY++ && statusH == false) {
   			move = true;
@@ -772,14 +867,35 @@ public class Rules {
   			// Deplacement vers la droite
   			if (myX < nX && myX < 7) {
   				
-				statusHD1 = g.get((int) (myCase.getId()+8+8+1)).isEtat();
-				statusHD2 = g.get((int) (myCase.getId()+8+2)).isEtat();
+  				// Verification presence piece
+  				for(int i = 0; i < 64; i++) {
+  					
+  					if (g.get(i).getX() == myCase.getX()+1 && g.get(i).getY() == myCase.getY()+2)
+  						statusHD1 = g.get(i).isEtat();
+  					
+  					if (g.get(i).getX() == myCase.getX()+2 && g.get(i).getY() == myCase.getY()+1)
+  						statusHD2 = g.get(i).isEtat();
+  				}
 				
-				if (statusHD1 == true)
-		  			newCoulHD1 = g.get((int) (myCase.getId()+8+8+1)).getPionCase().getCouleur();
+  				// Verification couleur piece 1
+				if (statusHD1) {
+					
+					for(int i = 0; i < 64; i++) {
+						
+						if (g.get(i).getX() == myCase.getX()+1 && g.get(i).getY() == myCase.getY()+2)
+							newCoulHD1 = g.get(i).getPionCase().getCouleur();
+					}
+				}
 				
-				if (statusHD2 == true)
-		  			newCoulHD2 = g.get((int) (myCase.getId()+8+2)).getPionCase().getCouleur();
+				// Verification couleur piece 2
+				if (statusHD2) {
+					
+					for(int i = 0; i < 64; i++) {
+						
+						if (g.get(i).getX() == myCase.getX()+2 && g.get(i).getY() == myCase.getY()+1)
+							newCoulHD2 = g.get(i).getPionCase().getCouleur();
+					}
+				}
 				
 				if (statusHD1 == false) {
 					move = true;
@@ -798,14 +914,35 @@ public class Rules {
   			// Deplacement vers la gauche
   			else if (myX > nX && myX > 0) {
   				
-  				statusHG1 = g.get((int) (myCase.getId()+8+8-1)).isEtat();
-				statusHG2 = g.get((int) (myCase.getId()+8-2)).isEtat();
+  				// Verification presence piece
+  				for(int i = 0; i < 64; i++) {
+  					
+  					if (g.get(i).getX() == myCase.getX()-1 && g.get(i).getY() == myCase.getY()+2)
+  						statusHG1 = g.get(i).isEtat();
+  					
+  					if (g.get(i).getX() == myCase.getX()-2 && g.get(i).getY() == myCase.getY()+1)
+  						statusHG2 = g.get(i).isEtat();
+  				}
+  				
+  				// Verification couleur piece 1
+				if (statusHG1) {
+					
+					for(int i = 0; i < 64; i++) {
+						
+						if (g.get(i).getX() == myCase.getX()-1 && g.get(i).getY() == myCase.getY()+2)
+							newCoulHG1 = g.get(i).getPionCase().getCouleur();
+					}
+				}
 				
-				if (statusHG1 == true)
-		  			newCoulHG1 = g.get((int) (myCase.getId()+8+8-1)).getPionCase().getCouleur();
-				
-				if (statusHG2 == true)
-		  			newCoulHG2 = g.get((int) (myCase.getId()+8-2)).getPionCase().getCouleur();
+				// Verification couleur piece 2
+				if (statusHG2) {
+					
+					for(int i = 0; i < 64; i++) {
+						
+						if (g.get(i).getX() == myCase.getX()-2 && g.get(i).getY() == myCase.getY()+1)
+							newCoulHG2 = g.get(i).getPionCase().getCouleur();
+					}
+				}
 				
 				if (statusHG1 == false) {
 					move = true;
@@ -827,14 +964,35 @@ public class Rules {
   			// Deplacement vers la droite
   			if (myX < nX && myX < 7) {
   				
-  				statusBD1 = g.get((int) (myCase.getId()-8-8+1)).isEtat();
-				statusBD2 = g.get((int) (myCase.getId()-8+2)).isEtat();
+  				// Verification presence piece
+  				for(int i = 0; i < 64; i++) {
+  					
+  					if (g.get(i).getX() == myCase.getX()+1 && g.get(i).getY() == myCase.getY()-2)
+  						statusBD1 = g.get(i).isEtat();
+  					
+  					if (g.get(i).getX() == myCase.getX()+2 && g.get(i).getY() == myCase.getY()-1)
+  						statusBD2 = g.get(i).isEtat();
+  				}
+  				
+  				// Verification couleur piece 1
+				if (statusBD1) {
+					
+					for(int i = 0; i < 64; i++) {
+						
+						if (g.get(i).getX() == myCase.getX()+1 && g.get(i).getY() == myCase.getY()-2)
+							newCoulBD1 = g.get(i).getPionCase().getCouleur();
+					}
+				}
 				
-				if (statusBD1 == true)
-		  			newCoulBD1 = g.get((int) (myCase.getId()-8+8-1)).getPionCase().getCouleur();
-				
-				if (statusBD2 == true)
-		  			newCoulBD2 = g.get((int) (myCase.getId()-8+2)).getPionCase().getCouleur();
+				// Verification couleur piece 2
+				if (statusBD2) {
+					
+					for(int i = 0; i < 64; i++) {
+						
+						if (g.get(i).getX() == myCase.getX()+2 && g.get(i).getY() == myCase.getY()-1)
+							newCoulBD2 = g.get(i).getPionCase().getCouleur();
+					}
+				}
 				
 				if (statusBD1 == false) {
 					move = true;
@@ -852,14 +1010,35 @@ public class Rules {
   			// Deplacement vers la gauche
   			else if (myX > nX && myX > 0) {
   				
-  				statusBG1 = g.get((int) (myCase.getId()-8-8-1)).isEtat();
-				statusBG2 = g.get((int) (myCase.getId()-8-2)).isEtat();
+  				// Verification presence piece
+  				for(int i = 0; i < 64; i++) {
+  					
+  					if (g.get(i).getX() == myCase.getX()-1 && g.get(i).getY() == myCase.getY()-2)
+  						statusBG1 = g.get(i).isEtat();
+  					
+  					if (g.get(i).getX() == myCase.getX()-2 && g.get(i).getY() == myCase.getY()-1)
+  						statusBG2 = g.get(i).isEtat();
+  				}
 				
-				if (statusBG1 == true)
-		  			newCoulBG1 = g.get((int) (myCase.getId()-8-8-1)).getPionCase().getCouleur();
-				
-				if (statusBG2 == true)
-		  			newCoulBG2 = g.get((int) (myCase.getId()-8-2)).getPionCase().getCouleur();
+  				// Verification couleur piece 1
+				if (statusBG1) {
+					
+					for(int i = 0; i < 64; i++) {
+						
+						if (g.get(i).getX() == myCase.getX()-1 && g.get(i).getY() == myCase.getY()-2)
+							newCoulBG1 = g.get(i).getPionCase().getCouleur();
+					}
+				}
+		  		
+				// Verification couleur piece 2
+				if (statusBG2) {
+					
+					for(int i = 0; i < 64; i++) {
+						
+						if (g.get(i).getX() == myCase.getX()-2 && g.get(i).getY() == myCase.getY()-1)
+							newCoulBG2 = g.get(i).getPionCase().getCouleur();
+					}
+				}
 				
 				if (statusBG1 == false) {
 					move = true;
@@ -948,7 +1127,9 @@ public class Rules {
   		
   		Couleur myCoul = myCase.getPionCase().getCouleur();
   		
-  		for(Pion n : Couleurs.findById(myCoul.returnOtherCoul(myCoul).getId()).get().getPions()) {
+  		System.out.println("!!!!!!!!! BOUGE TOI !!!!!!!!!!");
+  		
+  		for(Pion n : Couleurs.findById(otherCoul(myCoul).getId()).get().getPions()) {
   			
   			Cases casePion = returnCasePion(n, myId);
   			
@@ -966,15 +1147,15 @@ public class Rules {
   		
   		Cases newCase = returnCaseCoords(nX,nY,myId);
   		
-  		for(Cases n : games.findById(myId).get().getTable()) {
-  			
-  			if (n.getId() == newCase.getId())
-  				n = newCase;
-  		}
-  		
-  		Partie temp = games.findById(myId).get();
-  		
-  		games.save(temp);
+  		// Mise a jour de la nouvelle case
+		newCase.setPionCase(myCase.getPionCase());
+		newCase.setEtat(true);
+		Case.save(newCase);
+		
+		// Mise a jour de l'ancienne case
+		myCase.setEtat(false);
+		myCase.setPionCase(null);
+  		Case.save(myCase);
   	}
   	
   	// Corriger le plateau si erreur
@@ -1126,7 +1307,7 @@ public class Rules {
  		
  		boolean move = false;
  		
- 		String messageStatus = "";
+ 		String messageStatus = "ok";
  		
  		Cases myCase = returnCaseCoords(myX,myY,myId);
  		
@@ -1146,20 +1327,20 @@ public class Rules {
  			
  			updatePlateau(myCase,nX,nY,myId);
  			
- 			move = miseEchecRoi(myCase,nX,nY,myId);
+ 			//move = miseEchecRoi(myCase,nX,nY,myId);
  			
  		}
  		else {
- 			messageStatus = "Erreur: Mauvais mouuvement de piece";
+ 			messageStatus = "Erreur: Mauvais mouvement de piece";
  		}
  		
- 		if (!move) {
+ 		/*if (!move) {
  			correctionPlateau(myCase,nX,nY,tPion,myId);
  			messageStatus = "Erreur: Roi en echec";
  		}
  		else {
  			messageStatus = "ok";
- 		}
+ 		}*/
  		
  		return messageStatus;
  	}

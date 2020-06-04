@@ -52,28 +52,24 @@ public class Couleur {
     	
     }
     
-    public Couleur(Long myId, String myName) {
+    public Couleur(String myName) {
     	
-    	//setId(myId);
     	setNom(myName);
     }
     
     public boolean diffCoul(Couleur myCoul, Couleur newCoul) {
     	
-    	if (myCoul.getNom() != newCoul.getNom())
+    	if (!myCoul.getNom().equals(newCoul.getNom()))
     		return true;
     	else
     		return false;
     }
     
     public Couleur returnOtherCoul(Couleur myCoul) {
-    	
-    	Long black = (long) 0;
-		Long white = (long) 1;
-    	
-    	if (myCoul.getNom() == "Noir")
-    		return new Couleur(white,"Blanc");
+    
+    	if (myCoul.getNom().equals("Noir"))
+    		return new Couleur("Blanc");
     	else
-    		return new Couleur(black, "Noir");
+    		return new Couleur("Noir");
     }
 }

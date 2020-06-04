@@ -141,10 +141,6 @@ public class Partie {
 	
 	public void createPartie(Long myId) {
     	
-    	Long cptCase = (long) 0;
-		
-    	Long cptPiece = (long) 0;
-		
 		String listePieces[] = {"Tour","Cavalier","Fou","Roi","Reine","Fou","Cavalier","Tour"};
 		
 		setEtat(true);
@@ -158,25 +154,22 @@ public class Partie {
 			
 			for(int j = 0; j < 8; j++) {
 				
-				cptCase++;
 				
 				// Creation des pieces de la premiere et derniere ligne
 				if(i == 0 || i == 7) {
 					
-					cptPiece++;
-					table.add(new Cases(i,j,cptCase,cptPiece,listePieces[j],this));
+					table.add(new Cases(i,j,listePieces[j],this));
 					
 				}
 				// Creation des 2 lignes de pions
 				else if(i == 1 || i == 6) {
 					
-					cptPiece++;
-					table.add(new Cases(i,j,cptCase,cptPiece,"Pion",this));
+					table.add(new Cases(i,j,"Pion",this));
 				}
 				else {
 				
 					// Creation des cases vides
-					table.add(new Cases(i,j,cptCase,cptPiece,"",this));
+					table.add(new Cases(i,j,"",this));
 				}
 			}
 		}

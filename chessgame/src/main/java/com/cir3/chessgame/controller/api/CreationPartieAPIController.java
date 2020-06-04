@@ -11,8 +11,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cir3.chessgame.domain.Partie;
 import com.cir3.chessgame.domain.Reponse;
+import com.cir3.chessgame.repository.CasesRepository;
+import com.cir3.chessgame.repository.CouleurRepository;
 import com.cir3.chessgame.repository.JoueurRepository;
 import com.cir3.chessgame.repository.PartieRepository;
+import com.cir3.chessgame.repository.PionRepository;
+import com.cir3.chessgame.services.Rules;
 
 @RestController
 @RequestMapping("/Invitation/")
@@ -23,6 +27,13 @@ public class CreationPartieAPIController {
 	
 	@Autowired
     private JoueurRepository joueurs;
+	
+	@Autowired
+	private CasesRepository casesRepo;
+	@Autowired
+	private CouleurRepository couleursRepo;
+	@Autowired
+	private PionRepository pionsRepo;
 	
 	@GetMapping("{inviteName}")
 	public Reponse init(Authentication authentication,@PathVariable(required = true)String inviteName) {
@@ -65,7 +76,7 @@ public class CreationPartieAPIController {
 	@GetMapping("{id}/Accept")
 	public String AcceptInvitation(Authentication authentication,@PathVariable(required = true)Long id) {
 		
-		
+		Rules rule = new Rules(parties,casesRepo,couleursRepo,pionsRepo);
 		Optional<Partie> op= parties.findById(id);
 		if(op.isPresent()) {
 			Partie p=op.get();
@@ -74,6 +85,8 @@ public class CreationPartieAPIController {
 			p.setTour(0);
 			//START PARTIE
 			p.createPartie(id);
+			rule.givePiece(id);
+			rule.giveCouleur(id);
 			parties.save(p);
 			//return p.getTable().get(5).getId().toString();
 		}else {

@@ -2,8 +2,6 @@ package com.cir3.chessgame.domain;
 
 import javax.persistence.*;
 
-import com.cir3.chessgame.repository.PartieRepository;
-
 @Entity(name = "cases")
 public class Cases {
 
@@ -22,7 +20,7 @@ public class Cases {
     private boolean etat;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn( updatable = false)
+    @JoinColumn( updatable = true)
     private Pion pionCase;
 
     @ManyToOne(cascade = {CascadeType.ALL})
@@ -84,13 +82,7 @@ public class Cases {
     
     
 	// Creer une case avec une piece complexe
- 	public Cases(int ligne, int colonne, Long mIdCase, Long mIdPiece, String mName, Partie game) {
- 		
- 		Long black = (long) 0;
-		Long white = (long) 1;
-  		
-		Couleur mCoulBlack = new Couleur(black, "Noir");
-  		Couleur mCoulWhite = new Couleur(white,"Blanc");
+ 	public Cases(int ligne, int colonne, String mName, Partie game) {
  		
  		setX(colonne);
  		
@@ -100,22 +92,22 @@ public class Cases {
  		
  		if (ligne == 0 || ligne == 1) {
  			
- 			setPionCase(new Pion(mIdPiece, mName, mCoulWhite));
+ 			setPionCase(new Pion(mName));
  			
- 			setEtat(false);
+ 			setEtat(true);
  		}
  		else if (ligne == 6 || ligne == 7){
  			
- 			setPionCase(new Pion(mIdPiece, mName, mCoulBlack));
+ 			setPionCase(new Pion(mName));
  			
- 			setEtat(false);
+ 			setEtat(true);
  			
  		}
  		else {
  			
  			setPionCase(null);
  			
- 			setEtat(true);
+ 			setEtat(false);
  		}
  	}
 }
