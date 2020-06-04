@@ -17,7 +17,7 @@ public class InitBddService {
 
     protected CouleurRepository couleurs;
 
-    @Value("${pion.upload-dir:}")
+   
     private String FOLDER_PION;
 
     @Autowired
@@ -25,8 +25,16 @@ public class InitBddService {
         this.pions = pions;
         this.couleurs = couleurs;
     }
+    
+    
 
-    /**
+	public void setFOLDER_PION(String fOLDER_PION) {
+		FOLDER_PION = fOLDER_PION;
+	}
+
+
+
+	/**
      * crée une couleur
      * @param nom
      * @return
