@@ -30,7 +30,7 @@
                             <p>
                                 <span th:if="${partie.duree == 10000000}" th:text="${partie.joueurNoir + ': Perdu'}">
                                 </span>
-                                <span th:if="${partie.duree != 10000000}" th:text="${partie.joueurNoir }">
+                                <span th:if="${partie.duree != 10000000}" th:text="${partie.getJoueurNoir() + ' Tour: '+ partie.getTour()}">
                                 </span>
                             </p>
                         </li>
