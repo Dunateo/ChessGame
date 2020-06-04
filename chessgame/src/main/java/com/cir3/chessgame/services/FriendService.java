@@ -46,7 +46,7 @@ public class FriendService {
             etatfriend = "Céation Liste d'invitation";
         }
 
-        if(player2.getFriends().getFriendsList().contains(player1) && !verifieInviteList(player1, player2)){
+        if(!player2.getFriends().getFriendsList().contains(player1) && !verifieInviteList(player1, player2)){
 
             logger.debug("Already your friend");
             etatfriend = "Erreur: C'est déjà votre amis";
@@ -97,22 +97,31 @@ public class FriendService {
          return message;
     }
 
-    public void addToFriendList(String playername1, String playername2) {
+    public Boolean addToFriendList(String playername1, String playername2) {
         Joueur player1 = joueur.findByUsername(playername1);
         Joueur player2 = joueur.findByUsername(playername2);
+
         String message = "";
+
         if(player2 != null) {
+
             message = verifieFriendsList(player1, player2);
-            if (message.equals("OK") && playername1 != playername2) {
-                    System.out.println("verif friend list ok");
-                        player2.getFriends().addFriendsList(player2);
-                        player2.getFriends().deleteInviteList(player2);
-                        joueur.save(player2);
-                        /*player1.getFriends().addFriendsList(player2);
+            if (message.equals("Erreur: C'est déjà votre amis") && !playername1.equals(playername2)) {
+
+                        System.out.println("verif friend list ok");
+
+                        player1.getFriends().addFriendsList(player2);
                         player1.getFriends().deleteInviteList(player2);
-                        joueur.save(player2);*/
+                        joueur.save(player1);
+
+                        player2.getFriends().addFriendsList(player1);
+                        joueur.save(player2);
+
+                        return Boolean.TRUE;
                     }
             }
+        //System.out.println(message);
+        return Boolean.FALSE;
 
     }
 
