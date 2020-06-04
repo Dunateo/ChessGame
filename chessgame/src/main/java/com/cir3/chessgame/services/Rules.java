@@ -1532,7 +1532,7 @@ public class Rules {
  			
  			updatePlateau(myCase,nX,nY,myId);
  			
- 			promotePion(myId);
+ 			//promotePion(myId);
  			
  			//move = miseEchecRoi(myCase,nX,nY,myId);
  			

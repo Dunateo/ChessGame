@@ -32,52 +32,15 @@ public class Reponse {
 		this.image.set(n, nom);
 	}
 
-	public Reponse(String msg) {
+	public Reponse(String msg, ArrayList<String> pathImage) {
 		super();
 		this.msg = msg;
 		this.Tour="0";
 		
-		this.image.add("/images/TourNoir.png");
-		this.image.add("/images/CavalierNoir.png");
-		this.image.add("/images/FouNoir.png");
-		this.image.add("/images/ReinneNoir.png");
-		this.image.add("/images/RoiNoir.png");
-		this.image.add("/images/FouNoir.png");
-		this.image.add("/images/CavalierNoir.png");
-		this.image.add("/images/TourNoir.png");
-		
-		this.image.add("/images/PionNoir.png");
-		this.image.add("/images/PionNoir.png");
-		this.image.add("/images/PionNoir.png");
-		this.image.add("/images/PionNoir.png");
-		this.image.add("/images/PionNoir.png");
-		this.image.add("/images/PionNoir.png");
-		this.image.add("/images/PionNoir.png");
-		this.image.add("/images/PionNoir.png");
-		
-		for (int i=0; i<8*4;i++) {
-			this.image.add("/images/Vide.png");
+		for(String n : pathImage) {
+			
+			image.add(n);
 		}
-		
-		
-		this.image.add("/images/PionBlanc.png");
-		this.image.add("/images/PionBlanc.png");
-		this.image.add("/images/PionBlanc.png");
-		this.image.add("/images/PionBlanc.png");
-		this.image.add("/images/PionBlanc.png");
-		this.image.add("/images/PionBlanc.png");
-		this.image.add("/images/PionBlanc.png");
-		this.image.add("/images/PionBlanc.png");
-		
-		this.image.add("/images/TourBlanc.png");
-		this.image.add("/images/CavalierBlanc.png");
-		this.image.add("/images/FouBlanc.png");
-		this.image.add("/images/ReinneBlanc.png");
-		this.image.add("/images/RoiBlanc.png");
-		this.image.add("/images/FouBlanc.png");
-		this.image.add("/images/CavalierBlanc.png");
-		this.image.add("/images/TourBlanc.png");
-		
 	}
 	
 	

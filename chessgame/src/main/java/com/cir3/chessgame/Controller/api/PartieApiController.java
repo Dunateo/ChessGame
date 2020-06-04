@@ -1,5 +1,6 @@
 package com.cir3.chessgame.controller.api;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,21 @@ public class PartieApiController {
 	@GetMapping("{id}/Tour/{xp}/{yp}/{xd}/{yd}")
 	public Reponse reponse(Authentication authentication,@PathVariable(required = true)int xp,@PathVariable(required = true)int yp,@PathVariable(required = true)int xd,@PathVariable(required = true)int yd,@PathVariable(required = true)Long id) {
 
-		Reponse r= new Reponse("0");
+		// initialisation du tableau de cases
+		ArrayList<String> path = new ArrayList<String>();
+		
+		for(int i = 0; i < 64; i++) {
+			
+			if(parties.findById(id).get().getTable().get(i).getPionCase() == null) {
+				path.add("/images/vide.png");
+			} else {
+				path.add(parties.findById(id).get().getTable().get(i).getPionCase().getImage());
+			}
+			
+		}
+		
+		Reponse r= new Reponse("0",path);
+		
 		TourParTour t= new TourParTour();
 		Rules rule = new Rules(parties,casesRepo,couleursRepo,pionRepo);
 		String result = "";
@@ -88,7 +103,14 @@ public class PartieApiController {
 	@GetMapping("{id}/Init")
 	public Reponse init(Authentication authentication,@PathVariable(required = true)Long id) {
 		
-		Reponse r= new Reponse("0");
+		// initialisation du tableau de cases
+		ArrayList<String> path = new ArrayList<String>();
+		
+		for(int i = 0; i < 64; i++) {
+			path.add(parties.findById(id).get().getTable().get(i).getPionCase().getImage());
+		}
+		
+		Reponse r= new Reponse("0",path);
 		TourParTour t= new TourParTour();
 		//On test si le joueur est dans la partie
 		if(parties.findById(id).get().getTour() <0) {
@@ -118,7 +140,19 @@ public class PartieApiController {
 	
 	@GetMapping("{id}/UPDATE")
 	public Reponse update(Authentication authentication,@PathVariable(required = true)Long id) {
-		Reponse r= new Reponse("ok");
+		
+		// initialisation du tableau de cases
+		ArrayList<String> path = new ArrayList<String>();
+		
+		for(int i = 0; i < 64; i++) {
+			if(parties.findById(id).get().getTable().get(i).getPionCase() == null) {
+				path.add("/images/vide.png");
+			} else {
+				path.add(parties.findById(id).get().getTable().get(i).getPionCase().getImage());
+			}
+		}
+		
+		Reponse r= new Reponse("ok",path);
 		TourParTour t= new TourParTour();
 		//UPDATE DU PLATEAU DE JEU
 		
