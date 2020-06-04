@@ -27,8 +27,14 @@ public class FriendService {
     }
 
 
+    /**
+     * verification de la liste d'amis pour l'invitation
+     * @param player1
+     * @param player2
+     * @return
+     */
     public String verifieFriendsList(Joueur player1, Joueur player2){
-        String etatfriend = "0";
+        String etatfriend;
 
         //on remedie au null
         if(player2.getFriends() == null){
@@ -62,6 +68,12 @@ public class FriendService {
         return etatfriend;
     }
 
+    /**
+     * verification de l'invitation pour ajout dans liste d'amis
+     * @param player1
+     * @param player2
+     * @return
+     */
     public Boolean verifieInviteList(Joueur player1, Joueur player2){
 
         if(player2.getFriends().getInviteList().contains(player1)){
@@ -74,34 +86,47 @@ public class FriendService {
         return Boolean.TRUE;
     }
 
-    public String addToInviteList(String playername1, String playername2){
+    /**
+     * ajout d'invitation
+     * @param playername1
+     * @param playername2
+     * @return
+     */
+    public Boolean addToInviteList(String playername1, String playername2){
 
         Joueur player1 = joueur.findByUsername(playername1);
         Joueur player2 = joueur.findByUsername(playername2);
 
         System.out.println(player1.getFriends());
-        String message = "";
+        String message;
 
         if(player2 != null) {
             message = verifieFriendsList(player1, player2);
 
             if (message.equals("OK") && !playername1.equals(playername2) ) {
-                System.out.println("verif friend list ok");
+                logger.info(message);
+                return Boolean.TRUE;
             }
 
         } else{
 
-            message = "pas de joueur 2";
+            logger.info( "pas de joueur 2");
         }
 
-         return message;
+         return Boolean.FALSE;
     }
 
+    /**
+     * ajout dans la liste d'amis
+     * @param playername1
+     * @param playername2
+     * @return
+     */
     public Boolean addToFriendList(String playername1, String playername2) {
         Joueur player1 = joueur.findByUsername(playername1);
         Joueur player2 = joueur.findByUsername(playername2);
 
-        String message = "";
+        String message;
 
         if(player2 != null) {
 
