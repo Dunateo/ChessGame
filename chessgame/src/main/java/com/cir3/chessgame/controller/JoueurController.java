@@ -127,6 +127,7 @@ public class JoueurController {
         Joueur profil = joueur.findByUsername(authentication.getName());
 
         model.addAttribute("joueur", profil);
+        
 
         return "profil";
     }
