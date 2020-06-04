@@ -17,6 +17,9 @@ public class ProfilReponse {
 
     private Long idPartieRequest;
 
+    public ProfilReponse(){
+    }
+
     public List<Joueur> getFriends() {
         return friends;
     }
