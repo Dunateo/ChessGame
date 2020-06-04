@@ -5,12 +5,16 @@ import com.cir3.chessgame.domain.Joueur;
 import com.cir3.chessgame.repository.FriendsRepository;
 import com.cir3.chessgame.repository.JoueurRepository;
 import com.cir3.chessgame.services.FriendService;
+import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/friends")
@@ -24,7 +28,7 @@ public class FriendController {
 
 
     @GetMapping("/invite/{invite}")
-    public String inviteFriendToFriendList(Authentication authentification, @PathVariable(required = true)String invite ){
+    public Boolean inviteFriendToFriendList(Authentication authentification, @PathVariable(required = true)String invite ){
 
         //Test si present dans invite list
         //Test si present dans Friend list
@@ -33,25 +37,23 @@ public class FriendController {
         //Crétion dns
 
         FriendService f = new FriendService(joueur, friends);
-        f.addToInviteList(authentification.getName(),invite);
-
-        return "profil";
+        return f.addToInviteList(authentification.getName(),invite);
     }
 
     @GetMapping("/affich/invit")
-    public void affich(Authentication authentication){
-        for (Joueur f: joueur.findByUsername(authentication.getName()).getFriends().getInviteList()){
-            System.out.println("AFFICHAGE INVITE: "+f.getUsername());
-        }
+    @Secured("ROLE_ADMIN")
+    @JsonView(Joueur.JoueurView.BasicData.class)
+    public List<Joueur> affich(Authentication authentication){
 
+        return  joueur.findByUsername(authentication.getName()).getFriends().getInviteList();
     }
 
     @GetMapping("/affich/amis")
-    public void affichAmis(Authentication authentication){
+    @Secured("ROLE_ADMIN")
+    @JsonView(Joueur.JoueurView.BasicData.class)
+    public List<Joueur> affichAmis(Authentication authentication){
 
-        for (Joueur f: joueur.findByUsername(authentication.getName()).getFriends().getFriendsList()){
-            System.out.println("AFFICHAGE AMIS: "+f.getUsername());
-        }
+        return joueur.findByUsername(authentication.getName()).getFriends().getFriendsList();
 
     }
 
