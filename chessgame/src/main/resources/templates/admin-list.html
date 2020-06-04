@@ -17,7 +17,6 @@
             <th>image</th>
             <th>Authorisations</th>
             <th></th>
-            <th></th>
         </tr>
         </thead>
         <tbody>
@@ -28,15 +27,10 @@
 
             <td>
                 <th:block th:each="autho : ${joueur.getAuthorities()}" th:object="${autho}">
-                    <li th:href="autho.authority"></li>
+                    <li th:text="${autho.authority}"></li>
                 </th:block>
             </td>
 
-            <td>
-                <a th:href="@{|/admin/edit/*{id}|}" class="btn btn-primary" role="button">
-                    <i class="far fa-edit"></i>
-                </a>
-            </td>
             <td>
                 <a th:href="@{|/admin/delete/*{id}|}" class="btn btn-danger" role="button">
                     <i class="fas fa-trash-alt"></i>

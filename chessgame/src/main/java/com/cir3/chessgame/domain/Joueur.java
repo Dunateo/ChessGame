@@ -1,32 +1,47 @@
 package com.cir3.chessgame.domain;
 
 import com.cir3.chessgame.component.BCryptManagerUtil;
+import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 @Entity(name = "joueur")
 public class Joueur implements UserDetails {
     private static final long serialVersionUID = -2963008589618789228L;
 
+    public static interface JoueurView{
+        public static interface BasicData{}
+        public static interface ExtendedData extends BasicData{}
+    }
+
     @Id
     @Column
     @GeneratedValue(generator = "seqUser")
     @SequenceGenerator(name = "seqUser", sequenceName = "seq_user")
+    @JsonView(JoueurView.BasicData.class)
     private Long id;
 
     @Column(nullable = false,
             unique = true,
             length = 100)
+    @JsonView(JoueurView.BasicData.class)
     private String username;
 
     @Column(nullable = false,
             length = 100)
+    @JsonView(JoueurView.ExtendedData.class)
     private String password;
 
 
     @Column
+    @JsonView(JoueurView.BasicData.class)
     private String image;
 
 
@@ -40,8 +55,6 @@ public class Joueur implements UserDetails {
     private Friends friends;
 
 
-
-
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {
                     CascadeType.PERSIST,
@@ -49,9 +62,11 @@ public class Joueur implements UserDetails {
                     CascadeType.REMOVE
             },
             mappedBy = "joueur")
+    @JsonView(JoueurView.ExtendedData.class)
     private Set<Partie> partie = new HashSet<>();
 
     @ManyToMany(fetch=FetchType.EAGER)
+    @JsonView(JoueurView.ExtendedData.class)
     private Collection<Authority> authorities = new ArrayList<>();
 
     @Override
@@ -134,5 +149,20 @@ public class Joueur implements UserDetails {
 
     public void setFriends(Friends friends) { this.friends = friends; }
 
+
+    public String getInvitationList() {
+    	StringBuilder l= new StringBuilder();
+    	Iterator<Partie> it= partie.iterator();
+    	while(it.hasNext()){
+    		Partie p=it.next();
+    		//On cherche toute les parties en mode invitation sauf nos invitation 
+            if(p.getTour() == -1 && !p.getJoueurNoir().getUsername().equals(username)) {
+            	l.append("/").append(p.getId()).append(".").append(p.getJoueurNoir().getUsername());
+            }
+         }
+    	
+    	return l.toString();
+    }
+   
 
 }

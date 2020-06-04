@@ -20,14 +20,14 @@ public class Cases {
     private boolean etat;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn( updatable = false)
+    @JoinColumn( updatable = true)
     private Pion pionCase;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn( updatable = false)
     private Partie partie;
-
-
+    
+    
     public Long getId() {
         return id;
     }
@@ -75,4 +75,39 @@ public class Cases {
     public void setPartie(Partie partie) {
         this.partie = partie;
     }
+    
+    public Cases () {
+    	
+    }
+    
+    
+	// Creer une case avec une piece complexe
+ 	public Cases(int ligne, int colonne, String mName, Partie game) {
+ 		
+ 		setX(colonne);
+ 		
+ 		setY(ligne);
+ 		
+ 		setPartie(game);
+ 		
+ 		if (ligne == 0 || ligne == 1) {
+ 			
+ 			setPionCase(new Pion(mName));
+ 			
+ 			setEtat(true);
+ 		}
+ 		else if (ligne == 6 || ligne == 7){
+ 			
+ 			setPionCase(new Pion(mName));
+ 			
+ 			setEtat(true);
+ 			
+ 		}
+ 		else {
+ 			
+ 			setPionCase(null);
+ 			
+ 			setEtat(false);
+ 		}
+ 	}
 }

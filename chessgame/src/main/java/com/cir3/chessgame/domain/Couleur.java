@@ -47,4 +47,29 @@ public class Couleur {
     public void setPions(List<Pion> pions) {
         this.pions = pions;
     }
+    
+    public Couleur() {
+    	
+    }
+    
+    public Couleur(String myName) {
+    	
+    	setNom(myName);
+    }
+    
+    public boolean diffCoul(Couleur myCoul, Couleur newCoul) {
+    	
+    	if (!myCoul.getNom().equals(newCoul.getNom()))
+    		return true;
+    	else
+    		return false;
+    }
+    
+    public Couleur returnOtherCoul(Couleur myCoul) {
+    
+    	if (myCoul.getNom().equals("Noir"))
+    		return new Couleur("Blanc");
+    	else
+    		return new Couleur("Noir");
+    }
 }

@@ -2,13 +2,14 @@ var requette="";
 var c1="";
 var c2="";
 var selectEtat="0";
-var Tour="0";
+var Tour="-1";
 
 function Refresh(rep){
 	for(j=0;j<8;j++){
 		for(i=0; i<8;i++){
 			
-			$("#"+i+j).attr('src', rep.image[i+(j*8)]).fadeIn();
+			$("#"+i+j).attr('src', rep.image[i+(j*8)]).css('position','fixed').css('margin-top',89*j).css('margin-left',89*i);
+			
 		}
 	}
 	
@@ -22,21 +23,28 @@ function undo(){
 }
 
 //On initialise la partie avec un nouveaux plateau
-if(Tour==="0"){
-	console.log("Initialisation");
-	var promise =$.ajax({ url:'/partie/Init' });
+if(Tour==="-1"){
+	var str = window.location.href;
+	var res = str.split("/");
+	console.log("/partie/"+res[4]+"/UPDATE");
+	var promise =$.ajax({ url:'/partie/'+res[4]+'/UPDATE' });
 	promise.done(function (reponse){
-		console.log(reponse.msg);
-		if(reponse.msg==="ok"){
-			Refresh(reponse);
-			Tour=reponse.tour;
-		}
-		if(reponse.msg.includes("Erreur")){
-			alert(reponse.msg);
+		console.log(reponse.tour);
+		Refresh(reponse);
+		Tour=reponse.tour;
+		if(Tour==="joueur"){
 			
+			$("#finDeTour").show();
+			$("#j1").css('background-color','#345e90');
+			$("#j2").css('background-color','transparent');
 		}
-		
+		if(Tour==="adverse"){
+			$("#finDeTour").hide();
+			$("#j1").css('background-color','transparent');
+			$("#j2").css('background-color','#345e90');
+		}
 	});
+	
 }
 
 
@@ -46,7 +54,7 @@ if(Tour==="0"){
 	
 	
 	
-		//Recupère les coordoné des 2 case à jouer   (piontchoisi)/(destination)   ex: 0:7/0:8
+		//Recupère les coordoné des 2 case à jouer   (piontchoisi)/(destination)   ex: 0/7/0/8
 	$("#undo").click(function(){
 		if(Tour==="joueur"){
 			undo();
@@ -57,7 +65,7 @@ if(Tour==="0"){
 		$(".piece").click(function()
 		{
 		if(selectEtat==="0" && Tour==="joueur"){ 
-			if($(this).attr('src')!="images/Vide.png"){
+			if($(this).attr('src')!="/images/Vide.png"){
 				
 				c1=this.getAttribute('id');//Selectionne un piont
 				
@@ -84,11 +92,17 @@ if(Tour==="0"){
 		});
 //Lance la commande ajax quand on appui sur fin de Tour 
 		$("#finDeTour").click(function(){
+			
+			
+			
+			
 			if(Tour==="joueur"){
 				c1=c1[0]+"/"+c1[1];		//Rajout du slash entre absicesses et ordonneé pour la requête ajax
 				c2=c2[0]+"/"+c2[1];
-				console.log("/partie/Tour/"+c1+"/"+c2);
-				var promise =$.ajax({ url:'/partie/Tour/'+c1+'/'+c2 });
+				var str = window.location.href;
+				var res = str.split("/");
+				console.log("/partie/"+res[4]+"/Tour/"+c1+"/"+c2);
+				var promise =$.ajax({ url:'/partie/'+res[4]+'/Tour/'+c1+'/'+c2 });
 				undo();	//On remet tous à zero dans toute les cas
 				promise.done(function (reponse){
 				console.log(reponse.msg);
@@ -107,18 +121,30 @@ if(Tour==="0"){
 //Une commande ajax est envoyé toute les seconde pour savoir si le joueur adverse à joué si oui le joueur peut jouer à son tour sinon rien
 setInterval(function(){ 
 	if(Tour=="adverse"){
-		console.log("ask");
-		var promise =$.ajax({ url:'/partie/UPDATE' });
+		
+		
+		$("#finDeTour").hide();
+		$("#j1").css('background-color','transparent');
+		$("#j2").css('background-color','#345e90');
+		var str = window.location.href;
+		var res = str.split("/");
+		console.log("/partie/"+res[4]+"/UPDATE");
+		var promise =$.ajax({ url:'/partie/'+res[4]+'/UPDATE' });
 		promise.done(function (reponse){
 			console.log(reponse.tour);
+			Refresh(reponse);
 			if(reponse.tour==="joueur"){
-				Refresh(reponse);
+				
 				Tour=reponse.tour;
+				$("#finDeTour").show();
+				$("#j1").css('background-color','#345e90');
+				$("#j2").css('background-color','transparent');
 			}
 			
 			
 		});
 	}
+	
 }, 2000);
 
 $("#etat").click(function(){

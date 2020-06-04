@@ -15,7 +15,7 @@ import java.io.File;
 import java.nio.file.Files;
 
 @Controller
-@Secured("ROLE_USER")
+@Secured({"ROLE_USER","ROLE_ADMIN"})
 public class ImageController {
     @Value("${file.upload-dir:}")
     private String path ;
@@ -23,6 +23,12 @@ public class ImageController {
     private static Logger logger = LogManager.getLogger(ImageController.class);
 
 
+    /**
+     * ?filename=nom du joueur
+     * @param filename
+     * @param authentication
+     * @return
+     */
     @GetMapping("/user/avatar")
     public ResponseEntity<StreamingResponseBody> getAvatar(@RequestParam String filename, Authentication authentication) {
 
