@@ -1,7 +1,10 @@
-package com.cir3.chessgame.controller.api;
+package com.cir3.chessgame.controller;
 
 import com.cir3.chessgame.domain.Joueur;
+import com.cir3.chessgame.repository.JoueurRepository;
 import com.cir3.chessgame.services.DbUserDetailsService;
+import com.cir3.chessgame.services.FriendService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,13 +15,21 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/friends")
 public class FriendController {
 
+    @Autowired
+    private JoueurRepository joueur;
 
 
+    @GetMapping("/invite/{invite}")
+    public String inviteFriendToFriendList(Authentication authentification, @PathVariable(required = true)String invite ){
 
-    @GetMapping("/{invite}")
-    public String inviteFriend(Authentication authentification, @PathVariable(required = true)String invite ){
+        //Test si present dans invite list
+        //Test si present dans Friend list
+        //Test si player existe
+        //Test invite soi meme
+        //Crétion dns
 
-        return "demande d'amis de  "+authentification.getName()+"à "+invite;
+        FriendService f = new FriendService(joueur);
+        return f.addToInviteList(authentification.getName(),invite);
     }
 
 
