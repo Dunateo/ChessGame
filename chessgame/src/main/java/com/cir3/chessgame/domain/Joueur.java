@@ -152,14 +152,7 @@ public class Joueur implements UserDetails {
 
     public String getInvitationList() {
     	StringBuilder l= new StringBuilder();
-    	Iterator<Partie> it= partie.iterator();
-    	while(it.hasNext()){
-    		Partie p=it.next();
-    		//On cherche toute les parties en mode invitation sauf nos invitation 
-            if(p.getTour() == -1 && !p.getJoueurNoir().getUsername().equals(username)) {
-            	l.append("/").append(p.getId()).append(".").append(p.getJoueurNoir().getUsername());
-            }
-         }
+    	
     	
     	return l.toString();
     }

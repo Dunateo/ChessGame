@@ -20,7 +20,7 @@ public class IndexController {
         if (authentication!= null && authentication.isAuthenticated()) {
             return "redirect:/user/profil";
         }
-      
+
         return "login";
     }
 }

@@ -1,5 +1,6 @@
 package com.cir3.chessgame.controller.api;
 
+import java.util.Iterator;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cir3.chessgame.domain.Joueur;
 import com.cir3.chessgame.domain.Partie;
 import com.cir3.chessgame.domain.Reponse;
 import com.cir3.chessgame.repository.CasesRepository;
@@ -40,7 +42,21 @@ public class CreationPartieAPIController {
 
 
 		//TESTER SI LE JOUEUR EST DANS LA LISTE D'AMIS
+		//On test si le joueur n'a pas deja fais une invitation pas accepté
+		Joueur joueur = joueurs.findByUsername(authentication.getName());
+		Iterator<Partie> it = joueur.getPartie().iterator();
+		while (it.hasNext()) {
+			Partie p = it.next();
+			// On cherche toute les parties en mode invitation 
+			if (p.getTour() == -1 ) {
+				// On check si c'est notre invitation car l'invitation est outjous gerer par le joueur noir
+				if(p.getJoueurNoir().getUsername().equals(joueur.getUsername())) {
+					return "Erreur: Vous avez deja fais une invitation à un autre joueur";
+				}
+			}
+		}
 		//Creation d'une partie à tour=-1 et etat false avec les deux joueurs
+		
 		Partie p = new Partie(joueurs.findByUsername(authentication.getName()),joueurs.findByUsername(inviteName));
 
 		parties.saveAndFlush(p);
