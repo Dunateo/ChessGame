@@ -35,4 +35,13 @@ public class Friends {
 
     public void addInviteList(Joueur player){ this.inviteList.add(player); }
 
+    public Long getId() { return id; }
+
+    public void setId(Long id) { this.id = id; }
+
+    public Joueur getPlayer() { return player; }
+
+    public void setPlayer(Joueur player) { this.player = player; }
+
+    public void deleteInviteList(Joueur player) { this.friendsList.remove(player); }
 }

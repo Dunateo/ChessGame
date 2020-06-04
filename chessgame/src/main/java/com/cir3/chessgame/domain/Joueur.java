@@ -37,7 +37,7 @@ public class Joueur implements UserDetails {
                     CascadeType.REMOVE
             },
             mappedBy = "player")
-    private Friends friends = new Friends();
+    private Friends friends;
 
 
 
@@ -133,7 +133,6 @@ public class Joueur implements UserDetails {
     public Friends getFriends() { return friends; }
 
     public void setFriends(Friends friends) { this.friends = friends; }
-
 
 
 }
