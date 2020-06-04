@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -42,6 +43,17 @@ public class Joueur implements UserDetails {
     @Column
     @JsonView(JoueurView.BasicData.class)
     private String image;
+
+
+    @OneToOne(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE,
+                    CascadeType.REMOVE
+            },
+            mappedBy = "player")
+    private Friends friends;
+
 
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {
@@ -132,6 +144,12 @@ public class Joueur implements UserDetails {
     public void setOneAuthorities(Authority auth){
         this.authorities.add(auth);
     }
+
+    public Friends getFriends() { return friends; }
+
+    public void setFriends(Friends friends) { this.friends = friends; }
+
+
     public String getInvitationList() {
     	StringBuilder l= new StringBuilder();
     	Iterator<Partie> it= partie.iterator();
@@ -146,4 +164,5 @@ public class Joueur implements UserDetails {
     	return l.toString();
     }
    
+
 }
