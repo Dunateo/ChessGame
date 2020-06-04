@@ -8,6 +8,7 @@
 </head>
 <body>
 	<div th:fragment="content" class="container">
+		<script type="application/javascript" th:src="@{/js/ajaxRequestJoueur.js}"></script>
 
 		<div class="jumbotron">
 			<div class="row">
@@ -61,7 +62,10 @@
 						<div class="col-10">
 
 							<input type="text" class="form-control" id="usr"
-								placeholder="Ajouter un ami">
+								placeholder="Ajouter un ami" list="result">
+
+							<datalist id="result">
+							</datalist>
 						</div>
 						<button type="button" class="btn btn-secondary col-2"
 							data-toggle="tooltip" data-placement="top"

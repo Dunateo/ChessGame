@@ -1,6 +1,7 @@
 package com.cir3.chessgame.domain;
 
 import com.cir3.chessgame.component.BCryptManagerUtil;
+import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
@@ -14,23 +15,32 @@ import java.util.Set;
 public class Joueur implements UserDetails {
     private static final long serialVersionUID = -2963008589618789228L;
 
+    public static interface JoueurView{
+        public static interface BasicData{}
+        public static interface ExtendedData extends BasicData{}
+    }
+
     @Id
     @Column
     @GeneratedValue(generator = "seqUser")
     @SequenceGenerator(name = "seqUser", sequenceName = "seq_user")
+    @JsonView(JoueurView.BasicData.class)
     private Long id;
 
     @Column(nullable = false,
             unique = true,
             length = 100)
+    @JsonView(JoueurView.BasicData.class)
     private String username;
 
     @Column(nullable = false,
             length = 100)
+    @JsonView(JoueurView.ExtendedData.class)
     private String password;
 
 
     @Column
+    @JsonView(JoueurView.BasicData.class)
     private String image;
 
     @ManyToMany(fetch = FetchType.LAZY,
@@ -40,9 +50,11 @@ public class Joueur implements UserDetails {
                     CascadeType.REMOVE
             },
             mappedBy = "joueur")
+    @JsonView(JoueurView.ExtendedData.class)
     private Set<Partie> partie = new HashSet<>();
 
     @ManyToMany(fetch=FetchType.EAGER)
+    @JsonView(JoueurView.ExtendedData.class)
     private Collection<Authority> authorities = new ArrayList<>();
 
     @Override
