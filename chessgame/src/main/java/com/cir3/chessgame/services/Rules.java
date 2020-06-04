@@ -1486,6 +1486,27 @@ public class Rules {
    		
    	}*/
    	
+   	// Promotion du pion
+   	public void promotePion(Long myId) {
+   		
+   		List<Cases> g = games.findById(myId).get().getTable();
+   		
+   		for(int i = 0; i < 64; i++) {
+   			
+   			if (g.get(i).getY() == 0 && g.get(i).getPionCase().getCouleur().getNom().equals("Noir") && g.get(i).getPionCase().getNom().equals("Pion")) {
+   				
+   				g.get(i).setPionCase(Pions.findById((long) 5).get());
+   				Case.save(g.get(i));
+   			}
+   			else if (g.get(i).getY() == 7 && g.get(i).getPionCase().getCouleur().getNom().equals("Blanc") && g.get(i).getPionCase().getNom().equals("Pion")) {
+   				
+   				g.get(i).setPionCase(Pions.findById((long) 11).get());
+   				Case.save(g.get(i));
+   			}
+   		}
+   	}
+   	
+   	
   	// Verifier le deplacement de la piece
  	public String checkMove(int myX, int myY, int nX, int nY, Long myId, String namePlayer) {
  		
@@ -1510,6 +1531,8 @@ public class Rules {
  				tPion = returnCaseCoords(nX,nY,myId).getPionCase();
  			
  			updatePlateau(myCase,nX,nY,myId);
+ 			
+ 			promotePion(myId);
  			
  			//move = miseEchecRoi(myCase,nX,nY,myId);
  			
