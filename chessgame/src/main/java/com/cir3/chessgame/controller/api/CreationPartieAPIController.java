@@ -25,15 +25,16 @@ public class CreationPartieAPIController {
     private JoueurRepository joueurs;
 	
 	@GetMapping("{inviteName}")
-	public Reponse init(Authentication authentication,@PathVariable(required = true)String inviteName) {
+	public String init(Authentication authentication,@PathVariable(required = true)String inviteName) {
 		
-		Reponse r= new Reponse("0");
+		
 		//TESTER SI LE JOUEUR EST DANS LA LISTE D'AMIS
 		//Creation d'une partie à tour=-1 et etat false avec les deux joueurs
 		Partie p = new Partie(joueurs.findByUsername(authentication.getName()),joueurs.findByUsername(inviteName));
 		
-		parties.save(p);
-		return r;
+		parties.saveAndFlush(p);
+
+		return p.getId().toString();
 	}
 	
 	@GetMapping("AnyInvit")
@@ -73,7 +74,7 @@ public class CreationPartieAPIController {
 			p.setEtat(true);
 			p.setTour(0);
 			//START PARTIE
-			p.createPartie(id);
+			//p.createPartie(id);
 			parties.save(p);
 			//return p.getTable().get(5).getId().toString();
 		}else {
