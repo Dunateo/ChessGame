@@ -1,5 +1,6 @@
 package com.cir3.chessgame.controller;
 
+import com.cir3.chessgame.domain.Friends;
 import com.cir3.chessgame.domain.Joueur;
 import com.cir3.chessgame.repository.FriendsRepository;
 import com.cir3.chessgame.repository.JoueurRepository;
@@ -34,12 +35,15 @@ public class FriendController {
         FriendService f = new FriendService(joueur, friends);
         f.addToInviteList(authentification.getName(),invite);
 
-        Joueur j1 = joueur.findByUsername(authentification.getName());
-        System.out.println(j1.getUsername()+":");
-        for (Joueur p : j1.getFriends().getInviteList()){
-            System.out.println(p.getUsername());
-        }
         return "profil";
+    }
+
+    @GetMapping("/affich")
+    public void affich(Authentication authentication){
+        for (Joueur f: joueur.findByUsername(authentication.getName()).getFriends().getInviteList()){
+            System.out.println("AFFICHAGE INVITE: "+f.getUsername());
+        }
+
     }
 
     @GetMapping("/accepte/{invite}")
