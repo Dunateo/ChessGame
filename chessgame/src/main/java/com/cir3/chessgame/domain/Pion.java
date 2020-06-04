@@ -76,11 +76,9 @@ public class Pion {
     }
     
     // Creer un pion
- 	public Pion(Long mIdPiece, String mName, Couleur mCoul) {
+ 	public Pion(String mName) {
  		
  		setNom(mName);
- 		
- 		setCouleur(mCoul);
  		
  		setImage("ok");
  	}

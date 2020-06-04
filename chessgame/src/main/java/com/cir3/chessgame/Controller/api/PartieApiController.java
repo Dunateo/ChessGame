@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cir3.chessgame.domain.Joueur;
 import com.cir3.chessgame.domain.Partie;
 import com.cir3.chessgame.domain.Reponse;
 import com.cir3.chessgame.repository.CasesRepository;
 import com.cir3.chessgame.repository.CouleurRepository;
 import com.cir3.chessgame.repository.PartieRepository;
+import com.cir3.chessgame.repository.PionRepository;
 import com.cir3.chessgame.services.Rules;
 import com.cir3.chessgame.services.TourParTour;
 
@@ -24,10 +24,12 @@ public class PartieApiController {
 	
 	@Autowired
 	private PartieRepository parties;
-	
+	@Autowired
 	private CasesRepository casesRepo;
-	
+	@Autowired
 	private CouleurRepository couleursRepo;
+	@Autowired
+	private PionRepository pionRepo;
 	
 	int n=0;
 	
@@ -37,7 +39,7 @@ public class PartieApiController {
 
 		Reponse r= new Reponse("0");
 		TourParTour t= new TourParTour();
-		Rules rule = new Rules(parties,casesRepo,couleursRepo);
+		Rules rule = new Rules(parties,casesRepo,couleursRepo,pionRepo);
 		String result = "";
 		Optional<Partie> op= parties.findById(id);
 		if(op.isPresent()) {
@@ -47,7 +49,7 @@ public class PartieApiController {
 			if(t.JouerDansPartie(parties, authentication, id)  ) {
 			//On test que ce soit bien le tour du joueur
 			if(t.JoueurTour(parties, authentication, id)) {
-				result = rule.checkMove(xp, yp, xd, yd, id, authentication.getName());
+				result = rule.checkMove(xp,7-yp, xd, 7-yd, id, authentication.getName()); // 7-... = inversion de l'axe des ordonees
 			if(result.equals("ok"))  {
 				//Le coup est joué
 				System.out.println("Recu piece ["+xp+":"+yp+"] vers ["+xd+":"+yd+"]");
