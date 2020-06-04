@@ -95,15 +95,14 @@ public class FriendService {
             message = verifieFriendsList(player1, player2);
             if (message.equals("OK") && playername1 != playername2) {
                     System.out.println("verif friend list ok");
-                        player1.getFriends().addFriendsList(player2);
-                        player1.getFriends().deleteInviteList(player2);
-                        joueur.save(player1);
-                        player2.getFriends().addFriendsList(player1);
-                        player2.getFriends().deleteInviteList(player1);
+                        player2.getFriends().addFriendsList(player2);
+                        player2.getFriends().deleteInviteList(player2);
                         joueur.save(player2);
+                        /*player1.getFriends().addFriendsList(player2);
+                        player1.getFriends().deleteInviteList(player2);
+                        joueur.save(player2);*/
                     }
             }
-
 
     }
 

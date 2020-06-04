@@ -1,8 +1,8 @@
 package com.cir3.chessgame.controller;
 
 import com.cir3.chessgame.domain.Joueur;
+import com.cir3.chessgame.repository.FriendsRepository;
 import com.cir3.chessgame.repository.JoueurRepository;
-import com.cir3.chessgame.services.DbUserDetailsService;
 import com.cir3.chessgame.services.FriendService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -18,6 +18,9 @@ public class FriendController {
     @Autowired
     private JoueurRepository joueur;
 
+    @Autowired
+    private FriendsRepository friends;
+
 
     @GetMapping("/invite/{invite}")
     public String inviteFriendToFriendList(Authentication authentification, @PathVariable(required = true)String invite ){
@@ -28,33 +31,24 @@ public class FriendController {
         //Test invite soi meme
         //Crétion dns
 
-        FriendService f = new FriendService(joueur);
-        return f.addToInviteList(authentification.getName(),invite);
+        FriendService f = new FriendService(joueur, friends);
+        f.addToInviteList(authentification.getName(),invite);
+
+        Joueur j1 = joueur.findByUsername(authentification.getName());
+        System.out.println(j1.getUsername()+":");
+        for (Joueur p : j1.getFriends().getInviteList()){
+            System.out.println(p.getUsername());
+        }
+        return "profil";
     }
 
+    @GetMapping("/accepte/{invite}")
+    public String AccepteFriendToFriendList(Authentication authentification, @PathVariable(required = true)String invite ){
 
-    /*@GetMapping("/friends/add")
-    public String addFriendByUsername(Joueur joueur){
-        joueur.addAttribute("add_friends", DbUserDetailsService.addFriendByUsername());
-        return "friends/list";
+        FriendService fl = new FriendService(joueur, friends);
+        fl.addToFriendList(authentification.getName(),invite);
+        return "profil";
     }
-
-    @GetMapping("/friends/delete")
-    public String deleteFriendByUsername(Joueur joueur){
-        joueur.addAttribute("delete_friends", DbUserDetailsService.deleteFriendByUsername());
-        return "friends/list";
-    }
-
-    @GetMapping("/friends/invite")
-    public String inviteFriendByUsername(Joueur joueur){
-        joueur.addAttribute("invite_friends", DbUserDetailsService.inviteFriendByUsername());
-        return "friends/list";
-    }
-
-    @GetMapping("/friends")
-    public String findAll(Joueur joueur){
-        joueur.addAttribute("friends", DbUserDetailsService.findAll());
-        return "friends/list";
-    }*/
+    
 
 }
