@@ -1,5 +1,7 @@
 package com.cir3.chessgame.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +30,7 @@ public class Rules {
 	}
 	
 	// Verifier le deplacement du pion
-  	public boolean checkPion(Cases myCase, int nX, int nY) {
+  	public boolean checkPion(Cases myCase, int nX, int nY, Long myId) {
   		
   		boolean move = false;
   		
@@ -36,18 +38,29 @@ public class Rules {
   		Couleur newCoulHD = null;
   		Couleur myCoul = myCase.getPionCase().getCouleur();
   		
-  		int myX = Case.findById(myCase.getId()).get().getX();
-  		int myY = Case.findById(myCase.getId()).get().getY();
+  		int myX = myCase.getX();
+  		int myY = myCase.getY();
   		
-  		boolean statusH = Case.findById(myCase.getId()+8).get().isEtat();
-  		boolean statusHG = Case.findById(myCase.getId()+7).get().isEtat();
-  		boolean statusHD = Case.findById(myCase.getId()+9).get().isEtat();
+  		List<Cases> g = games.findById(myId).get().getTable();
+  		
+  		boolean statusH = g.get((int) (myCase.getId()+8)).isEtat();
+  		boolean statusHG = g.get((int) (myCase.getId()+7)).isEtat();
+  		boolean statusHD = g.get((int) (myCase.getId()+9)).isEtat();
+  		
+  		
+  		/*
+  		 * boolean statusH = Case.findById(myCase.getId()+8).get().isEtat();
+  		 * boolean statusHG = Case.findById(myCase.getId()+7).get().isEtat();
+  		 * boolean statusHD = Case.findById(myCase.getId()+9).get().isEtat();
+  		 */
   		
   		if (statusHG == true)
-  			newCoulHG = Case.findById(myCase.getId()+7).get().getPionCase().getCouleur();
+  			newCoulHG = g.get((int) (myCase.getId()+7)).getPionCase().getCouleur();
+  			//newCoulHG = Case.findById(myCase.getId()+7).get().getPionCase().getCouleur();
   		
   		if (statusHD == true)
-  			newCoulHD = Case.findById(myCase.getId()+9).get().getPionCase().getCouleur();
+  			newCoulHD = g.get((int) (myCase.getId()+9)).getPionCase().getCouleur();
+  			//newCoulHD = Case.findById(myCase.getId()+9).get().getPionCase().getCouleur();
   		
   		if(nX == myX && nY == myY++ && statusH == false) {
   			move = true;
@@ -63,15 +76,17 @@ public class Rules {
   	}
   	
   	// Verifier le deplacement de la tour
- 	public boolean checkTour(Cases myCase, int nX, int nY) {
+ 	public boolean checkTour(Cases myCase, int nX, int nY, Long myId) {
  		
  		boolean move = false;
  		
  		Couleur newCoul = null;
   		Couleur myCoul = myCase.getPionCase().getCouleur();
  		
- 		int myX = Case.findById(myCase.getId()).get().getX();
-  		int myY = Case.findById(myCase.getId()).get().getY();
+  		int myX = myCase.getX();
+  		int myY = myCase.getY();
+  		
+  		List<Cases> g = games.findById(myId).get().getTable();
   		
   		boolean status = false;
  		
@@ -83,10 +98,10 @@ public class Rules {
  				
  				for(int i = myX; i < nX; i++) {
  					
- 					status = Case.findById(myCase.getId()+i).get().isEtat();
+ 					status = g.get((int) (myCase.getId()+i)).isEtat();
  					
  					if (status == true)
- 			  			newCoul = Case.findById(myCase.getId()+i).get().getPionCase().getCouleur();
+ 			  			newCoul = g.get((int) (myCase.getId()+i)).getPionCase().getCouleur();
  					
  					if (status == true && i != nX-1) {
  						
@@ -113,10 +128,10 @@ public class Rules {
  				
  				for(int i = myX; i > nX; i--) {
  					
- 					status = Case.findById(myCase.getId()-i).get().isEtat();
+ 					status = g.get((int) (myCase.getId()-i)).isEtat();
  					
  					if (status == true)
- 			  			newCoul = Case.findById(myCase.getId()-i).get().getPionCase().getCouleur();
+ 			  			newCoul = g.get((int) (myCase.getId()-i)).getPionCase().getCouleur();
  					
  					if (status == true && i != nX+1) {
  						
@@ -147,10 +162,10 @@ public class Rules {
  				
  				for(int i = myY; i < nY; i++) {
  					
- 					status = Case.findById(myCase.getId()+(8*i)).get().isEtat();
+ 					status = g.get((int) (myCase.getId()+(8*i))).isEtat();
  					
  					if (status == true)
- 			  			newCoul = Case.findById(myCase.getId()+(8*i)).get().getPionCase().getCouleur();
+ 			  			newCoul = g.get((int) (myCase.getId()+(8*i))).getPionCase().getCouleur();
  					
  					if (status == true && i != nY-1) {
  						
@@ -178,10 +193,10 @@ public class Rules {
  				
  				for(int i = myY; i > nY; i--) {
  					
- 					status = Case.findById(myCase.getId()-(8*i)).get().isEtat();
+ 					status = g.get((int) (myCase.getId()-(8*i))).isEtat();
  					
  					if (status == true)
- 			  			newCoul = Case.findById(myCase.getId()-(8*i)).get().getPionCase().getCouleur();
+ 			  			newCoul = g.get((int) (myCase.getId()-(8*i))).getPionCase().getCouleur();
  					
  					if (status == true && i != nY+1) {
  						
@@ -209,15 +224,17 @@ public class Rules {
  	}
  		
 	// Verifier le deplacement du fou
- 	public boolean checkFou(Cases myCase, int nX, int nY) {
+ 	public boolean checkFou(Cases myCase, int nX, int nY, Long myId) {
  		
  		boolean move = false;
  		
  		Couleur newCoul = null;
   		Couleur myCoul = myCase.getPionCase().getCouleur();
  		
- 		int myX = Case.findById(myCase.getId()).get().getX();
-  		int myY = Case.findById(myCase.getId()).get().getY();
+  		int myX = myCase.getX();
+  		int myY = myCase.getY();
+  		
+  		List<Cases> g = games.findById(myId).get().getTable();
   		
   		boolean status = false;
  		
@@ -229,10 +246,10 @@ public class Rules {
  				
  				for(int i = myX; i < nX; i++) {
  					
- 					status = Case.findById(myCase.getId()+8+i).get().isEtat();
+ 					status = g.get((int) (myCase.getId()+8+i)).isEtat();
  					
  					if (status == true)
- 			  			newCoul = Case.findById(myCase.getId()+8+i).get().getPionCase().getCouleur();
+ 			  			newCoul = g.get((int) (myCase.getId()+8+i)).getPionCase().getCouleur();
  					
  					if (status == true && i != nX-1) {
  						
@@ -259,10 +276,10 @@ public class Rules {
  				
  				for(int i = myX; i > nX; i--) {
  					
- 					status = Case.findById(myCase.getId()+8-i).get().isEtat();
+ 					status = g.get((int) (myCase.getId()+8-i)).isEtat();
  					
  					if (status == true)
- 			  			newCoul = Case.findById(myCase.getId()+8-i).get().getPionCase().getCouleur();
+ 			  			newCoul = g.get((int) (myCase.getId()+8-i)).getPionCase().getCouleur();
  					
  					if (status == true && i != nX+1) {
  						
@@ -293,10 +310,10 @@ public class Rules {
  				
  				for(int i = myX; i < nX; i++) {
  					
- 					status = Case.findById(myCase.getId()-8+i).get().isEtat();
+ 					status = g.get((int) (myCase.getId()-8+i)).isEtat();
  					
  					if (status == true)
- 			  			newCoul = Case.findById(myCase.getId()-8+i).get().getPionCase().getCouleur();
+ 			  			newCoul = g.get((int) (myCase.getId()-8+i)).getPionCase().getCouleur();
  					
  					if (status == true && i != nX-1) {
  						
@@ -323,10 +340,10 @@ public class Rules {
  				
  				for(int i = myX; i > nX; i--) {
  					
- 					status = Case.findById(myCase.getId()-8-i).get().isEtat();
+ 					status = g.get((int) (myCase.getId()-8-i)).isEtat();
  					
  					if (status == true)
- 			  			newCoul = Case.findById(myCase.getId()-8-i).get().getPionCase().getCouleur();
+ 			  			newCoul = g.get((int) (myCase.getId()-8-i)).getPionCase().getCouleur();
  					
  					if (status == true && i != nX+1) {
  						
@@ -354,15 +371,17 @@ public class Rules {
  	}
  	 
  	// Verifier le deplacement de la reine
-  	public boolean checkReine(Cases myCase, int nX, int nY) {
+  	public boolean checkReine(Cases myCase, int nX, int nY, Long myId) {
   		
   		boolean move = false;
   		
   		Couleur newCoul = null;
    		Couleur myCoul = myCase.getPionCase().getCouleur();
   		
-  		int myX = Case.findById(myCase.getId()).get().getX();
-   		int myY = Case.findById(myCase.getId()).get().getY();
+   		int myX = myCase.getX();
+  		int myY = myCase.getY();
+  		
+  		List<Cases> g = games.findById(myId).get().getTable();
    		
    		boolean status = false;
   		
@@ -374,10 +393,10 @@ public class Rules {
   				
   				for(int i = myX; i < nX; i++) {
   					
-  					status = Case.findById(myCase.getId()+i).get().isEtat();
+  					status = g.get((int) (myCase.getId()+i)).isEtat();
   					
   					if (status == true)
-  			  			newCoul = Case.findById(myCase.getId()+i).get().getPionCase().getCouleur();
+  			  			newCoul = g.get((int) (myCase.getId()+i)).getPionCase().getCouleur();
   					
   					if (status == true && i != nX-1) {
   						
@@ -404,10 +423,10 @@ public class Rules {
   				
   				for(int i = myX; i > nX; i--) {
   					
-  					status = Case.findById(myCase.getId()-i).get().isEtat();
+  					status = g.get((int) (myCase.getId()-i)).isEtat();
   					
   					if (status == true)
-  			  			newCoul = Case.findById(myCase.getId()-i).get().getPionCase().getCouleur();
+  			  			newCoul = g.get((int) (myCase.getId()-i)).getPionCase().getCouleur();
   					
   					if (status == true && i != nX+1) {
   						
@@ -438,10 +457,10 @@ public class Rules {
   				
   				for(int i = myY; i < nY; i++) {
   					
-  					status = Case.findById(myCase.getId()+(8*i)).get().isEtat();
+  					status = g.get((int) (myCase.getId()+(8*i))).isEtat();
   					
   					if (status == true)
-  			  			newCoul = Case.findById(myCase.getId()+(8*i)).get().getPionCase().getCouleur();
+  			  			newCoul = g.get((int) (myCase.getId()+(8*i))).getPionCase().getCouleur();
   					
   					if (status == true && i != nY-1) {
   						
@@ -469,10 +488,10 @@ public class Rules {
  				
  				for(int i = myX; i < nX; i++) {
  					
- 					status = Case.findById(myCase.getId()+8+i).get().isEtat();
+ 					status = g.get((int) (myCase.getId()+8+i)).isEtat();
  					
  					if (status == true)
- 			  			newCoul = Case.findById(myCase.getId()+8+i).get().getPionCase().getCouleur();
+ 			  			newCoul = g.get((int) (myCase.getId()+8+i)).getPionCase().getCouleur();
  					
  					if (status == true && i != nX-1) {
  						
@@ -499,10 +518,10 @@ public class Rules {
  				
  				for(int i = myX; i > nX; i--) {
  					
- 					status = Case.findById(myCase.getId()+8-i).get().isEtat();
+ 					status = g.get((int) (myCase.getId()+8-i)).isEtat();
  					
  					if (status == true)
- 			  			newCoul = Case.findById(myCase.getId()+8-i).get().getPionCase().getCouleur();
+ 			  			newCoul = g.get((int) (myCase.getId()+8-i)).getPionCase().getCouleur();
  					
  					if (status == true && i != nX+1) {
  						
@@ -529,10 +548,10 @@ public class Rules {
   				
   				for(int i = myY; i > nY; i--) {
   					
-  					status = Case.findById(myCase.getId()-(8*i)).get().isEtat();
+  					status = g.get((int) (myCase.getId()-(8*i))).isEtat();
   					
   					if (status == true)
-  			  			newCoul = Case.findById(myCase.getId()-(8*i)).get().getPionCase().getCouleur();
+  			  			newCoul = g.get((int) (myCase.getId()-(8*i))).getPionCase().getCouleur();
   					
   					if (status == true && i != nY+1) {
   						
@@ -559,10 +578,10 @@ public class Rules {
  				
  				for(int i = myX; i < nX; i++) {
  					
- 					status = Case.findById(myCase.getId()-8+i).get().isEtat();
+ 					status = g.get((int) (myCase.getId()-8+i)).isEtat();
  					
  					if (status == true)
- 			  			newCoul = Case.findById(myCase.getId()-8+i).get().getPionCase().getCouleur();
+ 			  			newCoul = g.get((int) (myCase.getId()-8+i)).getPionCase().getCouleur();
  					
  					if (status == true && i != nX-1) {
  						
@@ -589,10 +608,10 @@ public class Rules {
  				
  				for(int i = myX; i > nX; i--) {
  					
- 					status = Case.findById(myCase.getId()-8-i).get().isEtat();
+ 					status = g.get((int) (myCase.getId()-8-i)).isEtat();
  					
  					if (status == true)
- 			  			newCoul = Case.findById(myCase.getId()-8-i).get().getPionCase().getCouleur();
+ 			  			newCoul = g.get((int) (myCase.getId()-8-i)).getPionCase().getCouleur();
  					
  					if (status == true && i != nX+1) {
  						
@@ -620,7 +639,7 @@ public class Rules {
   	}
  	 
   	// Verifier le deplacement du roi
-   	public boolean checkRoi(Cases myCase, int nX, int nY) {
+   	public boolean checkRoi(Cases myCase, int nX, int nY, Long myId) {
    		
    		boolean move = false;
    		
@@ -634,34 +653,36 @@ public class Rules {
    		
    		Couleur myCoul = myCase.getPionCase().getCouleur();
    		
-   		int myX = Case.findById(myCase.getId()).get().getX();
-   		int myY = Case.findById(myCase.getId()).get().getY();
+   		int myX = myCase.getX();
+  		int myY = myCase.getY();
+  		
+  		List<Cases> g = games.findById(myId).get().getTable();
    		
-   		boolean statusH = Case.findById(myCase.getId()+8).get().isEtat();
-   		boolean statusHG = Case.findById(myCase.getId()+7).get().isEtat();
-   		boolean statusHD = Case.findById(myCase.getId()+9).get().isEtat();
+   		boolean statusH = g.get((int) (myCase.getId()+8)).isEtat();
+   		boolean statusHG = g.get((int) (myCase.getId()+7)).isEtat();
+   		boolean statusHD = g.get((int) (myCase.getId()+9)).isEtat();
    		
-   		boolean statusB = Case.findById(myCase.getId()-8).get().isEtat();
-   		boolean statusBG = Case.findById(myCase.getId()-9).get().isEtat();
-   		boolean statusBD = Case.findById(myCase.getId()-7).get().isEtat();
+   		boolean statusB = g.get((int) (myCase.getId()-8)).isEtat();
+   		boolean statusBG = g.get((int) (myCase.getId()-9)).isEtat();
+   		boolean statusBD = g.get((int) (myCase.getId()-7)).isEtat();
    		
    		if (statusH == true)
-   			newCoulH = Case.findById(myCase.getId()+8).get().getPionCase().getCouleur();
+   			newCoulH = g.get((int) (myCase.getId()+8)).getPionCase().getCouleur();
    		
    		if (statusHG == true)
-   			newCoulHG = Case.findById(myCase.getId()+7).get().getPionCase().getCouleur();
+   			newCoulHG = g.get((int) (myCase.getId()+7)).getPionCase().getCouleur();
    		
    		if (statusHD == true)
-   			newCoulHD = Case.findById(myCase.getId()+9).get().getPionCase().getCouleur();
+   			newCoulHD = g.get((int) (myCase.getId()+9)).getPionCase().getCouleur();
    		
    		if (statusB == true)
-   			newCoulB = Case.findById(myCase.getId()-8).get().getPionCase().getCouleur();
+   			newCoulB = g.get((int) (myCase.getId()-8)).getPionCase().getCouleur();
    		
    		if (statusBG == true)
-   			newCoulBG = Case.findById(myCase.getId()-9).get().getPionCase().getCouleur();
+   			newCoulBG = g.get((int) (myCase.getId()-9)).getPionCase().getCouleur();
    		
    		if (statusBD == true)
-   			newCoulBD = Case.findById(myCase.getId()-7).get().getPionCase().getCouleur();
+   			newCoulBD = g.get((int) (myCase.getId()-7)).getPionCase().getCouleur();
    		
    		// Deplacement vers le haut
    		if(nX == myX && nY == myY++) {
@@ -716,7 +737,7 @@ public class Rules {
    	}
 
    	// Verifier le deplacement du cavalier
-  	public boolean checkCavalier(Cases myCase, int nX, int nY) {
+  	public boolean checkCavalier(Cases myCase, int nX, int nY, Long myId) {
   		
   		boolean move = false;
   		
@@ -731,8 +752,10 @@ public class Rules {
   		
    		Couleur myCoul = myCase.getPionCase().getCouleur();
   		
-  		int myX = Case.findById(myCase.getId()).get().getX();
-   		int myY = Case.findById(myCase.getId()).get().getY();
+   		int myX = myCase.getX();
+  		int myY = myCase.getY();
+  		
+  		List<Cases> g = games.findById(myId).get().getTable();
    		
    		boolean statusHD1 = false;
    		boolean statusHD2 = false;
@@ -749,14 +772,14 @@ public class Rules {
   			// Deplacement vers la droite
   			if (myX < nX && myX < 7) {
   				
-				statusHD1 = Case.findById(myCase.getId()+8+8+1).get().isEtat();
-				statusHD2 = Case.findById(myCase.getId()+8+2).get().isEtat();
+				statusHD1 = g.get((int) (myCase.getId()+8+8+1)).isEtat();
+				statusHD2 = g.get((int) (myCase.getId()+8+2)).isEtat();
 				
 				if (statusHD1 == true)
-		  			newCoulHD1 = Case.findById(myCase.getId()+8+8+1).get().getPionCase().getCouleur();
+		  			newCoulHD1 = g.get((int) (myCase.getId()+8+8+1)).getPionCase().getCouleur();
 				
 				if (statusHD2 == true)
-		  			newCoulHD2 = Case.findById(myCase.getId()+8+2).get().getPionCase().getCouleur();
+		  			newCoulHD2 = g.get((int) (myCase.getId()+8+2)).getPionCase().getCouleur();
 				
 				if (statusHD1 == false) {
 					move = true;
@@ -775,14 +798,14 @@ public class Rules {
   			// Deplacement vers la gauche
   			else if (myX > nX && myX > 0) {
   				
-  				statusHG1 = Case.findById(myCase.getId()+8+8-1).get().isEtat();
-				statusHG2 = Case.findById(myCase.getId()+8-2).get().isEtat();
+  				statusHG1 = g.get((int) (myCase.getId()+8+8-1)).isEtat();
+				statusHG2 = g.get((int) (myCase.getId()+8-2)).isEtat();
 				
 				if (statusHG1 == true)
-		  			newCoulHG1 = Case.findById(myCase.getId()+8+8-1).get().getPionCase().getCouleur();
+		  			newCoulHG1 = g.get((int) (myCase.getId()+8+8-1)).getPionCase().getCouleur();
 				
 				if (statusHG2 == true)
-		  			newCoulHG2 = Case.findById(myCase.getId()+8-2).get().getPionCase().getCouleur();
+		  			newCoulHG2 = g.get((int) (myCase.getId()+8-2)).getPionCase().getCouleur();
 				
 				if (statusHG1 == false) {
 					move = true;
@@ -804,14 +827,14 @@ public class Rules {
   			// Deplacement vers la droite
   			if (myX < nX && myX < 7) {
   				
-  				statusBD1 = Case.findById(myCase.getId()-8-8+1).get().isEtat();
-				statusBD2 = Case.findById(myCase.getId()-8+2).get().isEtat();
+  				statusBD1 = g.get((int) (myCase.getId()-8-8+1)).isEtat();
+				statusBD2 = g.get((int) (myCase.getId()-8+2)).isEtat();
 				
 				if (statusBD1 == true)
-		  			newCoulBD1 = Case.findById(myCase.getId()-8+8-1).get().getPionCase().getCouleur();
+		  			newCoulBD1 = g.get((int) (myCase.getId()-8+8-1)).getPionCase().getCouleur();
 				
 				if (statusBD2 == true)
-		  			newCoulBD2 = Case.findById(myCase.getId()-8+2).get().getPionCase().getCouleur();
+		  			newCoulBD2 = g.get((int) (myCase.getId()-8+2)).getPionCase().getCouleur();
 				
 				if (statusBD1 == false) {
 					move = true;
@@ -829,14 +852,14 @@ public class Rules {
   			// Deplacement vers la gauche
   			else if (myX > nX && myX > 0) {
   				
-  				statusBG1 = Case.findById(myCase.getId()-8-8-1).get().isEtat();
-				statusBG2 = Case.findById(myCase.getId()-8-2).get().isEtat();
+  				statusBG1 = g.get((int) (myCase.getId()-8-8-1)).isEtat();
+				statusBG2 = g.get((int) (myCase.getId()-8-2)).isEtat();
 				
 				if (statusBG1 == true)
-		  			newCoulBG1 = Case.findById(myCase.getId()-8-8-1).get().getPionCase().getCouleur();
+		  			newCoulBG1 = g.get((int) (myCase.getId()-8-8-1)).getPionCase().getCouleur();
 				
 				if (statusBG2 == true)
-		  			newCoulBG2 = Case.findById(myCase.getId()-8-2).get().getPionCase().getCouleur();
+		  			newCoulBG2 = g.get((int) (myCase.getId()-8-2)).getPionCase().getCouleur();
 				
 				if (statusBG1 == false) {
 					move = true;
@@ -857,34 +880,34 @@ public class Rules {
   	}
 
   	// Verifier le mouvement de chaque piece
-  	public boolean checkAllPiece(String name, Cases myCase, int nX, int nY) {
+  	public boolean checkAllPiece(String name, Cases myCase, int nX, int nY, Long myId) {
   		
   		boolean move = false;
   		
 		switch(name) {
 		 		
 	 		case "Pion":
-	 			move = checkPion(myCase,nX,nY);
+	 			move = checkPion(myCase,nX,nY,myId);
 	 			break;
 	 			
 	 		case "Tour":
-	 			move = checkTour(myCase,nX,nY);
+	 			move = checkTour(myCase,nX,nY,myId);
 	 			break;
 	 			
 	 		case "Cavalier":
-	 			move = checkCavalier(myCase,nX,nY);
+	 			move = checkCavalier(myCase,nX,nY,myId);
 	 			break;
 	 			
 	 		case "Fou":
-	 			move = checkFou(myCase,nX,nY);
+	 			move = checkFou(myCase,nX,nY,myId);
 	 			break;
 	 			
 	 		case "Roi":
-	 			move = checkRoi(myCase,nX,nY);
+	 			move = checkRoi(myCase,nX,nY,myId);
 	 			break;
 	 			
 	 		case "Reine":
-	 			move = checkReine(myCase,nX,nY);
+	 			move = checkReine(myCase,nX,nY,myId);
 	 			break;
  		}
   		
@@ -920,8 +943,8 @@ public class Rules {
   		
   		boolean move = false;
   		
-  		int posXroi = Case.findById(myCase.getId()).get().getX();
-  		int posYroi = Case.findById(myCase.getId()).get().getY();
+  		int posXroi = myCase.getX();
+  		int posYroi = myCase.getY();
   		
   		Couleur myCoul = myCase.getPionCase().getCouleur();
   		
@@ -929,7 +952,7 @@ public class Rules {
   			
   			Cases casePion = returnCasePion(n, myId);
   			
-  			move = checkAllPiece(n.getNom(),casePion,posXroi,posYroi);
+  			move = checkAllPiece(n.getNom(),casePion,posXroi,posYroi,myId);
   			
   			if (move)
   				break;
@@ -1004,6 +1027,100 @@ public class Rules {
   			return false;
   	}
   	
+  	// Verifier le mouvement du Roque
+   	public boolean checkRoque(Cases myCase, int nX, int nY, Long myId) {
+   		
+   		boolean move = false;
+   		boolean status = false;
+   		
+   		List<Cases> g = games.findById(myId).get().getTable();
+   		
+   		Cases newCase = returnCaseCoords(nX,nY,myId);
+   		
+   		// Si je clique en second sur la le roi ou la tour
+   		if (newCase.getPionCase().getNom().equals("Roi") || newCase.getPionCase().getNom().equals("Tour")) {
+   			
+   			// Grand Roque droite
+   			if (myCase.getX() < newCase.getX()) {
+   				
+   				for(int i = 0; i < 3; i++) {
+   					
+   					status = g.get((int) (myCase.getId()+i)).isEtat();
+   					
+   					if (status)
+   						return false;
+   				}
+   			}
+   			// Petit Roque gauche
+   			else {
+   				
+   				for(int i = 0; i < 2; i++) {
+   					
+   					status = g.get((int) (myCase.getId()-i)).isEtat();
+   					
+   					if (status)
+   						return false;
+   				}
+   			}
+   		}
+   		
+   		return move;
+   	}
+  	
+   	// Mise a jour du plateau suite au Roque
+   	/*public void updateRoque(Cases myCase, int nX, int nY, Long myId) {
+   		
+   		Cases newCase = returnCaseCoords(nX,nY,myId);
+  		
+   		// Nouvelle case Tour
+   		if (newCase.getPionCase().getNom().equals("Tour")) {
+   			
+   			// Grand Roque droite
+   			if (myCase.getX() < newCase.getX()) {
+   	   			
+   				for(Cases n : games.findById(myId).get().getTable()) {
+   		  			
+   		  			if (n.getX())
+   		  				n = newCase;
+   		  		}
+   	   			
+   	   		}
+   			// Petit Roque gauche
+   	   		else {
+   	   			
+   	   			
+   	   			
+   	   		}
+		}
+   		// Nouvelle case Roi
+		else {
+			
+			// Petit Roque gauche
+   			if (myCase.getX() < newCase.getX()) {
+   	   			
+   	   			
+   	   			
+   	   		}
+   			// Grand Roque droite
+   	   		else {
+   	   			
+   	   			
+   	   			
+   	   		}
+		}
+   		
+  		for(Cases n : games.findById(myId).get().getTable()) {
+  			
+  			if (n.getId() == newCase.getId())
+  				n = newCase;
+  		}
+  		
+  		Partie temp = games.findById(myId).get();
+  		
+  		games.save(temp);
+   		
+   	}*/
+   	
   	// Verifier le deplacement de la piece
  	public String checkMove(int myX, int myY, int nX, int nY, Long myId, String namePlayer) {
  		
@@ -1020,7 +1137,7 @@ public class Rules {
  		if (checkPlayer(myCase,myId,namePlayer))
  			return "Erreur: Interdiction de jouer les pieces adverses";
  		
- 		move = checkAllPiece(name,myCase,nX,nY);
+ 		move = checkAllPiece(name,myCase,nX,nY,myId);
  		
  		if (move) {
  			
@@ -1046,4 +1163,6 @@ public class Rules {
  		
  		return messageStatus;
  	}
+ 	
+ 	
 }

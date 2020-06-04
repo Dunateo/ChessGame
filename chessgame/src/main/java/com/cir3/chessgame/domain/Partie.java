@@ -145,22 +145,9 @@ public class Partie {
 		
     	Long cptPiece = (long) 0;
 		
-		Cases mPlateau[][] =  {
-				{null,null,null,null,null,null,null,null},
-				{null,null,null,null,null,null,null,null},
-				{null,null,null,null,null,null,null,null},
-				{null,null,null,null,null,null,null,null},
-				{null,null,null,null,null,null,null,null},
-				{null,null,null,null,null,null,null,null},
-				{null,null,null,null,null,null,null,null},
-				{null,null,null,null,null,null,null,null}
-				};
-		
 		String listePieces[] = {"Tour","Cavalier","Fou","Roi","Reine","Fou","Cavalier","Tour"};
 		
 		setEtat(true);
-		
-		setId(myId);
 		
 		setDuree(0);
 		
@@ -177,35 +164,23 @@ public class Partie {
 				if(i == 0 || i == 7) {
 					
 					cptPiece++;
-					mPlateau[i][j] = new Cases(i,j,cptCase,cptPiece,listePieces[j]);
+					table.add(new Cases(i,j,cptCase,cptPiece,listePieces[j],this));
 					
 				}
-				
 				// Creation des 2 lignes de pions
-				if(i == 1 || i == 6) {
+				else if(i == 1 || i == 6) {
 					
 					cptPiece++;
-					mPlateau[i][j] = new Cases(i,j,cptCase,cptPiece,"Pion");
-					
+					table.add(new Cases(i,j,cptCase,cptPiece,"Pion",this));
 				}
+				else {
 				
-				// Creation des cases vides
-				mPlateau[i][j] = new Cases(i,j,cptCase,cptPiece,"");
+					// Creation des cases vides
+					table.add(new Cases(i,j,cptCase,cptPiece,"",this));
+				}
 			}
 		}
 		
-		
-			
-			for(int i = 0; i < 8; i++) {
-				
-				for(int j = 0; j < 8; j++) {
-					
-					table.add(mPlateau[i][j]) ;
-					
-				}
-			}
-		
-		
-		
+		System.out.println(this.getTable().get(5).getX());
     }
 }

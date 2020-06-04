@@ -48,9 +48,13 @@ public class Couleur {
         this.pions = pions;
     }
     
+    public Couleur() {
+    	
+    }
+    
     public Couleur(Long myId, String myName) {
     	
-    	setId(myId);
+    	//setId(myId);
     	setNom(myName);
     }
     

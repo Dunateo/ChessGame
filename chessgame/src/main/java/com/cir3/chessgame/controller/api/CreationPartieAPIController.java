@@ -75,14 +75,14 @@ public class CreationPartieAPIController {
 			//START PARTIE
 			p.createPartie(id);
 			parties.save(p);
-			return p.getTable().toString();
+			//return p.getTable().get(5).getId().toString();
 		}else {
 			return "Erreur: Partie deja en cours";
 		}
 		}else {
 			return "Erreur: Partie introuvable";
 		}
-		
+		return "ok";
 	}
 	
 
