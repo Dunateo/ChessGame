@@ -9,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface PartieRepository extends JpaRepository<Partie,Long> {
-    List<Partie> findAllByJoueurAndTour(Joueur player,int tour);
+
 }
