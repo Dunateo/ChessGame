@@ -7,4 +7,5 @@ import com.cir3.chessgame.domain.Couleur;
 
 @Repository
 public interface CouleurRepository extends JpaRepository<Couleur,Long> {
+    Couleur findCouleurByNom(String name);
 }
