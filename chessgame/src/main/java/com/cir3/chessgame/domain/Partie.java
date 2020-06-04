@@ -42,4 +42,67 @@ public class Partie {
             mappedBy = "partie")
     private List<Cases> table = new ArrayList<>();
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public boolean isEtat() {
+        return etat;
+    }
+
+    public void setEtat(boolean etat) {
+        this.etat = etat;
+    }
+
+    public int getTour() {
+        return Tour;
+    }
+
+    public void setTour(int tour) {
+        Tour = tour;
+    }
+
+    public Date getFixtemps() {
+        return fixtemps;
+    }
+
+    public void setFixtemps(Date fixtemps) {
+        this.fixtemps = fixtemps;
+    }
+
+    public int getDuree() {
+        return duree;
+    }
+
+    public void setDuree(int duree) {
+        this.duree = duree;
+    }
+
+    public Joueur getJoueurNoir() {
+        return joueurNoir;
+    }
+
+    public void setJoueurNoir(Joueur joueurNoir) {
+        this.joueurNoir = joueurNoir;
+    }
+
+    public Set<Joueur> getJoueur() {
+        return joueur;
+    }
+
+    public void setJoueur(Set<Joueur> joueur) {
+        this.joueur = joueur;
+    }
+
+    public List<Cases> getTable() {
+        return table;
+    }
+
+    public void setTable(List<Cases> table) {
+        this.table = table;
+    }
 }
