@@ -19,9 +19,9 @@ public class Pion {
     @JoinColumn( updatable = false)
     private Couleur couleur;
 
-    @Lob
+
     @Column(nullable = false)
-    private byte[] image;
+    private String image;
 
     @OneToMany(fetch = FetchType.LAZY,
             cascade = {
@@ -52,17 +52,19 @@ public class Pion {
         return couleur;
     }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     public void setCouleur(Couleur couleur) {
         this.couleur = couleur;
     }
 
-    public byte[] getImage() {
-        return image;
-    }
 
-    public void setImage(byte[] image) {
-        this.image = image;
-    }
 
     public List<Cases> getCases() {
         return cases;

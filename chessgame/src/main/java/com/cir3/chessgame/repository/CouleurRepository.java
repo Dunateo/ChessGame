@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CouleurRepository extends JpaRepository<Couleur,Long> {
+    Couleur findCouleurByNom(String name);
 }
