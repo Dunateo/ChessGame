@@ -19,9 +19,8 @@ public class Pion {
     @JoinColumn( updatable = false)
     private Couleur couleur;
 
-    @Lob
     @Column(nullable = false)
-    private byte[] image;
+    private String image;
 
     @OneToMany(fetch = FetchType.LAZY,
             cascade = {
@@ -56,11 +55,11 @@ public class Pion {
         this.couleur = couleur;
     }
 
-    public byte[] getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(byte[] image) {
+    public void setImage(String image) {
         this.image = image;
     }
 
@@ -71,4 +70,18 @@ public class Pion {
     public void setCases(List<Cases> cases) {
         this.cases = cases;
     }
+    
+    public Pion() {
+    	
+    }
+    
+    // Creer un pion
+ 	public Pion(Long mIdPiece, String mName, Couleur mCoul) {
+ 		
+ 		setNom(mName);
+ 		
+ 		setCouleur(mCoul);
+ 		
+ 		setImage("ok");
+ 	}
 }

@@ -17,12 +17,6 @@ import java.util.Optional;
 @Controller
 public class IndexController {
 
-    @Autowired
-    private AuthorityRepository autho;
-
-    @Autowired
-    private JoueurRepository joueur;
-
     //default controller
     @GetMapping("/")
     public String welcome(Model model){
@@ -32,6 +26,7 @@ public class IndexController {
     //controller for login
     @GetMapping("/login")
     public String login(Authentication authentication) {
+
 
         //if authentified we send him on his user page
         if (authentication!= null && authentication.isAuthenticated()) {

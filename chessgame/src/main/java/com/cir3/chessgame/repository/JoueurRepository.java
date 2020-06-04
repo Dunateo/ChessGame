@@ -6,7 +6,6 @@ import com.cir3.chessgame.domain.Partie;
 import java.util.ArrayList;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Repository;
 
 @Repository

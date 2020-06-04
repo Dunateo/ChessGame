@@ -1,0 +1,45 @@
+<html lang="fr" th:replace="~{layout :: layout(~{::title}, ~{::content})}" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Security-Policy">
+
+    <title th:fragment="title">Authentification</title>
+</head>
+<body>
+<div th:fragment="content">
+    <link type="text/css" rel="stylesheet" th:href="@{/css/form.css}"  />
+    <section class="get-in-touch">
+        <h1 class="title" >Edit de compte Image ou Password</h1>
+
+    <form name="form-register" th:action="@{/user/edit}" th:object="${register}" method="post" enctype="multipart/form-data" class="contact-form row">
+
+
+            <input type="hidden" th:field="*{id}" />
+
+            <div class="form-field col-lg-6">
+                <input type="text" id="username" name="username" autocomplete="off" th:field="*{username}" class="input-text js-input" readonly/>
+                <label for="username" class="label">Identifiant</label>
+            </div>
+
+            <div class="form-field col-lg-6">
+                <input type="password" id="password" name="password" autocomplete="off" th:field="*{password}" class="input-text js-input"/>
+                <label for="password" class="label">Mot de passe</label>
+
+            </div>
+
+            <div class="form-field col-lg-6">
+                <label for="image" class="label" >Image de profil</label>
+                <input type="file" id="image" name="image" th:field="*{image}" class="js-input file" data-browse-on-zone-click="true" />
+            </div>
+
+
+            <div class="form-actions form-field col-lg-12">
+                <button type="submit" class="submit-btn">EDIT</button>
+            </div>
+    </form>
+    <div th:if="${file_status}">
+        <h3 th:text="${file_status}"></h3>
+    </div>
+    </section>
+</div>
+</body>
+</html>

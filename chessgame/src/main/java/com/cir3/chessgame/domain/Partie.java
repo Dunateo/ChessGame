@@ -1,8 +1,7 @@
 package com.cir3.chessgame.domain;
 
-import org.springframework.boot.autoconfigure.batch.JobExecutionEvent;
-
 import javax.persistence.*;
+
 import java.util.*;
 
 @Entity(name = "partie")
@@ -25,7 +24,7 @@ public class Partie {
     @Column
     private int duree;
 
-	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Joueur joueurNoir;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
@@ -42,8 +41,8 @@ public class Partie {
             mappedBy = "partie")
     private List<Cases> table = new ArrayList<>();
 
-
-public Partie() {
+  
+    public Partie() {
 		
 	}
     
@@ -60,7 +59,7 @@ public Partie() {
 	public Long getId() {
 		return id;
 	}
-
+	
 
 	public void setId(Long id) {
 		this.id = id;
@@ -121,15 +120,16 @@ public Partie() {
 		return joueur;
 	}
 
-
+	
 	public void setJoueur(List<Joueur> joueur) {
 		this.joueur = joueur;
 	}
 	
+	
 	public void AddJoueur (Joueur j) {
 		this.joueur.add(j);
 	}
-
+	
 
 	public List<Cases> getTable() {
 		return table;
@@ -139,5 +139,50 @@ public Partie() {
 	public void setTable(List<Cases> table) {
 		this.table = table;
 	}
+	
+	public void createPartie(Long myId) {
+    	
+    	Long cptCase = (long) 0;
+		
+    	Long cptPiece = (long) 0;
+		
+		String listePieces[] = {"Tour","Cavalier","Fou","Roi","Reine","Fou","Cavalier","Tour"};
+		
+		setEtat(true);
+		
+		setDuree(0);
+		
+		setTour(0);
+		
+		// On parcourt les cases du plateau
+		for(int i = 0; i < 8; i++) {
+			
+			for(int j = 0; j < 8; j++) {
+				
+				cptCase++;
+				
+				// Creation des pieces de la premiere et derniere ligne
+				if(i == 0 || i == 7) {
+					
+					cptPiece++;
+					table.add(new Cases(i,j,cptCase,cptPiece,listePieces[j],this));
+					
+				}
+				// Creation des 2 lignes de pions
+				else if(i == 1 || i == 6) {
+					
+					cptPiece++;
+					table.add(new Cases(i,j,cptCase,cptPiece,"Pion",this));
+				}
+				else {
+				
+					// Creation des cases vides
+					table.add(new Cases(i,j,cptCase,cptPiece,"",this));
+				}
+			}
+		}
+		
+		System.out.println(this.getTable().get(5).getX());
 
+    }
 }
