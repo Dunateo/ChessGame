@@ -46,7 +46,9 @@
 					<ul class="list-group">
 					<th:block th:each="partie : ${joueur.getPartie()}"
 							th:object="${partie}">
-							<li class="list-group-item"th:text="${partie.getJoueur().get(0).getUsername()} + ' contre ' + ${partie.getJoueur().get(1).getUsername()}"></li>
+							<li class="list-group-item" th:if="${partie.isEtat()}">
+							<i  th:text="${partie.getJoueur().get(0).getUsername()} + ' versus ' + ${partie.getJoueur().get(1).getUsername()}"></i>
+							<a th:href="@{'/partie/'+${partie.getId()}}"><i class="fa fa-arrow-right" aria-hidden="true"></i></a></li>
 						</th:block>
 
 
