@@ -92,9 +92,13 @@ public class CreationPartieAPIController {
 
 	@GetMapping("{id}/Accept")
 	public String AcceptInvitation(Authentication authentication,@PathVariable(required = true)Long id) {
-
+		
+		
+		
 		Rules rule = new Rules(parties,casesRepo,couleursRepo,pionsRepo);
+		
 		Optional<Partie> op= parties.findById(id);
+		
 		if(op.isPresent()) {
 			Partie p=op.get();
 		if(!p.isEtat()) {
@@ -104,7 +108,9 @@ public class CreationPartieAPIController {
 			p.createPartie(id);
 			rule.givePiece(id);
 			rule.giveCouleur(id);
+			
 			parties.save(p);
+			
 			//return p.getTable().get(5).getId().toString();
 		}else {
 			return "Erreur: Partie deja en cours";

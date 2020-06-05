@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/profil")
-@Secured({"ROLE_USER","ROLE_ADMIN"})
 public class ProfilUpdateApiController {
 
 	@Autowired
@@ -39,7 +38,7 @@ public class ProfilUpdateApiController {
 				if(p.getJoueurNoir().getUsername().equals(joueur.getUsername())) {
 					response.setIdPartieRequest(p.getId());
 				}else {
-					System.out.println("C'est la");
+					
 					response.addInvitationPartie(p.getId(),p.getJoueur().get(0).getUsername() +" contre "+p.getJoueur().get(1).getUsername());
 				}
 			}
