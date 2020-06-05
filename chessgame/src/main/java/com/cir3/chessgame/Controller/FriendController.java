@@ -41,7 +41,6 @@ public class FriendController {
     }
 
     @GetMapping("/affich/invit")
-    @Secured("ROLE_ADMIN")
     @JsonView(Joueur.JoueurView.BasicData.class)
     public List<Joueur> affich(Authentication authentication){
 
@@ -49,7 +48,6 @@ public class FriendController {
     }
 
     @GetMapping("/affich/amis")
-    @Secured("ROLE_ADMIN")
     @JsonView(Joueur.JoueurView.BasicData.class)
     public List<Joueur> affichAmis(Authentication authentication){
 
