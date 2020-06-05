@@ -1389,40 +1389,24 @@ public class Rules {
   	// Corriger le plateau si erreur
   	public void correctionPlateau(Cases myCase, int nX, int nY, Pion temp, Long myId) {
   		
-  		if (temp != null) {
-  			
-  			Cases newCase = returnCaseCoords(nX,nY,myId);
-  	  		
-  	  		for(Cases n : games.findById(myId).get().getTable()) {
-  	  			
-  	  			if (n.getId() == myCase.getId()) {
-	  				n.setPionCase(returnCaseCoords(nX,nY,myId).getPionCase());
-	  				break;
-	  			}
-  	  		}
-  	  		
-  	  		for(Cases n : games.findById(myId).get().getTable()) {
-	  	  		
-  	  			if (n.getId() == newCase.getId()) {
-					n.setPionCase(temp);
-					break;
-  	  			}
-  	  		}
-  		}
-  		else {
-  			
-  			for(Cases n : games.findById(myId).get().getTable()) {
-  	  			
-  	  			if (n.getId() == myCase.getId()) {
-	  				n.setPionCase(returnCaseCoords(nX,nY,myId).getPionCase());
-	  				break;
-  	  			}
-  	  		}
-  		}
+		Cases newCase = returnCaseCoords(nX,nY,myId);
   		
-  		Partie tPart = games.findById(myId).get();
-  		
-  		games.save(tPart);
+		myCase.setEtat(true);
+		myCase.setPionCase(newCase.getPionCase());
+		Case.save(myCase);
+		
+		if (temp != null) {
+			
+			newCase.setPionCase(temp);
+			newCase.setEtat(true);
+			Case.save(newCase);
+		}
+		else {
+			
+			newCase.setPionCase(temp);
+			newCase.setEtat(false);
+			Case.save(newCase);
+		}
   	}
   	
   	// Verifier la couleur du joueur
@@ -1437,7 +1421,7 @@ public class Rules {
   	}
   	
   	// Verifier le mouvement du Roque
-   	public boolean checkRoque(Cases myCase, int nX, int nY, Long myId) {
+   	/*public boolean checkRoque(Cases myCase, int nX, int nY, Long myId) {
    		
    		boolean move = false;
    		boolean status = false;
@@ -1446,8 +1430,29 @@ public class Rules {
    		
    		Cases newCase = returnCaseCoords(nX,nY,myId);
    		
-   		// Si je clique en second sur la le roi ou la tour
-   		if (newCase.getPionCase().getNom().equals("Roi") || newCase.getPionCase().getNom().equals("Tour")) {
+   		// Si je clique en second sur la tour blanche
+   		if (myCase.getPionCase().getCouleur().getId() == (long) 1) {
+   			
+   			// Si je clique en second sur la le roi ou la tour
+   	   		if (newCase.getPionCase().getId() == 1) {
+   	   			
+   	   			// Grand Roque droite
+   	   			if (myCase.getX() < newCase.getX()) {
+   	   				
+   	   				if (checkTour(newCase,myCase.getX()+1,myCase.getY(),myId))
+   	   					updateRoque(myCase,nX,nY);
+   	   			}
+   	   			// Petit Roque gauche
+   	   			else {
+   	   				
+   	   				if (checkTour(newCase,myCase.getX()-1,myCase.getY(),myId))
+   	   					updateRoque(myCase,nX,nY);
+   	   			}
+   	   		}
+   		}
+   		
+   		// Si je clique en second sur la tour noire
+   		if (newCase.getPionCase().getId() == 1 || newCase.getPionCase().getId() == 7) {
    			
    			// Grand Roque droite
    			if (myCase.getX() < newCase.getX()) {
@@ -1477,7 +1482,7 @@ public class Rules {
    	}
   	
    	// Mise a jour du plateau suite au Roque
-   	/*public void updateRoque(Cases myCase, int nX, int nY, Long myId) {
+   	public void updateRoque(Cases myCase, int nX, int nY, Long myId) {
    		
    		Cases newCase = returnCaseCoords(nX,nY,myId);
   		

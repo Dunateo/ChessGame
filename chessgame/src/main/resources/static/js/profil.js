@@ -1,4 +1,18 @@
-
+$("#ajouter").click(function () {
+    var    amiNom = "";
+    amiNom = $('#usr').val();
+    console.log("/friends/invite/"+amiNom);
+    var promise =$.ajax({ url: window.location.origin +'/friends/invite/'+amiNom});
+    promise.done(function (reponse){
+        console.log(reponse);
+        if(!reponse){
+            alert("Non marche pas");
+        }
+        if(reponse){
+            alert("Demande d'amis envoyé");
+        }
+    })
+});
 
 
 setInterval(function() {
