@@ -7,8 +7,8 @@ var Tour="-1";
 function Refresh(rep){
 	for(j=0;j<8;j++){
 		for(i=0; i<8;i++){
-			
-			$("#"+i+j).attr('src', rep.image[i+(j*8)]).css('position','fixed').css('margin-top',89*j).css('margin-left',89*i);
+			var  v= 7-j; 
+			$("#"+i+j).attr('src', rep.image[i+(j*8)]).css('position','fixed').css('margin-top',89*v).css('margin-left',89*i);
 			
 		}
 	}
@@ -104,6 +104,7 @@ if(Tour==="-1"){
 				console.log("/partie/"+res[4]+"/Tour/"+c1+"/"+c2);
 				var promise =$.ajax({ url:'/partie/'+res[4]+'/Tour/'+c1+'/'+c2 });
 				undo();	//On remet tous à zero dans toute les cas
+				//Refresh(reponse);
 				promise.done(function (reponse){
 				console.log(reponse.msg);
 				Tour=reponse.tour

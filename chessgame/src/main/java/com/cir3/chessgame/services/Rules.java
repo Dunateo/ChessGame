@@ -84,7 +84,7 @@ public class Rules {
 				g.get(i).setPionCase(Pions.findById((long) 5).get());
 			// Reine Noire
 			else if (g.get(i).getY() == 7 && g.get(i).getX() == 4)
-				g.get(i).setPionCase(Pions.findById((long) 5).get());
+				g.get(i).setPionCase(Pions.findById((long) 11).get());
 		}
 	}
 	
@@ -107,8 +107,7 @@ public class Rules {
   		
   		boolean move = false;
   		
-  		Couleur newCoulHG = null;
-  		Couleur newCoulHD = null;
+  		
   		Couleur myCoul = myCase.getPionCase().getCouleur();
   		
   		int myX = myCase.getX();
@@ -116,58 +115,169 @@ public class Rules {
   		
   		List<Cases> g = games.findById(myId).get().getTable();
   		
-  		boolean statusH = false;
-  		boolean statusHH = false;
-  		boolean statusHG = false;
-  		boolean statusHD = false;
-  		
-  		// Verification presence piece
-		for(int i = 0; i < 64; i++) {
-			
-			if (g.get(i).getX() == myCase.getX() && g.get(i).getY() == myCase.getY()+1)
-				statusH = g.get(i).isEtat();
-			
-			if (g.get(i).getX() == myCase.getX() && g.get(i).getY() == myCase.getY()+2)
-				statusHH = g.get(i).isEtat();
-			
-			if (g.get(i).getX() == myCase.getX()+1 && g.get(i).getY() == myCase.getY()+1)
-				statusHD = g.get(i).isEtat();
-			
-			if (g.get(i).getX() == myCase.getX()-1 && g.get(i).getY() == myCase.getY()+1)
-				statusHG = g.get(i).isEtat();
-		}
-  		
-		// Verification couleur piece 1
-  		if (statusHG) {
+  		if(myCase.getPionCase().getCouleur().getNom().equals("Blanc")) {
   			
+  			Couleur newCoulHG = null;
+  	  		Couleur newCoulHD = null;
+  			
+  			boolean statusH = false;
+  	  		boolean statusHH = false;
+  	  		boolean statusHG = false;
+  	  		boolean statusHD = false;
+  			
+  			// Verification presence piece
   			for(int i = 0; i < 64; i++) {
   				
-  				if (g.get(i).getX() == myCase.getX()-1 && g.get(i).getY() == myCase.getY()+1)
-  					newCoulHG = g.get(i).getPionCase().getCouleur();
-  			}
-  		}
-  		
-  		// Verification couleur piece 2
-  		if (statusHD) {
-  			
-  			for(int i = 0; i < 64; i++) {
+  				if (g.get(i).getX() == myCase.getX() && g.get(i).getY() == myCase.getY()+1)
+  					statusH = g.get(i).isEtat();
+  				
+  				if (g.get(i).getX() == myCase.getX() && g.get(i).getY() == myCase.getY()+2)
+  					statusHH = g.get(i).isEtat();
   				
   				if (g.get(i).getX() == myCase.getX()+1 && g.get(i).getY() == myCase.getY()+1)
-  					newCoulHD = g.get(i).getPionCase().getCouleur();
+  					statusHD = g.get(i).isEtat();
+  				
+  				if (g.get(i).getX() == myCase.getX()-1 && g.get(i).getY() == myCase.getY()+1)
+  					statusHG = g.get(i).isEtat();
   			}
+  	  		
+  			// Verification couleur piece 1
+  	  		if (statusHG) {
+  	  			
+  	  			for(int i = 0; i < 64; i++) {
+  	  				
+  	  				if (g.get(i).getX() == myCase.getX()-1 && g.get(i).getY() == myCase.getY()+1)
+  	  					newCoulHG = g.get(i).getPionCase().getCouleur();
+  	  			}
+  	  		}
+  	  		
+  	  		// Verification couleur piece 2
+  	  		if (statusHD) {
+  	  			
+  	  			for(int i = 0; i < 64; i++) {
+  	  				
+  	  				if (g.get(i).getX() == myCase.getX()+1 && g.get(i).getY() == myCase.getY()+1)
+  	  					newCoulHD = g.get(i).getPionCase().getCouleur();
+  	  			}
+  	  		}
+  	  		
+  	  		// Verification mouvement
+  	  		if(statusH == false) {
+  	  			
+	  	  		int testY = myY+1;
+	  	  		
+	  	  		if (nX == myX && nY == testY)
+	  	  			move = true;
+  	  		}
+  	  		
+  	  		if (statusHH == false && myY == 1) {
+  	  			
+  	  			int testY = myY+2;
+  	  			
+  	  			if (nX == myX && nY == testY)
+  	  				move = true;
+  	  		}
+  	  		
+  	  		if (statusHD == true && newCoulHD.getId() != myCoul.getId()) {
+  	  			
+	  	  		int testX = myX+1;
+	  	  		int testY = myY+1;
+  	  			
+	  	  		if(nX == testX && nY == testY)
+	  	  			move = true;
+  	  		}
+  	  		
+  	  		if (statusHG == true && newCoulHG.getId() != myCoul.getId()) {
+  	  			
+	  	  		int testX = myX-1;
+	  	  		int testY = myY+1;
+		  			
+	  	  		if(nX == testX && nY == testY)
+	  	  			move = true;
+  	  		}
   		}
-  		
-  		if(nX == myX && nY == myY++ && statusH == false) {
-  			move = true;
-  		}
-  		else if (nX == myX && nY == myY+2 && statusHH == false) {
-  			move = true;
-  		}
-  		else if (nX == myX++ && nY == myY++ && statusHD == true && !newCoulHD.getNom().equals(myCoul.getNom())) {
-  			move = true;
-  		}
-  		else if (nX == myX-- && nY == myY++ && statusHG == true && !newCoulHG.getNom().equals(myCoul.getNom())) {
-  			move = true;
+  		else {
+  			
+  			Couleur newCoulBG = null;
+  	  		Couleur newCoulBD = null;
+  			
+  			boolean statusB = false;
+  	  		boolean statusBB = false;
+  	  		boolean statusBG = false;
+  	  		boolean statusBD = false;
+  			
+  			// Verification presence piece
+  			for(int i = 0; i < 64; i++) {
+  				
+  				if (g.get(i).getX() == myCase.getX() && g.get(i).getY() == myCase.getY()-1)
+  					statusB = g.get(i).isEtat();
+  				
+  				if (g.get(i).getX() == myCase.getX() && g.get(i).getY() == myCase.getY()-2)
+  					statusBB = g.get(i).isEtat();
+  				
+  				if (g.get(i).getX() == myCase.getX()+1 && g.get(i).getY() == myCase.getY()-1)
+  					statusBD = g.get(i).isEtat();
+  				
+  				if (g.get(i).getX() == myCase.getX()-1 && g.get(i).getY() == myCase.getY()-1)
+  					statusBG = g.get(i).isEtat();
+  			}
+  			
+  			// Verification couleur piece 1
+  	  		if (statusBG) {
+  	  			
+  	  			for(int i = 0; i < 64; i++) {
+  	  				
+  	  				if (g.get(i).getX() == myCase.getX()-1 && g.get(i).getY() == myCase.getY()-1)
+  	  					newCoulBG = g.get(i).getPionCase().getCouleur();
+  	  			}
+  	  		}
+  	  		
+  	  		// Verification couleur piece 2
+  	  		if (statusBD) {
+  	  			
+  	  			for(int i = 0; i < 64; i++) {
+  	  				
+  	  				if (g.get(i).getX() == myCase.getX()+1 && g.get(i).getY() == myCase.getY()-1)
+  	  					newCoulBD = g.get(i).getPionCase().getCouleur();
+  	  			}
+  	  		}
+  	  		
+  	  		
+  	  		
+  	  		// Verification mouvement
+  	  		if(statusB == false) {
+  	  			
+  	  			int testY = myY-1;
+  	  			
+  	  			if (nX == myX && nY == testY)
+  	  				move = true;
+  	  		}
+  	  		
+  	  		if (statusBB == false && myY == 6) {
+  	  			
+  	  			int testY = myY-2;
+  	  			
+  	  			if (nX == myX && nY == testY)
+  	  				move = true;
+  	  		}
+  	  		
+  	  		if (statusBD == true && !newCoulBD.getNom().equals(myCoul.getNom())) {
+  	  			
+	  	  		int testX = myX+1;
+	  	  		int testY = myY-1;
+	  	  		
+	  	  		if (nX == testX && nY == testY)
+	  	  			move = true;
+  	  		}
+  	  		
+  	  		if (statusBG == true && !newCoulBG.getNom().equals(myCoul.getNom())) {
+  	  			
+	  	  		int testX = myX-1;
+	  	  		int testY = myY-1;
+	  	  		
+		  	  	if (nX == testX && nY == testY)
+	  	  			move = true;
+  	  		}
   		}
   		
   		return move;
@@ -193,85 +303,121 @@ public class Rules {
  			
  			// Deplacement vers la droite
  			if (myX < nX && myX < 7) {
- 				
- 				for(int i = myX; i < nX; i++) {
+ 			
+ 				if (nX-myX == 1) {
  					
- 					// Verification presence piece
- 					for(int j = 0; j < 64; j++) {
- 						
- 						if (g.get(j).getX() == i && g.get(j).getY() == myCase.getY())
- 							status = g.get(j).isEtat();
- 						
- 						if (status == true && i != nX-1)
- 							break;
- 					}
- 					
+ 					for(int i = 0; i < (nX-myX)+1; i++) {
+ 	 					
+ 	 					Cases caseTemp = returnCaseCoords(myCase.getX()+i,myCase.getY(),myId);
+ 	 					
+ 	 					status = g.get(g.indexOf(caseTemp)).isEtat();
+ 	 				}
+ 	 				
  					// Verification couleur piece
  					if (status) {
  						
- 						for(int j = 0; j < 64; j++) {
- 							
- 							if (g.get(j).getX() == i && g.get(j).getY() == myCase.getY())
- 								newCoul = g.get(j).getPionCase().getCouleur();
- 						}
+ 						Cases caseTemp = returnCaseCoords(myCase.getX()+(nX-myX),myCase.getY(),myId);
+ 						newCoul = g.get(g.indexOf(caseTemp)).getPionCase().getCouleur();
  					}
  					
- 					if (status == true && i != nX-1) {
- 						
- 						move = false;
- 						break;
- 					}
- 					else if (status == false && i == nX-1) {
+ 					// Verification mouvement
+ 					if (status == false) {
  						
  						move = true;
- 						break;
  					}
- 					else if (status == true && i == nX-1 && !newCoul.getNom().equals(myCoul.getNom())) {
+ 					if (status == true && newCoul.getId() != myCoul.getId()) {
  						
  						move = true;
- 						break;
+ 					}
+ 				}
+ 				else {
+ 					
+ 					for(int i = 1; i < (nX-myX); i++) {
+ 	 					
+ 	 					Cases caseTemp = returnCaseCoords(myCase.getX()+i,myCase.getY(),myId);
+ 	 					
+ 	 					status = g.get(g.indexOf(caseTemp)).isEtat();
+ 	 					
+ 	 					if (status == true && i < (nX-myX))
+ 							return false;
+ 	 				}
+ 	 				
+ 					// Verification couleur piece
+ 					if (status) {
+ 						
+ 						Cases caseTemp = returnCaseCoords(myCase.getX()+(nX-myX),myCase.getY(),myId);
+ 						newCoul = g.get(g.indexOf(caseTemp)).getPionCase().getCouleur();
+ 					}
+ 	 				
+ 					// Verification mouvement
+ 					if (status == false) {
+ 						
+ 						move = true;
+ 					}
+ 					if (status == true && newCoul.getId() != myCoul.getId()) {
+ 						
+ 						move = true;
  					}
  				}
  			}
  			// Deplacement vers la gauche
  			else if (myX > nX && myX > 0) {
  				
- 				for(int i = myX; i > nX; i--) {
+ 				if (myX-nX == 1) {
  					
  					// Verification presence piece
- 					for(int j = 0; j < 64; j++) {
+ 					for(int i = 0; i < (myX-nX)+1; i++) {
+ 	 					
+ 	 					Cases caseTemp = returnCaseCoords(myCase.getX()-i,myCase.getY(),myId);
+ 	 					
+ 	 					status = g.get(g.indexOf(caseTemp)).isEtat();
+ 	 				}
+ 	 				
+ 					// Verification couleur piece
+ 					if (status) {
  						
- 						if (g.get(j).getX() == i && g.get(j).getY() == myCase.getY())
- 							status = g.get(j).isEtat();
- 						
- 						if (status == true && i != nX+1)
- 							break;
+ 						Cases caseTemp = returnCaseCoords(myCase.getX()-(myX-nX),myCase.getY(),myId);
+ 						newCoul = g.get(g.indexOf(caseTemp)).getPionCase().getCouleur();
  					}
+ 	 				
+ 					// Verification mouvement
+ 					if (status == false) {
+ 						
+ 						move = true;
+ 					}
+ 					if (status == true && newCoul.getId() != myCoul.getId()) {
+ 						
+ 						move = true;
+ 					}
+ 				}
+ 				else {
+ 					
+ 					// Verification presence piece
+ 					for(int i = 1; i < (myX-nX); i++) {
+ 	 					
+ 	 					Cases caseTemp = returnCaseCoords(myCase.getX()-i,myCase.getY(),myId);
+ 	 					
+ 	 					status = g.get(g.indexOf(caseTemp)).isEtat();
+ 	 					
+ 	 					if (status == true && i < (myX-nX))
+ 							return false;
+ 	 				}
  					
  					// Verification couleur piece
  					if (status) {
  						
- 						for(int j = 0; j < 64; j++) {
- 							
- 							if (g.get(j).getX() == i && g.get(j).getY() == myCase.getY())
- 								newCoul = g.get(j).getPionCase().getCouleur();
- 						}
+ 						Cases caseTemp = returnCaseCoords(myCase.getX()-(myX-nX),myCase.getY(),myId);
+ 						newCoul = g.get(g.indexOf(caseTemp)).getPionCase().getCouleur();
  					}
- 			  		
- 					if (status == true && i != nX+1) {
- 						
- 						move = false;
- 						break;
- 					}
- 					else if (status == false && i == nX+1) {
+ 					
+ 					// Verification mouvement
+ 					if (status == false) {
  						
  						move = true;
- 						break;
  					}
- 					else if (status == true && i == nX+1 && !newCoul.getNom().equals(myCoul.getNom())) {
+ 					if (status == true && newCoul.getId() != myCoul.getId()) {
  						
  						move = true;
- 						break;
  					}
  				}
  			}
@@ -282,84 +428,122 @@ public class Rules {
  			// Deplacement vers le haut
  			if (myY < nY && myY < 7) {
  				
- 				for(int i = myY; i < nY; i++) {
+ 				if (nY-myY == 1) {
  					
  					// Verification presence piece
- 					for(int j = 0; j < 64; j++) {
+ 					for(int i = 0; i < (nY-myY)+1; i++) {
+ 	 					
+ 	 					Cases caseTemp = returnCaseCoords(myCase.getX(),myCase.getY()+i,myId);
+ 	 					
+ 	 					status = g.get(g.indexOf(caseTemp)).isEtat();
+ 	 				}
+ 	 				
+ 					// Verification couleur piece
+ 					if (status) {
  						
- 						if (g.get(j).getX() == myCase.getX() && g.get(j).getY() == i)
- 							status = g.get(j).isEtat();
- 						
- 						if (status == true && i != nY-1)
- 							break;
+ 						Cases caseTemp = returnCaseCoords(myCase.getX(),myCase.getY()+(nY-myY),myId);
+ 						newCoul = g.get(g.indexOf(caseTemp)).getPionCase().getCouleur();
  					}
+ 	 				
+ 					// Verification mouvement
+ 					if (status == false) {
+ 						
+ 						move = true;
+ 					}
+ 					if (status == true && newCoul.getId() != myCoul.getId()) {
+ 						
+ 						move = true;
+ 					}
+ 				}
+ 				else {
+ 					
+ 					// Verification presence piece
+ 					for(int i = 1; i < (nY-myY); i++) {
+ 	 					
+ 	 					Cases caseTemp = returnCaseCoords(myCase.getX(),myCase.getY()+i,myId);
+ 	 					
+ 	 					status = g.get(g.indexOf(caseTemp)).isEtat();
+ 	 					
+ 	 					if (status == true && i < (nY-myY)-1)
+ 							return false;
+ 	 				}
  					
  					// Verification couleur piece
  					if (status) {
  						
- 						for(int j = 0; j < 64; j++) {
- 							
- 							if (g.get(j).getX() == myCase.getX() && g.get(j).getY() == i)
- 								newCoul = g.get(j).getPionCase().getCouleur();
- 						}
+ 						Cases caseTemp = returnCaseCoords(myCase.getX(),myCase.getY()+(nY-myY),myId);
+ 						newCoul = g.get(g.indexOf(caseTemp)).getPionCase().getCouleur();
  					}
- 			  		
- 					if (status == true && i != nY-1) {
- 						
- 						move = false;
- 						break;
- 					}
- 					else if (status == false && i == nY-1) {
+ 					
+ 					// Verification mouvement
+ 					if (status == false) {
  						
  						move = true;
- 						break;
  					}
- 					else if (status == true && i == nY-1 && !newCoul.getNom().equals(myCoul.getNom())) {
+ 					if (status == true && newCoul.getId() != myCoul.getId()) {
  						
  						move = true;
- 						break;
  					}
  				}
  			}
  			// Deplacement vers le bas
  			else if (myY > nY && myY > 0) {
  				
- 				for(int i = myY; i > nY; i--) {
+ 				if (myY-nY == 1) {
  					
  					// Verification presence piece
- 					for(int j = 0; j < 64; j++) {
+ 					for(int i = 0; i < (myY-nY)+1; i++) {
+ 	 					
+ 	 					Cases caseTemp = returnCaseCoords(myCase.getX(),myCase.getY()-i,myId);
+ 	 					
+ 	 					status = g.get(g.indexOf(caseTemp)).isEtat();
+ 	 				}
+ 	 				
+ 					// Verification couleur piece
+ 					if (status) {
  						
- 						if (g.get(j).getX() == myCase.getX() && g.get(j).getY() == i)
- 							status = g.get(j).isEtat();
- 						
- 						if (status == true && i != nY+1)
- 							break;
+ 						Cases caseTemp = returnCaseCoords(myCase.getX(),myCase.getY()-(myY-nY),myId);
+ 						newCoul = g.get(g.indexOf(caseTemp)).getPionCase().getCouleur();
  					}
+ 	 				
+ 					// Verification mouvement
+ 					if (status == false) {
+ 						
+ 						move = true;
+ 					}
+ 					if (status == true && newCoul.getId() != myCoul.getId()) {
+ 						
+ 						move = true;
+ 					}
+ 				}
+ 				else {
+ 					
+ 					// Verification presence piece
+ 					for(int i = 1; i < (myY-nY); i++) {
+ 	 					
+ 	 					Cases caseTemp = returnCaseCoords(myCase.getX(),myCase.getY()-i,myId);
+ 	 					
+ 	 					status = g.get(g.indexOf(caseTemp)).isEtat();
+ 	 					
+ 	 					if (status == true && i < (myY-nY)-1)
+ 							return false;
+ 	 				}
  					
  					// Verification couleur piece
  					if (status) {
  						
- 						for(int j = 0; j < 64; j++) {
- 							
- 							if (g.get(j).getX() == myCase.getX() && g.get(j).getY() == i)
- 								newCoul = g.get(j).getPionCase().getCouleur();
- 						}
+ 						Cases caseTemp = returnCaseCoords(myCase.getX(),myCase.getY()-(myY-nY),myId);
+ 						newCoul = g.get(g.indexOf(caseTemp)).getPionCase().getCouleur();
  					}
  					
- 					if (status == true && i != nY+1) {
- 						
- 						move = false;
- 						break;
- 					}
- 					else if (status == false && i == nY+1) {
+ 					// Verification mouvement
+ 					if (status == false) {
  						
  						move = true;
- 						break;
  					}
- 					else if (status == true && i == nY+1 && !newCoul.getNom().equals(myCoul.getNom())) {
+ 					if (status == true && newCoul.getId() != myCoul.getId()) {
  						
  						move = true;
- 						break;
  					}
  				}
  			}
@@ -389,92 +573,122 @@ public class Rules {
  			// Deplacement vers la droite
  			if (myX < nX && myX < 7) {
  				
- 				for(int i = myY; i < nY; i++) {
+ 				if (nX-myX == 1) {
  					
- 					for(int k = myX; k < nX; k++) {
+ 					// Verification presence piece
+ 					for(int i = 0; i < (nX-myX) + 1; i++) {
+	 					
+ 	 					Cases caseTemp = returnCaseCoords(myCase.getX()+i,myCase.getY()+i,myId);
+ 	 					
+ 	 					status = g.get(g.indexOf(caseTemp)).isEtat();
+ 	 				}
+ 	 				
+ 					// Verification couleur piece
+ 					if (status) {
  						
- 						// Verification presence piece
- 	 					for(int j = 0; j < 64; j++) {
- 	 						
- 	 						if (g.get(j).getX() == k && g.get(j).getY() == i)
- 	 							status = g.get(j).isEtat();
- 	 						
- 	 						if (status == true && k != nX-1 && i != nY-1)
- 	 							break;
- 	 					}
+ 						Cases caseTemp = returnCaseCoords(myCase.getX()+(nX-myX),myCase.getY()+(nX-myX),myId);
+ 						newCoul = g.get(g.indexOf(caseTemp)).getPionCase().getCouleur();
+ 					}
+ 	 				
+ 					// Verification mouvement
+ 					if (status == false) {
+ 						
+ 						move = true;
+ 					}
+ 					if (status == true && newCoul.getId() != myCoul.getId()) {
+ 						
+ 						move = true;
+ 					}
+ 				}
+ 				else {
+ 					
+ 					// Verification presence piece
+ 					for(int i = 1; i < (nX-myX); i++) {
+	 					
+ 	 					Cases caseTemp = returnCaseCoords(myCase.getX()+i,myCase.getY()+i,myId);
  	 					
- 	 					// Verification couleur piece
- 	 					if (status) {
- 	 						
- 	 						for(int j = 0; j < 64; j++) {
- 	 							
- 	 							if (g.get(j).getX() == k && g.get(j).getY() == i)
- 	 								newCoul = g.get(i).getPionCase().getCouleur();
- 	 						}
- 	 					}
+ 	 					status = g.get(g.indexOf(caseTemp)).isEtat();
  	 					
- 	 					// Verification mouvement
- 	 					if (status == true && k != nX-1 && i != nY-1) {
- 	 						
- 	 						move = false;
- 	 						break;
- 	 					}
- 	 					else if (status == false && i == nY-1 && k == nX-1) {
- 	 						
- 	 						move = true;
- 	 						break;
- 	 					}
- 	 					else if (status == true && i == nY-1 && k == nX-1 && !newCoul.getNom().equals(myCoul.getNom())) {
- 	 						
- 	 						move = true;
- 	 						break;
- 	 					}
+ 	 					if (status == true && i < (nX-myX))
+ 							return false;
+ 	 				}
+ 	 				
+ 					// Verification couleur piece
+ 					if (status) {
+ 						
+ 						Cases caseTemp = returnCaseCoords(myCase.getX()+(nX-myX),myCase.getY()+(nX-myX),myId);
+ 						newCoul = g.get(g.indexOf(caseTemp)).getPionCase().getCouleur();
+ 					}
+ 	 				
+ 					// Verification mouvement
+ 					if (status == false) {
+ 						
+ 						move = true;
+ 					}
+ 					if (status == true && newCoul.getId() != myCoul.getId()) {
+ 						
+ 						move = true;
  					}
  				}
  			}
  			// Deplacement vers la gauche
  			else if (myX > nX && myX > 0) {
  				
- 				for(int i = myY; i < nY; i++) {
+ 				if (myX-nX == 1) {
  					
- 					for(int k = myX; k > nX; k--) {
- 						
- 						// Verification presence piece
- 	 					for(int j = 0; j < 64; j++) {
- 	 						
- 	 						if (g.get(j).getX() == k && g.get(j).getY() == i)
- 	 							status = g.get(j).isEtat();
- 	 						
- 	 						if (status == true && k != nX+1 && i != nY-1)
- 	 							break;
- 	 					}
+ 					// Verification presence piece
+ 					for(int i = 0; i < (myX-nX) + 1; i++) {
+	 					
+ 	 					Cases caseTemp = returnCaseCoords(myCase.getX()-i,myCase.getY()+i,myId);
  	 					
- 	 					// Verification couleur piece
- 	 					if (status) {
- 	 						
- 	 						for(int j = 0; j < 64; j++) {
- 	 							
- 	 							if (g.get(j).getX() == k && g.get(j).getY() == i)
- 	 								newCoul = g.get(j).getPionCase().getCouleur();
- 	 						}
- 	 					}
- 	 			  		
- 	 					// Verification mouvement
- 	 					if (status == true && k != nX+1 && i != nY-1) {
- 	 						
- 	 						move = false;
- 	 						break;
- 	 					}
- 	 					else if (status == false && i == nY-1 && k == nX+1) {
- 	 						
- 	 						move = true;
- 	 						break;
- 	 					}
- 	 					else if (status == true && i == nY-1 && k == nX+1 && !newCoul.getNom().equals(myCoul.getNom())) {
- 	 						
- 	 						move = true;
- 	 						break;
- 	 					}
+ 	 					status = g.get(g.indexOf(caseTemp)).isEtat();
+ 	 				}
+ 	 				
+ 					// Verification couleur piece
+ 					if (status) {
+ 						
+ 						Cases caseTemp = returnCaseCoords(myCase.getX()-(myX-nX),myCase.getY()+(myX-nX),myId);
+ 						newCoul = g.get(g.indexOf(caseTemp)).getPionCase().getCouleur();
+ 					}
+ 	 				
+ 					// Verification mouvement
+ 					if (status == false) {
+ 						
+ 						move = true;
+ 					}
+ 					if (status == true && newCoul.getId() != myCoul.getId()) {
+ 						
+ 						move = true;
+ 					}
+ 				}
+ 				else {
+ 					
+ 					// Verification presence piece
+ 					for(int i = 1; i < (myX-nX); i++) {
+	 					
+ 	 					Cases caseTemp = returnCaseCoords(myCase.getX()-i,myCase.getY()+i,myId);
+ 	 					
+ 	 					status = g.get(g.indexOf(caseTemp)).isEtat();
+ 	 					
+ 	 					if (status == true && i < (myX-nX))
+ 							return false;
+ 	 				}
+ 	 				
+ 					// Verification couleur piece
+ 					if (status) {
+ 						
+ 						Cases caseTemp = returnCaseCoords(myCase.getX()-(myX-nX),myCase.getY()+(myX-nX),myId);
+ 						newCoul = g.get(g.indexOf(caseTemp)).getPionCase().getCouleur();
+ 					}
+ 	 				
+ 					// Verification mouvement
+ 					if (status == false) {
+ 						
+ 						move = true;
+ 					}
+ 					if (status == true && newCoul.getId() != myCoul.getId()) {
+ 						
+ 						move = true;
  					}
  				}
  			}
@@ -485,92 +699,122 @@ public class Rules {
  			// Deplacement vers la droite
  			if (myX < nX && myX < 7) {
  				
- 				for(int i = myY; i > nY; i--) {
+ 				if (nX-myX == 1) {
  					
- 					for(int k = myX; k < nX; k++) {
+ 					// Verification presence piece
+ 					for(int i = 0; i < (nX-myX) + 1; i++) {
+	 					
+ 	 					Cases caseTemp = returnCaseCoords(myCase.getX()+i,myCase.getY()-i,myId);
+ 	 					
+ 	 					status = g.get(g.indexOf(caseTemp)).isEtat();
+ 	 				}
+ 	 				
+ 					// Verification couleur piece
+ 					if (status) {
  						
- 						// Verification presence piece
- 	 					for(int j = 0; j < 64; j++) {
- 	 						
- 	 						if (g.get(j).getX() == k && g.get(j).getY() == i)
- 	 							status = g.get(j).isEtat();
- 	 						
- 	 						if (status == true && k != nX-1 && i != nY+1)
- 	 							break;
- 	 					}
+ 						Cases caseTemp = returnCaseCoords(myCase.getX()+(nX-myX),myCase.getY()-(nX-myX),myId);
+ 						newCoul = g.get(g.indexOf(caseTemp)).getPionCase().getCouleur();
+ 					}
+ 	 				
+ 					// Verification mouvement
+ 					if (status == false) {
+ 						
+ 						move = true;
+ 					}
+ 					if (status == true && newCoul.getId() != myCoul.getId()) {
+ 						
+ 						move = true;
+ 					}
+ 				}
+ 				else {
+ 					
+ 					// Verification presence piece
+ 					for(int i = 1; i < (nX-myX); i++) {
+	 					
+ 	 					Cases caseTemp = returnCaseCoords(myCase.getX()+i,myCase.getY()-i,myId);
  	 					
- 	 					// Verification couleur piece
- 	 					if (status) {
- 	 						
- 	 						for(int j = 0; j < 64; j++) {
- 	 							
- 	 							if (g.get(j).getX() == k && g.get(j).getY() == i)
- 	 								newCoul = g.get(j).getPionCase().getCouleur();
- 	 						}
- 	 					}
+ 	 					status = g.get(g.indexOf(caseTemp)).isEtat();
  	 					
- 	 					// Verification mouvement
- 	 					if (status == true && k != nX-1 && i != nY+1) {
- 	 						
- 	 						move = false;
- 	 						break;
- 	 					}
- 	 					else if (status == false && i == nY+1 && k == nX-1) {
- 	 						
- 	 						move = true;
- 	 						break;
- 	 					}
- 	 					else if (status == true && i == nY+1 && k == nX-1 && !newCoul.getNom().equals(myCoul.getNom())) {
- 	 						
- 	 						move = true;
- 	 						break;
- 	 					}
+ 	 					if (status == true && i < (nX-myX))
+ 							return false;
+ 	 				}
+ 	 				
+ 					// Verification couleur piece
+ 					if (status) {
+ 						
+ 						Cases caseTemp = returnCaseCoords(myCase.getX()+(nX-myX),myCase.getY()-(nX-myX),myId);
+ 						newCoul = g.get(g.indexOf(caseTemp)).getPionCase().getCouleur();
+ 					}
+ 	 				
+ 					// Verification mouvement
+ 					if (status == false) {
+ 						
+ 						move = true;
+ 					}
+ 					if (status == true && newCoul.getId() != myCoul.getId()) {
+ 						
+ 						move = true;
  					}
  				}
  			}
  			// Deplacement vers la gauche
  			else if (myX > nX && myX > 0) {
  				
- 				for(int i = myY; i > nY; i--) {
+ 				if (myX-nX == 1) {
  					
- 					for(int k = myX; k > nX; k--) {
- 						
- 						// Verification presence piece
- 	 					for(int j = 0; j < 64; j++) {
- 	 						
- 	 						
- 	 							status = g.get(j).isEtat();
- 	 						
- 	 						if (status == true && k != nX+1 && i != nY+1)
- 	 							break;
- 	 					}
- 						
- 	 					// Verification couleur piece
- 	 					if (status) {
- 	 						
- 	 						for(int j = 0; j < 64; j++) {
- 	 							
- 	 							if (g.get(j).getX() == k && g.get(j).getY() == i)
- 	 								newCoul = g.get(i).getPionCase().getCouleur();
- 	 						}
- 	 					}
+ 					// Verification presence piece
+ 					for(int i = 0; i < (myX-nX) + 1; i++) {
+	 					
+ 	 					Cases caseTemp = returnCaseCoords(myCase.getX()-i,myCase.getY()-i,myId);
  	 					
- 	 					// Verification mouvement
- 	 					if (status == true && k != nX+1 && i != nY+1) {
- 	 						
- 	 						move = false;
- 	 						break;
- 	 					}
- 	 					else if (status == false && i == nY+1 && k == nX+1) {
- 	 						
- 	 						move = true;
- 	 						break;
- 	 					}
- 	 					else if (status == true && i == nY+1 && k == nX+1 && !newCoul.getNom().equals(myCoul.getNom())) {
- 	 						
- 	 						move = true;
- 	 						break;
- 	 					}
+ 	 					status = g.get(g.indexOf(caseTemp)).isEtat();
+ 	 				}
+ 	 				
+ 					// Verification couleur piece
+ 					if (status) {
+ 						
+ 						Cases caseTemp = returnCaseCoords(myCase.getX()-(myX-nX),myCase.getY()-(myX-nX),myId);
+ 						newCoul = g.get(g.indexOf(caseTemp)).getPionCase().getCouleur();
+ 					}
+ 	 				
+ 					// Verification mouvement
+ 					if (status == false) {
+ 						
+ 						move = true;
+ 					}
+ 					if (status == true && newCoul.getId() != myCoul.getId()) {
+ 						
+ 						move = true;
+ 					}
+ 				}
+ 				else {
+ 					
+ 					// Verification presence piece
+ 					for(int i = 1; i < (myX-nX); i++) {
+	 					
+ 	 					Cases caseTemp = returnCaseCoords(myCase.getX()-i,myCase.getY()-i,myId);
+ 	 					
+ 	 					status = g.get(g.indexOf(caseTemp)).isEtat();
+ 	 					
+ 	 					if (status == true && i < (myX-nX))
+ 							return false;
+ 	 				}
+ 	 				
+ 					// Verification couleur piece
+ 					if (status) {
+ 						
+ 						Cases caseTemp = returnCaseCoords(myCase.getX()-(myX-nX),myCase.getY()-(myX-nX),myId);
+ 						newCoul = g.get(g.indexOf(caseTemp)).getPionCase().getCouleur();
+ 					}
+ 	 				
+ 					// Verification mouvement
+ 					if (status == false) {
+ 						
+ 						move = true;
+ 					}
+ 					if (status == true && newCoul.getId() != myCoul.getId()) {
+ 						
+ 						move = true;
  					}
  				}
  			}
@@ -584,264 +828,22 @@ public class Rules {
   		
   		boolean move = false;
   		
-  		Couleur newCoul = null;
-   		Couleur myCoul = myCase.getPionCase().getCouleur();
-  		
    		int myX = myCase.getX();
   		int myY = myCase.getY();
-  		
-  		List<Cases> g = games.findById(myId).get().getTable();
-   		
-   		boolean status = false;
   		
    		// Deplacement horizontal
   		if (myY == nY && myX != nX) {
   			
-  			// Deplacement vers la droite
-  			if (myX < nX && myX < 7) {
-  				
-  				for(int i = myX; i < nX; i++) {
-  					
-  					status = g.get((int) (myCase.getId()+i)).isEtat();
-  					
-  					if (status == true)
-  			  			newCoul = g.get((int) (myCase.getId()+i)).getPionCase().getCouleur();
-  					
-  					if (status == true && i != nX-1) {
-  						
-  						move = false;
-  						break;
-  						
-  					}
-  					else if (status == false && i == nX-1) {
-  						
-  						move = true;
-  						break;
-  						
-  					}
-  					else if (status == true && i == nX-1 && !newCoul.getNom().equals(myCoul.getNom())) {
-  						
-  						move = true;
-  						break;
-  						
-  					}
-  				}
-  			}
-  			// Deplacement vers la gauche
-  			else if (myX > nX && myX > 0) {
-  				
-  				for(int i = myX; i > nX; i--) {
-  					
-  					status = g.get((int) (myCase.getId()-i)).isEtat();
-  					
-  					if (status == true)
-  			  			newCoul = g.get((int) (myCase.getId()-i)).getPionCase().getCouleur();
-  					
-  					if (status == true && i != nX+1) {
-  						
-  						move = false;
-  						break;
-  						
-  					}
-  					else if (status == false && i == nX+1) {
-  						
-  						move = true;
-  						break;
-  						
-  					}
-  					else if (status == true && i == nX+1 && !newCoul.getNom().equals(myCoul.getNom())) {
-  						
-  						move = true;
-  						break;
-  						
-  					}
-  				}
-  			}
+  			move = checkTour(myCase,nX,nY,myId);
   		}
   		// Deplacement vertical
-  		else if (myY != nY) {
+  		else if (myY != nY && myX == nX) {
   			
-  			// Deplacement vers le haut
-  			if (myY < nY && myY < 7 && myX == nX) {
-  				
-  				for(int i = myY; i < nY; i++) {
-  					
-  					status = g.get((int) (myCase.getId()+(8*i))).isEtat();
-  					
-  					if (status == true)
-  			  			newCoul = g.get((int) (myCase.getId()+(8*i))).getPionCase().getCouleur();
-  					
-  					if (status == true && i != nY-1) {
-  						
-  						move = false;
-  						break;
-  						
-  					}
-  					else if (status == false && i == nY-1) {
-  						
-  						move = true;
-  						break;
-  						
-  					}
-  					else if (status == true && i == nY-1 && !newCoul.getNom().equals(myCoul.getNom())) {
-  						
-  						move = true;
-  						break;
-  						
-  					}
-  					
-  				}
-  			}
-  			// Deplacement vers le haut et la droite
-  			else if (myY < nY && myY < 7 && myX < nX && myX < 7) {
- 				
- 				for(int i = myX; i < nX; i++) {
- 					
- 					status = g.get((int) (myCase.getId()+8+i)).isEtat();
- 					
- 					if (status == true)
- 			  			newCoul = g.get((int) (myCase.getId()+8+i)).getPionCase().getCouleur();
- 					
- 					if (status == true && i != nX-1) {
- 						
- 						move = false;
- 						break;
- 						
- 					}
- 					else if (status == false && i == nX-1) {
- 						
- 						move = true;
- 						break;
- 						
- 					}
- 					else if (status == true && i == nX-1 && !newCoul.getNom().equals(myCoul.getNom())) {
- 						
- 						move = true;
- 						break;
- 						
- 					}
- 				}
- 			}
- 			// Deplacement vers le haut et la gauche
- 			else if (myY < nY && myY < 7 && myX > nX && myX > 0) {
- 				
- 				for(int i = myX; i > nX; i--) {
- 					
- 					status = g.get((int) (myCase.getId()+8-i)).isEtat();
- 					
- 					if (status == true)
- 			  			newCoul = g.get((int) (myCase.getId()+8-i)).getPionCase().getCouleur();
- 					
- 					if (status == true && i != nX+1) {
- 						
- 						move = false;
- 						break;
- 						
- 					}
- 					else if (status == false && i == nX+1) {
- 						
- 						move = true;
- 						break;
- 						
- 					}
- 					else if (status == true && i == nX+1 && !newCoul.getNom().equals(myCoul.getNom())) {
- 						
- 						move = true;
- 						break;
- 						
- 					}
- 				}
- 			}
-  			// Deplacement vers le bas
-  			else if (myY > nY && myY > 0 && myX == nX) {
-  				
-  				for(int i = myY; i > nY; i--) {
-  					
-  					status = g.get((int) (myCase.getId()-(8*i))).isEtat();
-  					
-  					if (status == true)
-  			  			newCoul = g.get((int) (myCase.getId()-(8*i))).getPionCase().getCouleur();
-  					
-  					if (status == true && i != nY+1) {
-  						
-  						move = false;
-  						break;
-  						
-  					}
-  					else if (status == false && i == nY+1) {
-  						
-  						move = true;
-  						break;
-  						
-  					}
-  					else if (status == true && i == nY+1 && !newCoul.getNom().equals(myCoul.getNom())) {
-  						
-  						move = true;
-  						break;
-  						
-  					}
-  				}
-  			}
-  			// Deplacement vers la droite
-  			else if (myY > nY && myY > 0 && myX < nX && myX < 7) {
- 				
- 				for(int i = myX; i < nX; i++) {
- 					
- 					status = g.get((int) (myCase.getId()-8+i)).isEtat();
- 					
- 					if (status == true)
- 			  			newCoul = g.get((int) (myCase.getId()-8+i)).getPionCase().getCouleur();
- 					
- 					if (status == true && i != nX-1) {
- 						
- 						move = false;
- 						break;
- 						
- 					}
- 					else if (status == false && i == nX-1) {
- 						
- 						move = true;
- 						break;
- 						
- 					}
- 					else if (status == true && i == nX-1 && !newCoul.getNom().equals(myCoul.getNom())) {
- 						
- 						move = true;
- 						break;
- 						
- 					}
- 				}
- 			}
- 			// Deplacement vers la gauche
- 			else if (myY > nY && myY > 0 && myX > nX && myX > 0) {
- 				
- 				for(int i = myX; i > nX; i--) {
- 					
- 					status = g.get((int) (myCase.getId()-8-i)).isEtat();
- 					
- 					if (status == true)
- 			  			newCoul = g.get((int) (myCase.getId()-8-i)).getPionCase().getCouleur();
- 					
- 					if (status == true && i != nX+1) {
- 						
- 						move = false;
- 						break;
- 						
- 					}
- 					else if (status == false && i == nX+1) {
- 						
- 						move = true;
- 						break;
- 						
- 					}
- 					else if (status == true && i == nX+1 && !newCoul.getNom().equals(myCoul.getNom())) {
- 						
- 						move = true;
- 						break;
- 						
- 					}
- 				}
- 			}
+  			move = checkTour(myCase,nX,nY,myId);
+  		}
+  		else {
+  			
+  			move = checkFou(myCase,nX,nY,myId);
   		}
   		
   		return move;
@@ -957,50 +959,81 @@ public class Rules {
    			}
    		}
    		
+   		// Verification deplacement
+   		
    		// Deplacement vers le haut
-   		if(nX == myX && nY == myY++) {
+   		
+   		int testX = myX;
+   		int testY = myY+1;
+   		
+   		if(nX == testX && nY == testY) {
    			
-   			if (statusH == true && !newCoulH.getNom().equals(myCoul.getNom()))
+   			if (statusH == true && newCoulH.getId() != myCoul.getId())
    				move = true;
    			else if (statusH == false)
    				move = true;
    		}
+   		
    		// Deplacement vers le haut et la droite
-   		else if (nX == myX++ && nY == myY++) {
+   		
+   		testX = myX+1;
+   		testY = myY+1;
+   		
+   		if (nX == testX && nY == testY) {
    			
-   			if (statusHD == true && !newCoulHD.getNom().equals(myCoul.getNom()))
+   			if (statusHD == true && newCoulHD.getId() != myCoul.getId())
    				move = true;
    			else if (statusHD == false)
    				move = true;
    		}
+   		
    		// Deplacement vers le haut et la gauche
-   		else if (nX == myX-- && nY == myY++) {
+   		
+   		testX = myX-1;
+   		testY = myY+1;
+   		
+   		if (nX == testX && nY == testY) {
 
-   			if (statusHG == true && !newCoulHG.getNom().equals(myCoul.getNom()))
+   			if (statusHG == true && newCoulHG.getId() != myCoul.getId())
    				move = true;
    			else if (statusHG == false)
    				move = true;
    		}
+   		
    		// Deplacement vers le bas
-   		else if (nX == myX && nY == myY--) {
+   		
+   		testX = myX;
+   		testY = myY-1;
+   		
+   		if (nX == testX && nY == testY) {
    			
-   			if (statusB == true && !newCoulB.getNom().equals(myCoul.getNom()))
+   			if (statusB == true && newCoulB.getId() != myCoul.getId())
    				move = true;
    			else if (statusB == false)
    				move = true;
    		}
+   		
    		// Deplacement vers le bas et la droite
-   		else if (nX == myX++ && nY == myY--) {
+   		
+   		testX = myX+1;
+   		testY = myY-1;
+   		
+   		if (nX == testX && nY == testY) {
    			
-   			if (statusBD == true && !newCoulBD.getNom().equals(myCoul.getNom()))
+   			if (statusBD == true && newCoulBD.getId() != myCoul.getId())
    				move = true;
    			else if (statusBD == false)
    				move = true;
    		}
+   		
    		// Deplacement vers le bas et la gauche
-   		else if (nX == myX-- && nY == myY--) {
+   		
+   		testX = myX-1;
+   		testY = myY-1;
+   		
+   		if (nX == testX && nY == testY) {
    			
-   			if (statusBG == true && !newCoulBG.getNom().equals(myCoul.getNom()))
+   			if (statusBG == true && newCoulBG.getId() != myCoul.getId())
    				move = true;
    			else if (statusBG == false)
    				move = true;
@@ -1079,13 +1112,13 @@ public class Rules {
 				if (statusHD1 == false) {
 					move = true;
 				}
-				else if (statusHD1 == true && !newCoulHD1.getNom().equals(myCoul.getNom())) {
+				if (statusHD1 == true && newCoulHD1.getId() != myCoul.getId()) {
 					move = true;
 				}
-				else if (statusHD2 == false) {
+				if (statusHD2 == false) {
 					move = true;
 				}
-				else if (statusHD2 == true && !newCoulHD2.getNom().equals(myCoul.getNom())) {
+				if (statusHD2 == true && newCoulHD2.getId() != myCoul.getId()) {
 					move = true;
 				}
   			
@@ -1127,13 +1160,13 @@ public class Rules {
 				if (statusHG1 == false) {
 					move = true;
 				}
-				else if (statusHG1 == true && !newCoulHG1.getNom().equals(myCoul.getNom())) {
+				if (statusHG1 == true && newCoulHG1.getId() != myCoul.getId()) {
 					move = true;
 				}
-				else if (statusHG2 == false) {
+				if (statusHG2 == false) {
 					move = true;
 				}
-				else if (statusHG2 == true && !newCoulHG2.getNom().equals(myCoul.getNom())) {
+				if (statusHG2 == true && newCoulHG2.getId() != myCoul.getId()) {
 					move = true;
 				}
   			}
@@ -1178,13 +1211,13 @@ public class Rules {
 				if (statusBD1 == false) {
 					move = true;
 				}
-				else if (statusBD1 == true && !newCoulBD1.getNom().equals(myCoul.getNom())) {
+				if (statusBD1 == true && newCoulBD1.getId() != myCoul.getId()) {
 					move = true;
 				}
-				else if (statusBD2 == false) {
+				if (statusBD2 == false) {
 					move = true;
 				}
-				else if (statusBD2 == true && !newCoulBD2.getNom().equals(myCoul.getNom())) {
+				if (statusBD2 == true && newCoulBD2.getId()!= myCoul.getId()) {
 					move = true;
 				}
   			}
@@ -1225,13 +1258,13 @@ public class Rules {
 				if (statusBG1 == false) {
 					move = true;
 				}
-				else if (statusBG1 == true && !newCoulBG1.getNom().equals(myCoul.getNom())) {
+				if (statusBG1 == true && newCoulBG1.getId() != myCoul.getId()) {
 					move = true;
 				}
-				else if (statusBG2 == false) {
+				if (statusBG2 == false) {
 					move = true;
 				}
-				else if (statusBG2 == true && !newCoulBG2.getNom().equals(myCoul.getNom())) {
+				if (statusBG2 == true && newCoulBG2.getId() != myCoul.getId()) {
 					move = true;
 				}
   			}
@@ -1240,8 +1273,6 @@ public class Rules {
   		return move;
   	}
   	
-  	// Verification par toutes les pieces
-
   	// Verifier le mouvement de chaque piece
   	public boolean checkAllPiece(String name, Cases myCase, int nX, int nY, Long myId) {
   		
@@ -1311,8 +1342,6 @@ public class Rules {
   		
   		Couleur myCoul = myCase.getPionCase().getCouleur();
   		
-  		System.out.println("!!!!!!!!! BOUGE TOI !!!!!!!!!!");
-  		
   		for(Pion n : Couleurs.findById(otherCoul(myCoul).getId()).get().getPions()) {
   			
   			Cases casePion = returnCasePion(n, myId);
@@ -1332,9 +1361,24 @@ public class Rules {
   		Cases newCase = returnCaseCoords(nX,nY,myId);
   		
   		// Mise a jour de la nouvelle case
-		newCase.setPionCase(myCase.getPionCase());
-		newCase.setEtat(true);
-		Case.save(newCase);
+  		if (myCase.getPionCase().getId() == 6 && nY == 7) {
+  			
+  			newCase.setPionCase(Pions.findById((long) 5).get());
+  			newCase.setEtat(true);
+			Case.save(newCase);
+  		}
+  		else if (myCase.getPionCase().getId() == 12 && nY == 0) {
+  			
+  			newCase.setPionCase(Pions.findById((long) 11).get());
+  			newCase.setEtat(true);
+			Case.save(newCase);
+  		}
+  		else {
+  			
+			newCase.setPionCase(myCase.getPionCase());
+			newCase.setEtat(true);
+			Case.save(newCase);
+  		}
 		
 		// Mise a jour de l'ancienne case
 		myCase.setEtat(false);
@@ -1486,27 +1530,6 @@ public class Rules {
    		
    	}*/
    	
-   	// Promotion du pion
-   	public void promotePion(Long myId) {
-   		
-   		List<Cases> g = games.findById(myId).get().getTable();
-   		
-   		for(int i = 0; i < 64; i++) {
-   			
-   			if (g.get(i).getY() == 0 && g.get(i).getPionCase().getCouleur().getNom().equals("Noir") && g.get(i).getPionCase().getNom().equals("Pion")) {
-   				
-   				g.get(i).setPionCase(Pions.findById((long) 5).get());
-   				Case.save(g.get(i));
-   			}
-   			else if (g.get(i).getY() == 7 && g.get(i).getPionCase().getCouleur().getNom().equals("Blanc") && g.get(i).getPionCase().getNom().equals("Pion")) {
-   				
-   				g.get(i).setPionCase(Pions.findById((long) 11).get());
-   				Case.save(g.get(i));
-   			}
-   		}
-   	}
-   	
-   	
   	// Verifier le deplacement de la piece
  	public String checkMove(int myX, int myY, int nX, int nY, Long myId, String namePlayer) {
  		
@@ -1531,8 +1554,6 @@ public class Rules {
  				tPion = returnCaseCoords(nX,nY,myId).getPionCase();
  			
  			updatePlateau(myCase,nX,nY,myId);
- 			
- 			//promotePion(myId);
  			
  			//move = miseEchecRoi(myCase,nX,nY,myId);
  			

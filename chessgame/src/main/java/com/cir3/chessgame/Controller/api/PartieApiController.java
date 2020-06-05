@@ -41,14 +41,16 @@ public class PartieApiController {
 		// initialisation du tableau de cases
 		ArrayList<String> path = new ArrayList<String>();
 		
-		for(int i = 0; i < 64; i++) {
+		for(int i = 0; i < 8; i++) {
 			
-			if(parties.findById(id).get().getTable().get(i).getPionCase() == null) {
-				path.add("/images/vide.png");
-			} else {
-				path.add(parties.findById(id).get().getTable().get(i).getPionCase().getImage());
+			for(int j = 0; j < 8; j++) {
+				
+				if(casesRepo.findByXAndYAndPartie_id(j, i, id).getPionCase() == null) {
+					path.add("/images/vide.png");
+				} else {
+					path.add(casesRepo.findByXAndYAndPartie_id(j, i, id).getPionCase().getImage());
+				}
 			}
-			
 		}
 		
 		Reponse r= new Reponse("0",path);
@@ -64,7 +66,7 @@ public class PartieApiController {
 			if(t.JouerDansPartie(parties, authentication, id)  ) {
 			//On test que ce soit bien le tour du joueur
 			if(t.JoueurTour(parties, authentication, id)) {
-				result = rule.checkMove(xp,7-yp, xd, 7-yd, id, authentication.getName()); // 7-... = inversion de l'axe des ordonees
+				result = rule.checkMove(xp,yp, xd, yd, id, authentication.getName()); // 7-... = inversion de l'axe des ordonees
 			if(result.equals("ok"))  {
 				//Le coup est joué
 				System.out.println("Recu piece ["+xp+":"+yp+"] vers ["+xd+":"+yd+"]");
@@ -144,11 +146,15 @@ public class PartieApiController {
 		// initialisation du tableau de cases
 		ArrayList<String> path = new ArrayList<String>();
 		
-		for(int i = 0; i < 64; i++) {
-			if(parties.findById(id).get().getTable().get(i).getPionCase() == null) {
-				path.add("/images/vide.png");
-			} else {
-				path.add(parties.findById(id).get().getTable().get(i).getPionCase().getImage());
+		for(int i = 0; i < 8; i++) {
+			
+			for(int j = 0; j < 8; j++) {
+				
+				if(casesRepo.findByXAndYAndPartie_id(j, i, id).getPionCase() == null) {
+					path.add("/images/vide.png");
+				} else {
+					path.add(casesRepo.findByXAndYAndPartie_id(j, i, id).getPionCase().getImage());
+				}
 			}
 		}
 		
