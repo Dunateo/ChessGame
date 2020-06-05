@@ -36,13 +36,13 @@
 			<div></div>
 			<div>
 				<div class="card" th:id="j1" style="width: 18rem;">
-  							<img class="card-img-top" src="..." alt="Card image cap">
+  							<img alt="Card image cap" th:src="@{'/user/avatar?filename='+${moi}}" class="card-img-top chssImage">
  							 <div class="card-body">
    						 <p class="card-text" th:text="${moi}">joueur moi</p>
 			  </div>
 			</div>
 			<div class="card" th:id="j2" style="width: 18rem;">
-  							<img class="card-img-top" src="..." alt="Card image cap">
+  							<img alt="Card image cap" th:src="@{'/user/avatar?filename='+${adverse}}" class="card-img-top chssImage">
  							 <div class="card-body">
    						 <p class="card-text"  th:text="${adverse}">joueur adverse</p>
 			  </div>

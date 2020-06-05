@@ -105,9 +105,10 @@ if(Tour==="-1"){
 				var promise =$.ajax({ url:'/partie/'+res[4]+'/Tour/'+c1+'/'+c2 });
 				undo();	//On remet tous à zero dans toute les cas
 				//Refresh(reponse);
+				Tour="adverse"
 				promise.done(function (reponse){
 				console.log(reponse.msg);
-				Tour=reponse.tour
+				
 					if(reponse.msg.includes("Erreur")){
 						alert(reponse.msg);
 						

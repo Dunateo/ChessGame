@@ -1,5 +1,6 @@
 package com.cir3.chessgame.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -1384,12 +1385,29 @@ public class Rules {
   		
   		boolean move = false;
   		
-  		int posXroi = myCase.getX();
-  		int posYroi = myCase.getY();
+  		Cases roi = giveRoi(myId,myCase);
+  		
+  		int posXroi = roi.getX();
+  		int posYroi = roi.getY();
+  		
+  		System.out.println(" !!!!!!!!!!!!!!!!!!!!! MERRDE !!!!!!!!!!!!!!!!!!! ");
   		
   		Couleur myCoul = myCase.getPionCase().getCouleur();
   		
-  		for(Pion n : Couleurs.findById(otherCoul(myCoul).getId()).get().getPions()) {
+  		List<Pion> pionList = new ArrayList<Pion>();
+  		
+  		List<Cases> caseList = games.findById(myId).get().getTable();
+  		
+  		for(Cases n : caseList) {
+  			
+  			if (n.getPionCase() != null) {
+  				
+  				if (n.getPionCase().getCouleur().getId() != myCoul.getId())
+  					pionList.add(n.getPionCase());
+  			}
+  		}
+  		
+  		for(Pion n : pionList) {
   			
   			Cases casePion = returnCasePion(n, myId);
   			
@@ -1573,6 +1591,31 @@ public class Rules {
    		}
    	}
    	
+   	// Donner la position du roi
+   	public Cases giveRoi(Long myId, Cases myCase) {
+   		
+   		Cases r = null;
+   		
+   		List<Cases> c = games.findById(myId).get().getTable();
+   		
+   		Couleur myCoul = myCase.getPionCase().getCouleur();
+   		
+   		for(int i = 0; i < 64; i++) {
+   			
+   			if(c.get(i).getPionCase() != null) {
+   				
+   				if(c.get(i).getPionCase().getId() == 10 && myCoul.getId() == 1) {
+   					return c.get(i);
+   				}
+   				else if (c.get(i).getPionCase().getId() == 4 && myCoul.getId() == 2) {
+   					return c.get(i);
+   				}
+   			}
+   		}
+   		
+   		return r;
+   	}
+   	
   	// Verifier le deplacement de la piece
  	public String checkMove(int myX, int myY, int nX, int nY, Long myId, String namePlayer) {
  		
@@ -1598,9 +1641,9 @@ public class Rules {
  			
  			updatePlateau(myCase,nX,nY,myId);
  			
- 			//move = miseEchecRoi(myCase,nX,nY,myId);
+ 			/*move = miseEchecRoi(myCase,nX,nY,myId);
  			
- 			/*if (!move) {
+ 			if (!move) {
 	 			correctionPlateau(myCase,nX,nY,tPion,myId);
 	 			messageStatus = "Erreur: Roi en echec";
 	 		}
