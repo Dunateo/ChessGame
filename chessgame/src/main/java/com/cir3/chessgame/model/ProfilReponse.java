@@ -8,9 +8,9 @@ import java.util.List;
 
 public class ProfilReponse {
 
-    private List<Joueur> friends;
+    private List<String> friends =new ArrayList<String>();;
 
-    private List<Joueur> inviteFriends;
+    private List<String> inviteFriends = new ArrayList<String>();
 
     private List<PartieReponse> invitationPartie = new ArrayList<PartieReponse>();
 
@@ -21,24 +21,46 @@ public class ProfilReponse {
     public ProfilReponse(){
     }
 
-    public List<Joueur> getFriends() {
-        return friends;
-    }
 
-    public void setFriends(List<Joueur> friends) {
-        this.friends = friends;
-    }
+    
 
-    public List<Joueur> getInviteFriends() {
-        return inviteFriends;
+    public void addFriends(String f) {
+    	friends.add(f);
     }
-
-    public void setInviteFriends(List<Joueur> inviteFriends) {
-        this.inviteFriends = inviteFriends;
+    
+    public void addInviteFriends(String f) {
+    	inviteFriends.add(f);
     }
-
   
-    public List<PartieReponse> getInvitationPartie() {
+    public List<String> getFriends() {
+		return friends;
+	}
+
+
+
+
+	public void setFriends(List<String> friends) {
+		this.friends = friends;
+	}
+
+
+
+
+	public List<String> getInviteFriends() {
+		return inviteFriends;
+	}
+
+
+
+
+	public void setInviteFriends(List<String> inviteFriends) {
+		this.inviteFriends = inviteFriends;
+	}
+
+
+
+
+	public List<PartieReponse> getInvitationPartie() {
 		return invitationPartie;
 	}
 

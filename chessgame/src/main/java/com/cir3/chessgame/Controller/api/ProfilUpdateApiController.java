@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/profil")
+@Secured({"ROLE_USER","ROLE_ADMIN"})
 public class ProfilUpdateApiController {
 
 	@Autowired
@@ -43,7 +44,20 @@ public class ProfilUpdateApiController {
 				}
 			}
 		}
+		
+			if(joueur.getFriends()!=null) {
+				
+				for (int i = 0; i < joueur.getFriends().getInviteList().size(); i++) {
+					response.addInviteFriends(joueur.getFriends().getInviteList().get(i).getUsername());
+				}
+				for (int i = 0; i < joueur.getFriends().getFriendsList().size(); i++) {
+					response.addFriends(joueur.getFriends().getFriendsList().get(i).getUsername());
+				}
+			}
+			
 
+			
+		
 		
 
 		return response;
