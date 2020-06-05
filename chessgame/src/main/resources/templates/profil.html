@@ -44,22 +44,62 @@
 			</div>
 			<div class="row">
 				<div class="col">
-					<h4>Partie en cours</h4>
-					<ul class="list-group">
-					<th:block th:each="partie : ${joueur.getPartie()}"
+					<h4>Parties</h4>
+					
+					<div id="accordion">
+
+						<div class="card">
+							<div class="card-header" id="headingTwo">
+								<h5 class="mb-0" style="text-align: initial;">
+									<button class="btn collapsed" data-toggle="collapse"
+										data-target="#collapseP" aria-expanded="false"
+										aria-controls="collapseP">
+										Liste d'invitation à de nouvelle parties <span class="badge">1</span> <i
+											class="fa fa-caret-down" aria-hidden="true"></i>
+									</button>
+								</h5>
+							</div>
+							<div id="collapseP" class="collapse"
+								aria-labelledby="headingTwo" data-parent="#accordion">
+								<ul class="list-group" th:id="tableInvitationPartie">
+								
+								</ul>
+							</div>
+						</div>
+
+						<div class="card">
+							<div class="card-header" id="headingOne">
+								<h5 class="mb-0" style="text-align: initial;">
+									<button class="btn " data-toggle="collapse"
+										data-target="#collapseC" aria-expanded="true"
+										aria-controls="collapseC">
+										Partie en cours <i class="fa fa-caret-down" aria-hidden="true"></i>
+									</button>
+								</h5>
+							</div>
+
+							<div id="collapseC" class="collapse show"
+								aria-labelledby="headingOne" data-parent="#accordion">
+								<div class="card-body">
+									<ul class="list-group">
+										<th:block th:each="partie : ${joueur.getPartie()}"
 							th:object="${partie}">
 							<li class="list-group-item" th:if="${partie.isEtat()}">
 							<i  th:text="${partie.getJoueur().get(0).getUsername()} + ' versus ' + ${partie.getJoueur().get(1).getUsername()}"></i>
 							<a th:href="@{'/partie/'+${partie.getId()}}"><i class="fa fa-arrow-right" aria-hidden="true"></i></a></li>
 						</th:block>
+									</ul>
+								</div>
+							</div>
+						</div>
 
-
-					</ul>
+					</div>
+					
 
 				</div>
 				<div class="col">
 
-					<h4 style="text-align: initial;">Liste d'amis :</h4>
+					<h4 style="text-align: initial;">Liste d'amis : </h4>
 
 					<div class="form-group row">
 						<div class="col-10">
@@ -92,7 +132,7 @@
 							</div>
 							<div id="collapseTwo" class="collapse"
 								aria-labelledby="headingTwo" data-parent="#accordion">
-								<div class="card-body">Liste d'inviatation ici</div>
+								<div class="card-body">Liste d'inviatation ici </div>
 							</div>
 						</div>
 

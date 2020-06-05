@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::title}, ~{::content})}"
+      xmlns:layout="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title th:fragment="title">Liste des Amis</title>
+</head>
+<body>
+    <div layout:fragment="content" class="container mySpace">
+        <div class="card">
+            <div class="card-body">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Image</th>
+                        <th>Add</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="friend:${friends}" >
+                        <td th:text="${friend.username}"></td>
+                        <td th:text="${friend.image}"></td>
+                        <td><a href="" class="btn btn-dark"></a></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+<div th:insert="~{footer :: copy}"></div>
+</html>

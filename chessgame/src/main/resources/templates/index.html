@@ -4,9 +4,17 @@
 </head>
 <body>
 <div th:fragment="content">
-    <h1>Page d'accueil</h1>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.2.6/gsap.min.js"></script>
+    <link th:href="@{/css/index.css}" rel="stylesheet" >
+    <script type="application/javascript" th:src="@{/js/index.js}"></script>
 
-    <p>Bienvenue sur le jeu d'échecs le plus connu du monde celui de Superthévenin</p>
+
+    <p class="text"> <span class="text__first">
+        <span class="text__word">Superthévenin</span>
+        <span class="text__first-bg">
+    </span></span><br/><span class="text__second">
+        <span class="text__word">Game Studios.</span><span class="text__second-bg"></span></span></p>
+    <button class="restart">repeat</button>
 
 </div>
 </body>

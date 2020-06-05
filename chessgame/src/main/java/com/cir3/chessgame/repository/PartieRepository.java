@@ -9,5 +9,6 @@ import java.util.List;
 
 @Repository
 public interface PartieRepository extends JpaRepository<Partie,Long> {
-
+	
+	
 }
