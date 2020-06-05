@@ -155,7 +155,6 @@ public class Partie {
 			
 			for(int j = 0; j < 8; j++) {
 				
-				
 				// Creation des pieces de la premiere et derniere ligne
 				if(i == 0 || i == 7) {
 					
@@ -167,15 +166,12 @@ public class Partie {
 					
 					table.add(new Cases(i,j,"Pion",this));
 				}
+				// Creation des cases vides
 				else {
 				
-					// Creation des cases vides
 					table.add(new Cases(i,j,"",this));
 				}
 			}
 		}
-		
-		System.out.println(this.getTable().get(5).getX());
-
     }
 }
