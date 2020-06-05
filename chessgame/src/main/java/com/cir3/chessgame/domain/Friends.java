@@ -1,13 +1,14 @@
 package com.cir3.chessgame.domain;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 
 @Entity(name = "friends")
-public class Friends {
+public class Friends implements Serializable {
 
     @Id
     @Column
